@@ -9,7 +9,6 @@ public class MonsterInputJoystick : MonsterInputMouseAndKeyboard
 {
     public FloatingJoystick joystick;
 
-
     private IEnumerator co_Attack()
     {
         inputAttack = true;
