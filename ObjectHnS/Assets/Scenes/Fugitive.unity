@@ -417,6 +417,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3571251008398841203, guid: 51c77e3ca659e584abef5c44874f065e,
+        type: 3}
+      propertyPath: sceneViewId
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3736808201763580447, guid: 51c77e3ca659e584abef5c44874f065e,
         type: 3}
       propertyPath: m_RootOrder
@@ -477,6 +482,11 @@ PrefabInstance:
       propertyPath: joystick
       value: 
       objectReference: {fileID: 1053457202}
+    - target: {fileID: 4832385148754255872, guid: 51c77e3ca659e584abef5c44874f065e,
+        type: 3}
+      propertyPath: sceneViewId
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5064437850403827129, guid: 51c77e3ca659e584abef5c44874f065e,
         type: 3}
       propertyPath: m_TranslationOffsets.Array.data[0].x
