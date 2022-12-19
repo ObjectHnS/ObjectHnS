@@ -1,9 +1,6 @@
 using Photon.Pun;
 using Photon.Realtime;
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -31,14 +28,14 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     #region 포톤
     private void Awake()
     {
-         Screen.SetResolution(1920, 1080, false);
+        Screen.SetResolution(1920, 1080, false);
 
-        Popups.SetActive(false);
-        LoginCanvas.SetActive(false);
-        LobbyCanvas.SetActive(false);
-        RoomCanvas.SetActive(false);
+        if (Popups) Popups.SetActive(false);
+        if (LoginCanvas) LoginCanvas.SetActive(false);
+        if (LobbyCanvas) LobbyCanvas.SetActive(false);
+        if (RoomCanvas) RoomCanvas.SetActive(false);
 
-        State.SetActive(true);
+        if (State) State.SetActive(true);
 
         PhotonNetwork.ConnectUsingSettings();
     }
@@ -50,40 +47,47 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnConnectedToMaster()
     {
-        State.SetActive(false);
-        LoginCanvas.SetActive(true);
+        if (State) State.SetActive(false);
+        if (LoginCanvas) LoginCanvas.SetActive(true);
 
         PhotonNetwork.JoinLobby();
     }
 
     private void UpateState()
     {
-        if (State.activeSelf)
+        if(State)
         {
-            string stateText = PhotonNetwork.NetworkClientState.ToString();
-            if (stateText == "Authenticating")
+            if (State.activeSelf)
             {
-                stateText = "인증중";
+                string stateText = PhotonNetwork.NetworkClientState.ToString();
+                if (stateText == "Authenticating")
+                {
+                    stateText = "인증중";
+                }
+                else if (stateText == "ConnectingToMasterServer")
+                {
+                    stateText = "마스터 서버에 연결하는중";
+                }
+                else if (stateText == "ConnectedToMasterServer")
+                {
+                    stateText = "마스터 서버에 연결됨";
+                }
+                State.GetComponent<Text>().text = stateText;
             }
-            else if (stateText == "ConnectingToMasterServer")
-            {
-                stateText = "마스터 서버에 연결하는중";
-            }
-            else if (stateText == "ConnectedToMasterServer")
-            {
-                stateText = "마스터 서버에 연결됨";
-            }
-            State.GetComponent<Text>().text = stateText;
         }
     }
                     
     public void Connect()
     {
-        PhotonNetwork.LocalPlayer.NickName = LoginCanvas.transform.GetChild(2).GetComponent<InputField>().text;
-        Debug.Log(PhotonNetwork.LocalPlayer.NickName);
+        if (LoginCanvas)
+        {
+            PhotonNetwork.LocalPlayer.NickName = LoginCanvas.transform.GetChild(2).GetComponent<InputField>().text;
+            Debug.Log(PhotonNetwork.LocalPlayer.NickName);
 
-        LoginCanvas.SetActive(false);
-        LobbyCanvas.SetActive(true);
+            LoginCanvas.SetActive(false);
+            if (LobbyCanvas) LobbyCanvas.SetActive(true);
+        }
+        else PhotonNetwork.LocalPlayer.NickName = "Player" + Random.Range(1, 100);
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message)
@@ -106,12 +110,14 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     #region 방 관련
     public void ShowCreateRoomPopup()
     {
-        Popups.SetActive(true);
-        if (!roomCreation)
+        if (Popups)
         {
-            roomCreation = Popups.transform.Find("RoomCreation").gameObject;
+            Popups.SetActive(true);
+            if (!roomCreation)
+            {
+                roomCreation = Popups.transform.Find("RoomCreation").gameObject;
+            }
         }
-        roomCreation.SetActive(true);
     }
 
 
@@ -154,8 +160,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
-        RoomCanvas.SetActive(true);
+        if(RoomCanvas) RoomCanvas.SetActive(true);
         print("joined " + PhotonNetwork.CurrentRoom.Name);
+
+        PhotonNetwork.Instantiate("FP_Ghost_Blue", Vector3.zero, Quaternion.identity);
     }
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
