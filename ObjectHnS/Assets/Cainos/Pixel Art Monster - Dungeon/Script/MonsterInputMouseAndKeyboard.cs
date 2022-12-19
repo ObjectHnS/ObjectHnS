@@ -19,21 +19,21 @@ namespace Cainos.PixelArtMonster_Dungeon
 
         public KeyCode attackKey = KeyCode.Mouse0;
 
-        private MonsterController controller;
-        private MonsterFlyingController controllerFlying;
+        protected MonsterController controller;
+        protected MonsterFlyingController controllerFlying;
 
         private Vector2 inputMove;
         private bool inputMoveModifier;
         private bool inputJump;
-        private bool inputAttack;
+        protected bool inputAttack;
 
-        private void Awake()
+        public virtual void Awake()
         {
             controller = GetComponent<MonsterController>();
             controllerFlying = GetComponent<MonsterFlyingController>();
         }
 
-        private void Update()
+        public virtual void Update()
         {
             bool pointerOverUI = EventSystem.current && EventSystem.current.IsPointerOverGameObject();
             if (!pointerOverUI)
