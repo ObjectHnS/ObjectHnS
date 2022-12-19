@@ -9,27 +9,26 @@ namespace Cainos.PixelArtMonster_Dungeon
     //to feed the MonsterController input parameters using mouse and keyboard input
     public class MonsterInputMouseAndKeyboard : MonoBehaviour
     {
-        public KeyCode upKey = KeyCode.W;
-        public KeyCode downKey = KeyCode.S;
-        public KeyCode leftKey = KeyCode.A;
-        public KeyCode rightKey = KeyCode.D;
+        public KeyCode upKey;
+        public KeyCode downKey;
+        public KeyCode leftKey;
+        public KeyCode rightKey;
 
-        public KeyCode jumpKey = KeyCode.Space;
-        public KeyCode moveModifierKey = KeyCode.LeftShift;
+        public KeyCode skillKey;
+        public KeyCode interactionKey;
+        public KeyCode moveModifierKey;
 
         public KeyCode attackKey = KeyCode.Mouse0;
 
-        protected MonsterController controller;
         protected MonsterFlyingController controllerFlying;
 
         private Vector2 inputMove;
         private bool inputMoveModifier;
-        private bool inputJump;
+        private bool inputInteraction;
         protected bool inputAttack;
 
         public virtual void Awake()
         {
-            controller = GetComponent<MonsterController>();
             controllerFlying = GetComponent<MonsterFlyingController>();
         }
 
@@ -39,15 +38,9 @@ namespace Cainos.PixelArtMonster_Dungeon
             if (!pointerOverUI)
             {
                 inputMoveModifier = Input.GetKey(moveModifierKey);
-                inputJump = Input.GetKey(jumpKey);
                 inputAttack = Input.GetKeyDown(attackKey);
+                inputInteraction = Input.GetKeyDown(interactionKey);
 
-                if (controller)
-                {
-                    controller.inputMoveModifier = inputMoveModifier;
-                    controller.inputJump = inputJump;
-                    controller.inputAttack = inputAttack;
-                }
                 if (controllerFlying)
                 {
                     controllerFlying.inputAttack = inputAttack;
@@ -82,7 +75,6 @@ namespace Cainos.PixelArtMonster_Dungeon
                 inputMove.y = 0.0f;
             }
 
-            if (controller) controller.inputMove = inputMove;
             if (controllerFlying) controllerFlying.inputMove = inputMove;
         }
     }
