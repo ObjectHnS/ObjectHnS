@@ -6,7 +6,7 @@ using UnityEngine;
 
 using UnityEngine.UI;
 
-public class RoomButton : MonoBehaviourPunCallbacks, IInRoomCallbacks
+public class RoomButton : MonoBehaviour
 {
     public string Name 
     {
@@ -34,6 +34,8 @@ public class RoomButton : MonoBehaviourPunCallbacks, IInRoomCallbacks
         }
     }
 
+    private Button button;
+
     private void Awake()
     {
         PhotonNetwork.AddCallbackTarget(this);
@@ -49,7 +51,18 @@ public class RoomButton : MonoBehaviourPunCallbacks, IInRoomCallbacks
 
     public void JoinRoom()
     {
-        PhotonNetwork.JoinRoom(Name);
-        GetComponent<Button>().interactable = false;
+        if(PhotonNetwork.CurrentRoom == null)
+        {
+            PhotonNetwork.JoinRoom(Name);
+            button = GetComponent<Button>();
+        }
+        else
+        {
+            var roomCanvas = GameObject.Find("Canvas").transform.Find("RoomPage").gameObject;
+            if (roomCanvas)
+            {
+                roomCanvas.SetActive(true);
+            }
+        }
     }
 }

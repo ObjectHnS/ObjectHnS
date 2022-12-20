@@ -1,13 +1,13 @@
 using Photon.Pun;
+using Photon.Pun.UtilityScripts;
 using Photon.Realtime;
-using System.Collections;
 using System;
+using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
+using System.Linq;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
- 
+
 public class NetworkManager : Manager<NetworkManager>
 {
     [Header("Pages")]
@@ -20,7 +20,6 @@ public class NetworkManager : Manager<NetworkManager>
     [Header("Room Objects")]
     public GameObject roomGrid;
     public GameObject roomButton;
-    public GameObject room;
     public GameObject UserCard;
 
     [Header("etc..")]
@@ -29,6 +28,9 @@ public class NetworkManager : Manager<NetworkManager>
     private GameObject warning;
 
     private Dictionary<string, GameObject> myList = new Dictionary<string, GameObject>();
+    private Dictionary<Player, GameObject> userDict = new Dictionary<Player, GameObject>();
+    private List<Player> players = new List<Player>();
+
     private bool isEnter = false;
 
     private GameObject player;
@@ -54,6 +56,22 @@ public class NetworkManager : Manager<NetworkManager>
         UpateState();
         UpdateJoinCount();
         UpdateUserList();
+        MobileInputSystem();
+    }
+
+    private void MobileInputSystem()
+    {
+        if (Input.GetKey(KeyCode.Escape))
+        {
+            if (Popups.activeSelf)
+            {
+                Popups.SetActive(false);
+            }
+            else if(RoomCanvas.activeSelf)
+            {
+                RoomCanvas.SetActive(false);
+            }
+        }
     }
 
     public override void OnConnectedToMaster()
@@ -66,7 +84,7 @@ public class NetworkManager : Manager<NetworkManager>
 
     private void UpateState()
     {
-        if(State)
+        if (State)
         {
             if (State.activeSelf)
             {
@@ -87,31 +105,13 @@ public class NetworkManager : Manager<NetworkManager>
             }
         }
     }
-    
+
     private void UpdateJoinCount()
     {
-        if(isEnter)
+        if (isEnter)
         {
-            room.transform.Find("JoinCount").GetComponent<Text>().text = "(" + PhotonNetwork.CurrentRoom.PlayerCount + " / 8)";
-            room.transform.Find("RoomName").GetComponent<Text>().text = PhotonNetwork.CurrentRoom.Name;
-            Debug.Log(PhotonNetwork.CurrentRoom.Players.ToStringFull());
-        }
-    }
-
-    private static int i = 0;
-    private void UpdateUserList()
-    {
-        if(isEnter)
-        {
-            Player player = null;
-            for (;  i < PhotonNetwork.CurrentRoom.PlayerCount; i++)
-            {
-                if(PhotonNetwork.CurrentRoom.Players.TryGetValue(i + 1, out player))
-                {
-                    var obj = Instantiate(UserCard, room.transform.Find("Userboard").Find("Grid"));
-                    obj.transform.Find("UserName").GetComponent<Text>().text = player.NickName;
-                }
-            }
+            RoomCanvas.transform.Find("JoinCount").GetComponent<Text>().text = "(" + PhotonNetwork.CurrentRoom.PlayerCount + " / 8)";
+            RoomCanvas.transform.Find("RoomName").GetComponent<Text>().text = PhotonNetwork.CurrentRoom.Name;
         }
     }
 
@@ -126,6 +126,13 @@ public class NetworkManager : Manager<NetworkManager>
             if (LobbyCanvas) LobbyCanvas.SetActive(true);
         }
         else PhotonNetwork.LocalPlayer.NickName = "Player" + UnityEngine.Random.Range(1, 100);
+    }
+
+    public override void OnDisconnected(DisconnectCause cause)
+    {
+        Popups.SetActive(true);
+        Popups.transform.Find("Timeout").gameObject.SetActive(true);
+        PhotonNetwork.Reconnect();
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message)
@@ -156,13 +163,66 @@ public class NetworkManager : Manager<NetworkManager>
                 roomCreation = Popups.transform.Find("RoomCreation").gameObject;
             }
         }
+        roomCreation.SetActive(true);
     }
 
+    private static List<Player> playerList = new List<Player>();
+    
+    private void UpdateUserList()
+    {
+        
+        if (isEnter)
+        {
+            playerList = new List<Player>(PhotonNetwork.CurrentRoom.Players.Values);
+            foreach(Player p in playerList)
+            {
+                if (!players.Contains(p))
+                {
+                    var card = Instantiate(UserCard, RoomCanvas.transform.Find("Userboard").Find("Grid"));
+                    card.transform.Find("UserName").GetComponent<Text>().text = p.NickName;
+
+                    userDict.Add(p, card);
+                    players.Add(p);
+                }
+            }
+            foreach (var p in players.ToArray())
+            {
+                GameObject obj = null;
+                if(!playerList.Contains(p))
+                {
+                    userDict.TryGetValue(p, out obj);
+                    if (obj) Destroy(obj);
+
+                    userDict.Remove(p);
+                    players.Remove(p);
+                }
+            }
+            
+        }
+    }
+
+    public void LeaveRoom()
+    {
+        if(PhotonNetwork.CurrentRoom.PlayerCount <= 1)
+        {
+            Destroy(GameObject.Find(PhotonNetwork.CurrentRoom.Name));
+        }
+        PhotonNetwork.LeaveRoom();
+    }
+
+    public override void OnLeftRoom()
+    {
+        RoomCanvas.SetActive(false);
+        LobbyCanvas.SetActive(true);
+        isEnter = false;
+    }
 
     private GameObject CreateRoomButton(string roomName)
     {
         roomButton.GetComponent<RoomButton>().Name = roomName;
-        return Instantiate(roomButton, roomGrid.transform);
+        var obj = Instantiate(roomButton, roomGrid.transform); 
+        obj.name = roomName;
+        return obj;
     }
 
     public void CreateRoom()
@@ -182,8 +242,8 @@ public class NetworkManager : Manager<NetworkManager>
 
     private void ShowWarningPopupMessage(string message)
     {
-        Popups.SetActive(true);
-        if(warning == null)
+        roomCreation.SetActive(false);
+        if (warning == null)
         {
             warning = Popups.transform.Find("Warning").gameObject;
         }
@@ -198,15 +258,15 @@ public class NetworkManager : Manager<NetworkManager>
 
     public override void OnJoinedRoom()
     {
-        if(RoomCanvas) RoomCanvas.SetActive(true);
-        print("joined " + PhotonNetwork.CurrentRoom.Name);
+        if (RoomCanvas) RoomCanvas.SetActive(true);
         isEnter = true;
     }
 
     public void StartGame()
     {
         PhotonNetwork.LoadLevel("Scenes/Fugitive");
-        this.Invoke(() => {
+        this.Invoke(() =>
+        {
             player = PhotonNetwork.Instantiate("PF_Ghost_Blue", Vector3.zero, Quaternion.identity);
             player.GetComponent<MonsterInputJoystick>().joystick = (FloatingJoystick)FindObjectOfType(typeof(FloatingJoystick));
         }, 0.5f);
@@ -228,6 +288,7 @@ public class NetworkManager : Manager<NetworkManager>
                 {
                     GameObject newRoom = CreateRoomButton(room.Name);
                     newRoom.GetComponent<RoomButton>().Roominfo = room;
+                    newRoom.name = room.Name;
                     myList.Add(room.Name, newRoom);
                 }
                 else

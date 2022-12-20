@@ -80,7 +80,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uC544\uBB34\uB098 \uD658\uC601!"
+  m_Text: "\u3131\u3137\u314E\u3131"
 --- !u!114 &635931305930536548
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -265,7 +265,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 185e6272bc17435469790474550dbf68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  joinNum: 0
 --- !u!1 &6798767029351673688
 GameObject:
   m_ObjectHideFlags: 0

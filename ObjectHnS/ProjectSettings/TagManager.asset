@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - RoomBtn
+  - Page
   layers:
   - Default
   - TransparentFX
