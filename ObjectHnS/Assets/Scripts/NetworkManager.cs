@@ -21,10 +21,10 @@ public class NetworkManager : Manager<NetworkManager>
     public GameObject roomGrid;
     public GameObject roomButton;
     public GameObject room;
+    public GameObject UserCard;
 
     [Header("etc..")]
     public PhotonView pv;
-
     private GameObject roomCreation;
     private GameObject warning;
 
@@ -53,6 +53,7 @@ public class NetworkManager : Manager<NetworkManager>
     {
         UpateState();
         UpdateJoinCount();
+        UpdateUserList();
     }
 
     public override void OnConnectedToMaster()
@@ -96,6 +97,24 @@ public class NetworkManager : Manager<NetworkManager>
             Debug.Log(PhotonNetwork.CurrentRoom.Players.ToStringFull());
         }
     }
+
+    private static int i = 0;
+    private void UpdateUserList()
+    {
+        if(isEnter)
+        {
+            Player player = null;
+            for (;  i < PhotonNetwork.CurrentRoom.PlayerCount; i++)
+            {
+                if(PhotonNetwork.CurrentRoom.Players.TryGetValue(i + 1, out player))
+                {
+                    var obj = Instantiate(UserCard, room.transform.Find("Userboard").Find("Grid"));
+                    obj.transform.Find("UserName").GetComponent<Text>().text = player.NickName;
+                }
+            }
+        }
+    }
+
     public void Connect()
     {
         if (LoginCanvas)
