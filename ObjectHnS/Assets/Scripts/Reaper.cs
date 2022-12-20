@@ -10,7 +10,6 @@ public class Reaper : MonoBehaviour
         
     }
 
-    // Update is called once per frame
     void Update()
     {
         

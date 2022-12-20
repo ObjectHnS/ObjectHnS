@@ -31,7 +31,9 @@ namespace Cainos.PixelArtMonster_Dungeon
 
         //RUNTIME INPUT PARAMETERS
         public Vector2 inputMove = Vector2.zero;                        // movement input, x for horizontal, y for vertical, x and y should be in [-1.0, 1.0]                 
-        public bool inputAttack = false;                                // attack input
+        public bool inputAttack = false;
+        public bool inputSkill = false;
+        // attack input
 
         private PixelMonster pm;                                        // the PixelMonster script attached the character
         private Collider2D collider2d;                                  // Collider compoent on the character
