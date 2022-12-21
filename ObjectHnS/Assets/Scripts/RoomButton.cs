@@ -47,6 +47,10 @@ public class RoomButton : MonoBehaviour
         {
             transform.Find("JoinCount").GetComponent<Text>().text = info.PlayerCount + " / 8";
         }
+        else if(PhotonNetwork.CurrentRoom != null)
+        {
+            transform.Find("JoinCount").GetComponent<Text>().text = PhotonNetwork.CurrentRoom.PlayerCount + " / 8";
+        }
     }
 
     public void JoinRoom()

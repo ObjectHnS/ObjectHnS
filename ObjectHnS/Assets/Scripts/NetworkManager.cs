@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -27,9 +28,10 @@ public class NetworkManager : Manager<NetworkManager>
     private GameObject roomCreation;
     private GameObject warning;
 
-    private Dictionary<string, GameObject> myList = new Dictionary<string, GameObject>();
-    private Dictionary<Player, GameObject> userDict = new Dictionary<Player, GameObject>();
-    private List<Player> players = new List<Player>();
+    private Dictionary<string, GameObject> myList = new Dictionary<string, GameObject>(); // RoomName / RoomButton Object
+    private Dictionary<Player, GameObject> userDict = new Dictionary<Player, GameObject>(); // Player / Player GameObject
+    private List<RoomInfo> roomList = new List<RoomInfo>(); // List of rooms
+
 
     private bool isEnter = false;
 
@@ -166,26 +168,25 @@ public class NetworkManager : Manager<NetworkManager>
         roomCreation.SetActive(true);
     }
 
-    private static List<Player> playerList = new List<Player>();
+    private List<Player> playerList = new List<Player>();
     
     private void UpdateUserList()
     {
-        
         if (isEnter)
         {
             playerList = new List<Player>(PhotonNetwork.CurrentRoom.Players.Values);
             foreach(Player p in playerList)
             {
-                if (!players.Contains(p))
+                if (!userDict.Keys.Contains(p) && RoomCanvas.transform.Find("Userboard").Find("Grid").Find(p.NickName) == null)
                 {
                     var card = Instantiate(UserCard, RoomCanvas.transform.Find("Userboard").Find("Grid"));
                     card.transform.Find("UserName").GetComponent<Text>().text = p.NickName;
+                    card.name = p.NickName;
 
                     userDict.Add(p, card);
-                    players.Add(p);
                 }
             }
-            foreach (var p in players.ToArray())
+            foreach (var p in userDict.Keys.ToArray())
             {
                 GameObject obj = null;
                 if(!playerList.Contains(p))
@@ -194,18 +195,33 @@ public class NetworkManager : Manager<NetworkManager>
                     if (obj) Destroy(obj);
 
                     userDict.Remove(p);
-                    players.Remove(p);
                 }
             }
-            
         }
     }
 
     public void LeaveRoom()
     {
-        if(PhotonNetwork.CurrentRoom.PlayerCount <= 1)
+        foreach (var p in PhotonNetwork.CurrentRoom.Players.Values.ToArray())
         {
-            Destroy(GameObject.Find(PhotonNetwork.CurrentRoom.Name));
+            GameObject t = null;
+            userDict.TryGetValue(p, out t);
+            Destroy(t);
+        }
+        foreach(var room in myList.Values.ToArray())
+        {
+            Destroy(room);
+        }
+        myList.Clear();
+        if (PhotonNetwork.CurrentRoom.PlayerCount <= 1)
+        {
+            myList.Remove(PhotonNetwork.CurrentRoom.Name);
+        }
+        foreach (var room in roomList.ToArray())
+        {
+            var obj = CreateRoomButton(room.Name);
+            obj.GetComponent<RoomButton>().Roominfo = room;
+            myList.Add(room.Name, obj);
         }
         PhotonNetwork.LeaveRoom();
     }
@@ -237,7 +253,7 @@ public class NetworkManager : Manager<NetworkManager>
 
         HidePopups();
 
-        CreateRoomButton(roomName.text);
+        myList.Add(roomName.text, CreateRoomButton(roomName.text));
     }
 
     private void ShowWarningPopupMessage(string message)
@@ -259,6 +275,7 @@ public class NetworkManager : Manager<NetworkManager>
     public override void OnJoinedRoom()
     {
         if (RoomCanvas) RoomCanvas.SetActive(true);
+        userDict = new Dictionary<Player, GameObject>();
         isEnter = true;
     }
 
@@ -275,12 +292,14 @@ public class NetworkManager : Manager<NetworkManager>
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         GameObject tmp = null;
+        this.roomList = new List<RoomInfo>(roomList);
         foreach (var room in roomList)
         {
             if (room.RemovedFromList)
             {
                 myList.TryGetValue(room.Name, out tmp);
                 Destroy(tmp);
+                myList.Remove(room.Name);
             }
             else
             {
@@ -294,7 +313,7 @@ public class NetworkManager : Manager<NetworkManager>
                 else
                 {
                     myList.TryGetValue(room.Name, out tmp);
-                    tmp.GetComponent<RoomButton>().Roominfo = room;
+                    if(tmp) tmp.GetComponent<RoomButton>().Roominfo = room;
                 }
             }
         }
