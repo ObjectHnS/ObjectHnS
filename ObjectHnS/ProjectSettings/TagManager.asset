@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - RoomBtn
+  - Fugitive
+  - Tagger
   layers:
   - Default
   - TransparentFX

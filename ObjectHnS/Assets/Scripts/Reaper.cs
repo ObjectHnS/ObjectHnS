@@ -4,14 +4,20 @@ using UnityEngine;
 
 public class Reaper : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public int RepaperHp;
+    private CapsuleCollider2D capsulecollider;
+    void Awake()
     {
-        
+        capsulecollider = GetComponent<CapsuleCollider2D>();
     }
 
     void Update()
     {
-        
+        if(RepaperHp < 0)
+        {
+            Destroy(gameObject);
+        }
     }
+
+    
 }

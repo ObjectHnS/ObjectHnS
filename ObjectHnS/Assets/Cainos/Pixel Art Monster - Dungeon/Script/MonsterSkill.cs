@@ -5,7 +5,9 @@ using UnityEngine;
 public class MonsterSkill : MonoBehaviour
 {
     public bool inputSkill = false;
-    private static float coolTime = 3f;
+    public float coolTime = 3f;
+
+
     private static float time;
 
     public Animator animator;

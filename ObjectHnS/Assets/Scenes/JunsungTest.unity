@@ -710,6 +710,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputSkill: 0
+  coolTime: 3
   animator: {fileID: 1096366970}
 --- !u!1 &1962746428 stripped
 GameObject:
@@ -730,6 +731,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputSkill: 0
+  coolTime: 3
   animator: {fileID: 1096366970}
 --- !u!1 &1990626391
 GameObject:
