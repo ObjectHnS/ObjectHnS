@@ -36,7 +36,7 @@ namespace Cainos.PixelArtMonster_Dungeon
         //RUNTIME INPUT PARAMETERS
         public Vector2 inputMove = Vector2.zero;                    // movement input, x for horizontal, y for vertical, x and y should be in [-1.0, 1.0]                 
         public bool inputMoveModifier = false;                      // switch between walk and run
-        public bool inputJump = false;                              // jump input
+        public bool inputSkill = false;                              // jump input
         public bool inputAttack = false;                            // attack input
 
 
@@ -93,7 +93,7 @@ namespace Cainos.PixelArtMonster_Dungeon
             pm.MovingBlend = Mathf.MoveTowards(pm.MovingBlend, movingBlend, Time.deltaTime * movingBlendTransitionSpeed);
 
             //perform move and attack
-            Move(inputMove.x, shouldRun, inputJump);
+            Move(inputMove.x, shouldRun, inputSkill);
             Attack( inputAttack );
 
             //CHECK IF THE CHARACTER IS ON GROUND

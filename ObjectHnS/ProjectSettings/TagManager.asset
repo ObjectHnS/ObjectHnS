@@ -5,12 +5,13 @@ TagManager:
   serializedVersion: 2
   tags:
   - RoomBtn
-  - Page
+  - Fugitive
+  - Tagger
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - a
   - Water
   - UI
   - 

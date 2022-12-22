@@ -1,18 +1,51 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cainos.PixelArtMonster_Dungeon;
 
 public class Reaper : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public int ReaperHp = 1500;
+    private bool isDead = false;
 
-    // Update is called once per frame
+    public PixelMonster pm;
+    private CapsuleCollider2D capsulecollider;
+    private MonsterInputMouseAndKeyboard inputMouseButton;
+    protected ReaperSkill_Blue RsBlue;
+    protected ReaperSkill_White RsWhite;
+    void Awake()
+    {
+        capsulecollider = GetComponent<CapsuleCollider2D>();
+        inputMouseButton = GetComponent<MonsterInputMouseAndKeyboard>();
+        RsBlue = GetComponent<ReaperSkill_Blue>();
+        RsWhite = GetComponent<ReaperSkill_White>();
+    }
+    
+
     void Update()
     {
-        
+        if (inputMouseButton.inputSkill)
+        {
+            if (RsBlue)
+            {
+                RsBlue.Skill();
+            }
+
+            if (RsWhite)
+            {
+                RsWhite.Skill();
+            }
+        }
+
+        if(ReaperHp <= 0 && isDead == false)
+        {
+            pm.OnDieFx();
+            isDead = true;
+        }
+
+        if (isDead)
+        {
+            Destroy(gameObject);
+        }
     }
 }

@@ -14,23 +14,29 @@ namespace Cainos.PixelArtMonster_Dungeon
         public KeyCode leftKey = KeyCode.A;
         public KeyCode rightKey = KeyCode.D;
 
-        public KeyCode jumpKey = KeyCode.Space;
+        public KeyCode interactionKey = KeyCode.E;
+        public KeyCode skillKey = KeyCode.F;
         public KeyCode moveModifierKey = KeyCode.LeftShift;
 
         public KeyCode attackKey = KeyCode.Mouse0;
 
         protected MonsterController controller;
         protected MonsterFlyingController controllerFlying;
+        protected MonsterSkill monsterSkill;
+
 
         private Vector2 inputMove;
         private bool inputMoveModifier;
-        private bool inputJump;
+        
+        public bool inputSkill;
+        public bool inputInteraction;
         protected bool inputAttack;
 
         public virtual void Awake()
         {
             controller = GetComponent<MonsterController>();
             controllerFlying = GetComponent<MonsterFlyingController>();
+            monsterSkill = GetComponent<MonsterSkill>();
         }
 
         public virtual void Update()
@@ -38,18 +44,20 @@ namespace Cainos.PixelArtMonster_Dungeon
             bool pointerOverUI = EventSystem.current && EventSystem.current.IsPointerOverGameObject();
             if (!pointerOverUI)
             {
+                inputInteraction = Input.GetKey(interactionKey);
                 inputMoveModifier = Input.GetKey(moveModifierKey);
-                inputJump = Input.GetKey(jumpKey);
+                inputSkill = Input.GetKeyDown(skillKey);
                 inputAttack = Input.GetKeyDown(attackKey);
 
                 if (controller)
                 {
                     controller.inputMoveModifier = inputMoveModifier;
-                    controller.inputJump = inputJump;
+                    monsterSkill.inputSkill = inputSkill;
                     controller.inputAttack = inputAttack;
                 }
                 if (controllerFlying)
                 {
+                    monsterSkill.inputSkill = inputSkill;
                     controllerFlying.inputAttack = inputAttack;
                 }
             }
