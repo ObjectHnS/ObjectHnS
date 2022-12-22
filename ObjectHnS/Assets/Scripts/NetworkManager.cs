@@ -36,6 +36,7 @@ public class NetworkManager : Manager<NetworkManager>
     private bool isEnter = false;
 
     private GameObject player;
+    private Player master = null;
 
     #region 포톤
     protected override void Awake()
@@ -137,56 +138,52 @@ public class NetworkManager : Manager<NetworkManager>
         PhotonNetwork.Reconnect();
     }
 
+    #endregion
+
+    #region 방 관련
+    private List<Player> playerList = new List<Player>();
+
+    // 방 생성 실패시
     public override void OnCreateRoomFailed(short returnCode, string message)
     {
         Debug.Log(returnCode + " : " + message);
     }
 
+    // 방 입장 실패시
     public override void OnJoinRoomFailed(short returnCode, string message)
     {
         Debug.Log(returnCode + " : " + message);
     }
 
+    // 랜덤방 입장 실패시
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
+        ShowWarningPopupMessage("방이 없습니다!\n 방을 만들어주세요!");
         Debug.Log(returnCode + " : " + message);
     }
 
-    #endregion
-
-    #region 방 관련
-    public void ShowCreateRoomPopup()
-    {
-        if (Popups)
-        {
-            Popups.SetActive(true);
-            if (!roomCreation)
-            {
-                roomCreation = Popups.transform.Find("RoomCreation").gameObject;
-            }
-        }
-        roomCreation.SetActive(true);
-    }
-
-    private List<Player> playerList = new List<Player>();
-    
+    // 방에 들어갔을때 플레이어 리스트 갱신
     private void UpdateUserList()
     {
         if (isEnter)
         {
             playerList = new List<Player>(PhotonNetwork.CurrentRoom.Players.Values);
-            foreach(Player p in playerList)
+
+            foreach (Player p in playerList) // 새로 들어온 사람 체크하고 카드 생성
             {
                 if (!userDict.Keys.Contains(p) && RoomCanvas.transform.Find("Userboard").Find("Grid").Find(p.NickName) == null)
-                {
+                { 
                     var card = Instantiate(UserCard, RoomCanvas.transform.Find("Userboard").Find("Grid"));
                     card.transform.Find("UserName").GetComponent<Text>().text = p.NickName;
                     card.name = p.NickName;
-
+                    if (p == master)
+                    {
+                        card.transform.Find("UserName").GetComponent<Text>().color = Color.magenta;
+                    }
                     userDict.Add(p, card);
                 }
             }
-            foreach (var p in userDict.Keys.ToArray())
+            foreach (var p in userDict.Keys.ToArray()) //나간 사람 체크
             {
                 GameObject obj = null;
                 if(!playerList.Contains(p))
@@ -195,20 +192,18 @@ public class NetworkManager : Manager<NetworkManager>
                     if (obj) Destroy(obj);
 
                     userDict.Remove(p);
+                    if (p == master)
+                    {
+                        if (pv.IsMine) pv.RPC("SetMaster", RpcTarget.AllBuffered, PhotonNetwork.LocalPlayer);
+                    }
                 }
             }
         }
     }
 
-    public void LeaveRoom()
+    private void FetchRoomList()
     {
-        foreach (var p in PhotonNetwork.CurrentRoom.Players.Values.ToArray())
-        {
-            GameObject t = null;
-            userDict.TryGetValue(p, out t);
-            Destroy(t);
-        }
-        foreach(var room in myList.Values.ToArray())
+        foreach (var room in myList.Values.ToArray())
         {
             Destroy(room);
         }
@@ -223,9 +218,29 @@ public class NetworkManager : Manager<NetworkManager>
             obj.GetComponent<RoomButton>().Roominfo = room;
             myList.Add(room.Name, obj);
         }
+    }
+
+    // '나가기'버튼을 눌렀을 때 호출되는 함수
+    public void LeaveRoom()
+    {
+        foreach (var p in PhotonNetwork.CurrentRoom.Players.Values.ToArray())
+        {
+            GameObject t = null;
+            userDict.TryGetValue(p, out t);
+            Destroy(t);
+        }
+        FetchRoomList();
+        if(PhotonNetwork.LocalPlayer == master && PhotonNetwork.CurrentRoom.PlayerCount > 1)
+        {
+            if (pv.IsMine)
+            {
+                pv.RPC("SetMaster", RpcTarget.AllBuffered, userDict.Keys.ToList()[1]);
+            }
+        }
         PhotonNetwork.LeaveRoom();
     }
 
+    // 방을 나갔을 때 호출되는 함수
     public override void OnLeftRoom()
     {
         RoomCanvas.SetActive(false);
@@ -233,6 +248,7 @@ public class NetworkManager : Manager<NetworkManager>
         isEnter = false;
     }
 
+    // 새로운 방 버튼을 만드는 함수
     private GameObject CreateRoomButton(string roomName)
     {
         roomButton.GetComponent<RoomButton>().Name = roomName;
@@ -241,6 +257,7 @@ public class NetworkManager : Manager<NetworkManager>
         return obj;
     }
 
+    // 새로운 방을 만드는 onclick함수
     public void CreateRoom()
     {
         InputField roomName = roomCreation.transform.Find("RoomName").gameObject.GetComponent<InputField>();
@@ -256,29 +273,36 @@ public class NetworkManager : Manager<NetworkManager>
         myList.Add(roomName.text, CreateRoomButton(roomName.text));
     }
 
-    private void ShowWarningPopupMessage(string message)
-    {
-        roomCreation.SetActive(false);
-        if (warning == null)
-        {
-            warning = Popups.transform.Find("Warning").gameObject;
-        }
-        warning.transform.Find("Message").GetComponent<Text>().text = message;
-        warning.SetActive(true);
-    }
-
+    // 랜덤 방에 접속했을 때 호출되는 함수
     public void JoinRandomRoom()
     {
         PhotonNetwork.JoinRandomRoom();
     }
 
+    // 방에 접속했을 때 호출되는 함수
     public override void OnJoinedRoom()
     {
+        if(PhotonNetwork.IsMasterClient)
+        {
+            master = PhotonNetwork.LocalPlayer;
+            if (pv.IsMine) pv.RPC("SetMaster", RpcTarget.AllBuffered, master);
+        }
         if (RoomCanvas) RoomCanvas.SetActive(true);
         userDict = new Dictionary<Player, GameObject>();
         isEnter = true;
     }
+    [PunRPC]
+    private void SetMaster(Player m)
+    {
+        master = m;
+        GameObject obj;
+        if(userDict.TryGetValue(m, out obj))
+        {
+            obj.transform.GetChild(0).GetComponent<Text>().color = Color.magenta;
+        }
+    }
 
+    // 시작 버튼을 눌렀을 때 호출되는 함수
     public void StartGame()
     {
         PhotonNetwork.LoadLevel("Scenes/Fugitive");
@@ -289,6 +313,7 @@ public class NetworkManager : Manager<NetworkManager>
         }, 0.5f);
     }
 
+    // 방 리스트가 업데이트 되었을 때 호출되는 함수
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         GameObject tmp = null;
@@ -321,10 +346,40 @@ public class NetworkManager : Manager<NetworkManager>
     #endregion
 
     #region 팝업창
+
+    // 새 방 만들기 팝업창 띄우기
+    public void ShowCreateRoomPopup()
+    {
+        if (Popups)
+        {
+            Popups.SetActive(true);
+            if (!roomCreation)
+            {
+                roomCreation = Popups.transform.Find("RoomCreation").gameObject;
+            }
+        }
+        roomCreation.SetActive(true);
+    }
+
+    // 경고 메세지 팝업창 띄우기
+    private void ShowWarningPopupMessage(string message)
+    {
+        Popups.SetActive(true);
+        if(!roomCreation) roomCreation = Popups.transform.Find("RoomCreation").gameObject;
+        roomCreation.SetActive(false);
+
+        if (!warning) warning = Popups.transform.Find("Warning").gameObject;
+        warning.transform.Find("Message").GetComponent<Text>().text = message;
+        warning.SetActive(true);
+    }
+
+    // 모든 팝업창 닫기
     private void HidePopups()
     {
         Popups.SetActive(false);
     }
+
+    // 취소 버튼 눌렀을 때 호출되는 onclick함수
     public void CancelPopup(GameObject popup)
     {
         Popups.SetActive(false);
