@@ -172,6 +172,7 @@ public class NetworkManager : Manager<NetworkManager>
             {
                 RoomCanvas.transform.Find("StartButton").GetComponent<Button>().interactable = false;
             }
+            else RoomCanvas.transform.Find("StartButton").GetComponent<Button>().interactable = true;
 
             foreach (Player p in playerList.ToArray()) // 새로 들어온 사람 체크하고 카드 생성
             {
@@ -297,17 +298,30 @@ public class NetworkManager : Manager<NetworkManager>
     private void SetMaster(Player m)
     {
         master = m;
+        GameObject obj = null;
+        if (userDict.TryGetValue(m, out obj))
+        {
+            if (obj != null)
+            {
+                obj.transform.GetChild(0).GetComponent<Text>().color = Color.magenta;
+            }
+            else userDict.Remove(m);
+        }
     }
-
-    // 시작 버튼을 눌렀을 때 호출되는 함수
-    public void StartGame()
+    [PunRPC] private void StartGame_RPC(string sceneName)
     {
-        PhotonNetwork.LoadLevel("Scenes/Fugitive");
+        PhotonNetwork.LoadLevel(sceneName);
         this.Invoke(() =>
         {
             player = PhotonNetwork.Instantiate("PF_Ghost_Blue", Vector3.zero, Quaternion.identity);
             player.GetComponent<MonsterInputJoystick>().joystick = (FloatingJoystick)FindObjectOfType(typeof(FloatingJoystick));
         }, 0.5f);
+    }
+
+    // 시작 버튼을 눌렀을 때 호출되는 함수
+    public void StartGame()
+    {
+        if (pv.IsMine) pv.RPC("StartGame_RPC", RpcTarget.All, "Scenes/Fugitive");
     }
 
     // 방 리스트가 업데이트 되었을 때 호출되는 함수
