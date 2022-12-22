@@ -9,8 +9,9 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class NetworkManager : Manager<NetworkManager>
+public class LobbyManager : Manager<LobbyManager>
 {
+    #region Properties
     [Header("Pages")]
     public GameObject LoginCanvas;
     public GameObject State;
@@ -27,11 +28,12 @@ public class NetworkManager : Manager<NetworkManager>
     public PhotonView pv;
     private GameObject roomCreation;
     private GameObject warning;
+    #endregion
+
 
     private Dictionary<string, GameObject> myList = new Dictionary<string, GameObject>(); // RoomName / RoomButton Object
     private Dictionary<Player, GameObject> userDict = new Dictionary<Player, GameObject>(); // Player / Player GameObject
     private List<RoomInfo> roomList = new List<RoomInfo>(); // List of rooms
-
     private bool isEnter = false;
 
     private GameObject player;
@@ -72,6 +74,15 @@ public class NetworkManager : Manager<NetworkManager>
             else if(RoomCanvas.activeSelf)
             {
                 RoomCanvas.SetActive(false);
+                foreach(GameObject buttons in myList.Values.ToArray())
+                {
+                    buttons.GetComponent<Button>().interactable = false;
+                }
+                GameObject obj = null;
+                if(myList.TryGetValue(PhotonNetwork.CurrentRoom.Name, out obj))
+                {
+                    if(obj) obj.GetComponent<Button>().interactable = true;
+                }
             }
         }
     }
@@ -130,11 +141,18 @@ public class NetworkManager : Manager<NetworkManager>
         else PhotonNetwork.LocalPlayer.NickName = "Player" + UnityEngine.Random.Range(1, 100);
     }
 
-    public override void OnDisconnected(DisconnectCause cause)
+    private void showQuit(string msg)
     {
         Popups.SetActive(true);
-        Popups.transform.Find("Timeout").gameObject.SetActive(true);
-        PhotonNetwork.Reconnect();
+        var obj = Popups.transform.Find("Quit").gameObject;
+        obj.SetActive(true);
+        obj.transform.Find("Title").GetComponent<Text>().text = msg;
+        this.Invoke(() => { Application.Quit(); }, 1.5f);
+    }
+
+    public override void OnDisconnected(DisconnectCause cause)
+    {
+        showQuit(cause.ToString());
     }
 
     #endregion
