@@ -88,9 +88,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: PF Reaper - White
       objectReference: {fileID: 0}
+    - target: {fileID: 7796543005332880763, guid: 526b8c36b45b5b441b23ab82c14d1ae4,
+        type: 3}
+      propertyPath: m_TagString
+      value: Tagger
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6660423476475883706, guid: 526b8c36b45b5b441b23ab82c14d1ae4, type: 3}
     - {fileID: 4154625153548013407, guid: 526b8c36b45b5b441b23ab82c14d1ae4, type: 3}
+    - {fileID: 3903818232266682381, guid: 526b8c36b45b5b441b23ab82c14d1ae4, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 526b8c36b45b5b441b23ab82c14d1ae4, type: 3}
 --- !u!1 &3885904539395595751 stripped
 GameObject:

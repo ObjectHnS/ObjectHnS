@@ -7,17 +7,23 @@ using Photon.Pun;
 
 public class ReaperSkill_Blue : MonoBehaviour
 {
+    public bool skillRetention = false;
     public float skillTime;
-    public float skillCoolTime = 5f;
+    public float skillCoolTime = 20f;
+    public float skillRetentionTime = 5f;
+
     public GameObject bat;
     public float passiveTime;
     public float passiveCoolTime = 5f;
 
-    MonsterSkill monsterSkill;
+    public Animator animator;
+    ReaperController reaper;
+    MonsterInputMouseAndKeyboard Input;
 
     void Start()
     {
-        monsterSkill = GetComponent<MonsterSkill>();
+        reaper = GetComponent<ReaperController>();
+        Input = GetComponent<MonsterInputMouseAndKeyboard>();
     }
 
     void Update()
@@ -29,11 +35,27 @@ public class ReaperSkill_Blue : MonoBehaviour
         {
             Passive();
         }
+
+        if (Input.inputSkill && skillCoolTime <= skillTime)
+        {
+            Debug.Log("ÀÎÇ²½ºÅ³");
+            Skill();
+        }
+
+        if(skillTime >= skillRetentionTime && skillRetention)
+        {
+            Debug.Log("¤·");
+            skillTime = 0;
+            reaper.speedMax = 2;
+            reaper.acc = 8;
+            reaper.brakeAcc = 8;
+            skillRetention = false;
+        }
     }
     public void Passive()
     {
         passiveTime = 0;
-        for(int i = 0; i < /*PhotonNetwork.CurrentRoom.PlayerCount - 1*/ 7; i++)
+        for(int i = 0; i < /*PhotonNetwork.CurrentRoom.PlayerCount - 1*/ 1; i++)
         {
             //GameObject a = PhotonNetwork.Instantiate("PF_Bat",GetComponent<Reaper>().gameObject.transform.position,Quaternion.identity);
             Instantiate(bat);
@@ -42,11 +64,11 @@ public class ReaperSkill_Blue : MonoBehaviour
 
     public void Skill()
     {
-        if (skillTime >= skillCoolTime)
-        {
-            skillTime = 0;
-            monsterSkill.CharacterSkill();
-            
-        }
+        animator.SetTrigger("canSkill");
+        skillTime = 0;
+        reaper.speedMax = 10;
+        reaper.acc = 10;
+        reaper.brakeAcc = 10;
+        skillRetention = true;
     }
 }

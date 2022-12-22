@@ -24,18 +24,6 @@ public class Reaper : MonoBehaviour
 
     void Update()
     {
-        if (inputMouseButton.inputSkill)
-        {
-            if (RsBlue)
-            {
-                RsBlue.Skill();
-            }
-
-            if (RsWhite)
-            {
-                RsWhite.Skill();
-            }
-        }
 
         if(ReaperHp <= 0 && isDead == false)
         {

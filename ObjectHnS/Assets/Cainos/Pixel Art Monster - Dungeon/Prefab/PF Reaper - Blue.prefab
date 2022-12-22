@@ -45,13 +45,12 @@ GameObject:
   - component: {fileID: 4590557132310777554}
   - component: {fileID: 2187979405164035086}
   - component: {fileID: 456975279064533474}
-  - component: {fileID: 3903818232266682381}
   - component: {fileID: 185516264969600276}
   - component: {fileID: 6660423476475883706}
   - component: {fileID: 3217447780477756818}
   m_Layer: 0
   m_Name: PF Reaper - Blue
-  m_TagString: Untagged
+  m_TagString: Tagger
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -155,21 +154,6 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0.6}
   m_Size: {x: 1, y: 3}
   m_Direction: 0
---- !u!114 &3903818232266682381
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7796543005332880763}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a210cc6fc426c7419578d5cdb10faff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inputSkill: 0
-  coolTime: 3
-  animator: {fileID: 1972283647665168962}
 --- !u!114 &185516264969600276
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -198,6 +182,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillTime: 0
   skillCoolTime: 5
+  skillRetentionTime: 5
+  bat: {fileID: 0}
   passiveTime: 0
   passiveCoolTime: 5
 --- !u!114 &3217447780477756818
