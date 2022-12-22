@@ -27,7 +27,9 @@ namespace Cainos.PixelArtMonster_Dungeon
 
         private Vector2 inputMove;
         private bool inputMoveModifier;
-        private bool inputSkill;
+        
+        public bool inputSkill;
+        public bool inputInteraction;
         protected bool inputAttack;
 
         public virtual void Awake()
@@ -42,6 +44,7 @@ namespace Cainos.PixelArtMonster_Dungeon
             bool pointerOverUI = EventSystem.current && EventSystem.current.IsPointerOverGameObject();
             if (!pointerOverUI)
             {
+                inputInteraction = Input.GetKey(interactionKey);
                 inputMoveModifier = Input.GetKey(moveModifierKey);
                 inputSkill = Input.GetKeyDown(skillKey);
                 inputAttack = Input.GetKeyDown(attackKey);

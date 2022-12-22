@@ -88,7 +88,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: PF Reaper - White
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6660423476475883706, guid: 526b8c36b45b5b441b23ab82c14d1ae4, type: 3}
+    - {fileID: 4154625153548013407, guid: 526b8c36b45b5b441b23ab82c14d1ae4, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 526b8c36b45b5b441b23ab82c14d1ae4, type: 3}
 --- !u!1 &3885904539395595751 stripped
 GameObject:
@@ -96,19 +98,15 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 6476003748763967644}
   m_PrefabAsset: {fileID: 0}
---- !u!70 &2996518114590018223
-CapsuleCollider2D:
+--- !u!114 &2445517907286736679
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3885904539395595751}
   m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.6}
-  m_Size: {x: 1, y: 3}
-  m_Direction: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae20fb5211afb224e84d8ae3474f7570, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

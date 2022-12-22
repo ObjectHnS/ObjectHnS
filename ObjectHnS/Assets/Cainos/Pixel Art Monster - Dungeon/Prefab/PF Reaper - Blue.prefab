@@ -42,10 +42,13 @@ GameObject:
   m_Component:
   - component: {fileID: 6373161563216954759}
   - component: {fileID: 2622760109489982590}
-  - component: {fileID: 4154625153548013407}
   - component: {fileID: 4590557132310777554}
   - component: {fileID: 2187979405164035086}
   - component: {fileID: 456975279064533474}
+  - component: {fileID: 3903818232266682381}
+  - component: {fileID: 185516264969600276}
+  - component: {fileID: 6660423476475883706}
+  - component: {fileID: 3217447780477756818}
   m_Layer: 0
   m_Name: PF Reaper - Blue
   m_TagString: Untagged
@@ -93,27 +96,6 @@ MonoBehaviour:
   isGrounded: 0
   isDead: 0
   movingBlend: 0
---- !u!114 &4154625153548013407
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7796543005332880763}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ed340bb3193efd489b55aae8eabd823, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speedMax: 1.5
-  acc: 4
-  brakeAcc: 4
-  groundCheckSize: {x: 0.7, y: 0.12}
-  movingBlendTransitionSpeed: 1
-  deadGravityScale: 0
-  inputMove: {x: 0, y: 0}
-  inputAttack: 0
-  inputSkill: 0
 --- !u!114 &4590557132310777554
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -134,6 +116,8 @@ MonoBehaviour:
   skillKey: 102
   moveModifierKey: 304
   attackKey: 323
+  inputSkill: 0
+  inputInteraction: 0
 --- !u!50 &2187979405164035086
 Rigidbody2D:
   serializedVersion: 4
@@ -171,6 +155,74 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0.6}
   m_Size: {x: 1, y: 3}
   m_Direction: 0
+--- !u!114 &3903818232266682381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7796543005332880763}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a210cc6fc426c7419578d5cdb10faff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputSkill: 0
+  coolTime: 3
+  animator: {fileID: 1972283647665168962}
+--- !u!114 &185516264969600276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7796543005332880763}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e381bc7a46f56d41968dfccd329ff20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ReaperHp: 1500
+  pm: {fileID: 2622760109489982590}
+--- !u!114 &6660423476475883706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7796543005332880763}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 840f7d0687330f342bcee2534c3d1647, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillTime: 0
+  skillCoolTime: 5
+  passiveTime: 0
+  passiveCoolTime: 5
+--- !u!114 &3217447780477756818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7796543005332880763}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78eccd734b3e1cc4da4cb3d1040a6dfe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speedMax: 2
+  acc: 8
+  brakeAcc: 8
+  groundCheckSize: {x: 0.1, y: 0.1}
+  movingBlendTransitionSpeed: 2
+  deadGravityScale: 1
+  inputMove: {x: 0, y: 0}
+  inputAttack: 0
+  inputSkill: 0
+  time: 0
+  coolTime: 3
 --- !u!1 &9184928523198497880
 GameObject:
   m_ObjectHideFlags: 0

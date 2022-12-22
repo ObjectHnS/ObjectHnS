@@ -35,7 +35,7 @@ namespace Cainos.PixelArtMonster_Dungeon
         public bool inputSkill = false;
         // attack input
 
-        private PixelMonster pm;                                        // the PixelMonster script attached the character
+        protected PixelMonster pm;                                        // the PixelMonster script attached the character
         private Collider2D collider2d;                                  // Collider compoent on the character
         private Rigidbody2D rb2d;                                       // Rigidbody2D component on the character
 
@@ -53,7 +53,7 @@ namespace Cainos.PixelArtMonster_Dungeon
             rb2d = GetComponent<Rigidbody2D>();
         }
 
-        private void Update()
+        protected virtual void Update()
         {
 
             //SET MOVING BLEND
@@ -121,9 +121,13 @@ namespace Cainos.PixelArtMonster_Dungeon
             pm.Facing = Mathf.RoundToInt(inputMove.x);
         }
 
-        public void Attack(bool inputAttack)
+        protected virtual void Attack(bool inputAttack)
         {
-            if (inputAttack) pm.Attack();
+            if (inputAttack)
+            {
+                pm.Attack();
+                Debug.Log("버츄얼");
+            }
         }
 
         private void OnDrawGizmosSelected()

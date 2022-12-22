@@ -18,7 +18,7 @@ public class MonsterSkill : MonoBehaviour
         time += Time.deltaTime;
     }
 
-    void CharacterSkill()
+    public void CharacterSkill()
     {
         if (inputSkill && time >= coolTime)
         {
