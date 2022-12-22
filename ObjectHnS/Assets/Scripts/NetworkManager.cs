@@ -297,12 +297,6 @@ public class NetworkManager : Manager<NetworkManager>
     private void SetMaster(Player m)
     {
         master = m;
-        GameObject obj;
-        if(userDict.TryGetValue(m, out obj))
-        {
-            obj.transform.GetChild(0).GetComponent<Text>().color = Color.magenta;
-            Debug.Log(obj.transform.GetChild(0).GetComponent<Text>().text);
-        }
     }
 
     // 시작 버튼을 눌렀을 때 호출되는 함수
