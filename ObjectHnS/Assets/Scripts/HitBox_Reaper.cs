@@ -16,7 +16,7 @@ public class HitBox_Reaper : MonoBehaviour
     {
         if(collision.tag == "Fugitive")
         {
-            Debug.Log("¸Â¾ÒÁ´");
+            
         }
     }
 
