@@ -32,7 +32,6 @@ public class NetworkManager : Manager<NetworkManager>
     private Dictionary<Player, GameObject> userDict = new Dictionary<Player, GameObject>(); // Player / Player GameObject
     private List<RoomInfo> roomList = new List<RoomInfo>(); // List of rooms
 
-
     private bool isEnter = false;
 
     private GameObject player;
@@ -165,18 +164,24 @@ public class NetworkManager : Manager<NetworkManager>
     // 방에 들어갔을때 플레이어 리스트 갱신
     private void UpdateUserList()
     {
-        if (isEnter)
+        if (isEnter) // 만약 방 버튼을 눌러 들어왔다면
         {
             playerList = new List<Player>(PhotonNetwork.CurrentRoom.Players.Values);
 
-            foreach (Player p in playerList) // 새로 들어온 사람 체크하고 카드 생성
+            if(!PhotonNetwork.IsMasterClient)
             {
-                if (!userDict.Keys.Contains(p) && RoomCanvas.transform.Find("Userboard").Find("Grid").Find(p.NickName) == null)
-                { 
+                RoomCanvas.transform.Find("StartButton").GetComponent<Button>().interactable = false;
+            }
+
+            foreach (Player p in playerList.ToArray()) // 새로 들어온 사람 체크하고 카드 생성
+            {
+                if (!userDict.Keys.Contains(p)) // 방의 플레이어 리스트 추가 / 만약 딕셔너리에 플레이어가 존재하지 않는다면
+                {    
+                    // 새로운 유저 카드 생성
                     var card = Instantiate(UserCard, RoomCanvas.transform.Find("Userboard").Find("Grid"));
-                    card.transform.Find("UserName").GetComponent<Text>().text = p.NickName;
-                    card.name = p.NickName;
-                    if (p == master)
+                    card.transform.Find("UserName").GetComponent<Text>().text = p.NickName; // 유저 이름
+                    card.name = p.NickName; // 게임오브젝트
+                    if (p.NickName == master.NickName) // 만약 방장이라면
                     {
                         card.transform.Find("UserName").GetComponent<Text>().color = Color.magenta;
                     }
@@ -192,10 +197,6 @@ public class NetworkManager : Manager<NetworkManager>
                     if (obj) Destroy(obj);
 
                     userDict.Remove(p);
-                    if (p == master)
-                    {
-                        if (pv.IsMine) pv.RPC("SetMaster", RpcTarget.AllBuffered, PhotonNetwork.LocalPlayer);
-                    }
                 }
             }
         }
@@ -223,13 +224,14 @@ public class NetworkManager : Manager<NetworkManager>
     // '나가기'버튼을 눌렀을 때 호출되는 함수
     public void LeaveRoom()
     {
+        // 유저 카드 삭제
         foreach (var p in PhotonNetwork.CurrentRoom.Players.Values.ToArray())
         {
             GameObject t = null;
             userDict.TryGetValue(p, out t);
             Destroy(t);
         }
-        FetchRoomList();
+        FetchRoomList(); // 방 리스트 새로고침
         if(PhotonNetwork.LocalPlayer == master && PhotonNetwork.CurrentRoom.PlayerCount > 1)
         {
             if (pv.IsMine)
@@ -237,7 +239,7 @@ public class NetworkManager : Manager<NetworkManager>
                 pv.RPC("SetMaster", RpcTarget.AllBuffered, userDict.Keys.ToList()[1]);
             }
         }
-        PhotonNetwork.LeaveRoom();
+        if(PhotonNetwork.InRoom) PhotonNetwork.LeaveRoom(); // 방 떠나기
     }
 
     // 방을 나갔을 때 호출되는 함수
@@ -299,6 +301,7 @@ public class NetworkManager : Manager<NetworkManager>
         if(userDict.TryGetValue(m, out obj))
         {
             obj.transform.GetChild(0).GetComponent<Text>().color = Color.magenta;
+            Debug.Log(obj.transform.GetChild(0).GetComponent<Text>().text);
         }
     }
 
