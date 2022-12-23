@@ -37,7 +37,6 @@ public class LobbyManager : Manager<LobbyManager>
     private bool isEnter = false;
 
     private GameObject player;
-    private Player master = null;
 
     #region 포톤
     protected override void Awake()
@@ -57,6 +56,7 @@ public class LobbyManager : Manager<LobbyManager>
 
     private void Update()
     {
+        print(PhotonNetwork.MasterClient);
         UpateState();
         UpdateJoinCount();
         UpdateUserList();
@@ -200,11 +200,19 @@ public class LobbyManager : Manager<LobbyManager>
                     var card = Instantiate(UserCard, RoomCanvas.transform.Find("Userboard").Find("Grid"));
                     card.transform.Find("UserName").GetComponent<Text>().text = p.NickName; // 유저 이름
                     card.name = p.NickName; // 게임오브젝트
-                    if (p.NickName == master.NickName) // 만약 방장이라면
+                    if (p.NickName == PhotonNetwork.MasterClient.NickName) // 만약 방장이라면
                     {
                         card.transform.Find("UserName").GetComponent<Text>().color = Color.magenta;
                     }
                     userDict.Add(p, card);
+                }
+                else
+                {
+                    GameObject card = null;
+                    if(userDict.TryGetValue(PhotonNetwork.MasterClient, out card))
+                    {
+                        if(card) card.transform.Find("UserName").GetComponent<Text>().color = Color.magenta;
+                    }
                 }
             }
             foreach (var p in userDict.Keys.ToArray()) //나간 사람 체크
@@ -251,13 +259,6 @@ public class LobbyManager : Manager<LobbyManager>
             Destroy(t);
         }
         FetchRoomList(); // 방 리스트 새로고침
-        if(PhotonNetwork.LocalPlayer == master && PhotonNetwork.CurrentRoom.PlayerCount > 1)
-        {
-            if (pv.IsMine)
-            {
-                pv.RPC("SetMaster", RpcTarget.AllBuffered, userDict.Keys.ToList()[1]);
-            }
-        }
         if(PhotonNetwork.InRoom) PhotonNetwork.LeaveRoom(); // 방 떠나기
     }
 
@@ -303,43 +304,15 @@ public class LobbyManager : Manager<LobbyManager>
     // 방에 접속했을 때 호출되는 함수
     public override void OnJoinedRoom()
     {
-        if(PhotonNetwork.IsMasterClient)
-        {
-            master = PhotonNetwork.LocalPlayer;
-            if (pv.IsMine) pv.RPC("SetMaster", RpcTarget.AllBuffered, master);
-        }
         if (RoomCanvas) RoomCanvas.SetActive(true);
         userDict = new Dictionary<Player, GameObject>();
         isEnter = true;
-    }
-    [PunRPC]
-    private void SetMaster(Player m)
-    {
-        master = m;
-        GameObject obj = null;
-        if (userDict.TryGetValue(m, out obj))
-        {
-            if (obj != null)
-            {
-                obj.transform.GetChild(0).GetComponent<Text>().color = Color.magenta;
-            }
-            else userDict.Remove(m);
-        }
-    }
-    [PunRPC] private void StartGame_RPC(string sceneName)
-    {
-        PhotonNetwork.LoadLevel(sceneName);
-        this.Invoke(() =>
-        {
-            player = PhotonNetwork.Instantiate("PF_Ghost_Blue", Vector3.zero, Quaternion.identity);
-            player.GetComponent<MonsterInputJoystick>().joystick = (FloatingJoystick)FindObjectOfType(typeof(FloatingJoystick));
-        }, 0.5f);
     }
 
     // 시작 버튼을 눌렀을 때 호출되는 함수
     public void StartGame()
     {
-        if (pv.IsMine) pv.RPC("StartGame_RPC", RpcTarget.All, "Scenes/Fugitive");
+
     }
 
     // 방 리스트가 업데이트 되었을 때 호출되는 함수
