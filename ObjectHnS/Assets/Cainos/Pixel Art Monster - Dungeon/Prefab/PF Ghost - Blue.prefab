@@ -16,7 +16,8 @@ GameObject:
   - component: {fileID: 3005744173712910990}
   - component: {fileID: 7780895242894119630}
   - component: {fileID: 7774682286729542263}
-  - component: {fileID: 2998254477961814825}
+  - component: {fileID: 3112603570477129076}
+  - component: {fileID: 1559291018422646799}
   m_Layer: 0
   m_Name: PF Ghost - Blue
   m_TagString: Untagged
@@ -83,6 +84,7 @@ MonoBehaviour:
   deadGravityScale: 1
   inputMove: {x: 0, y: 0}
   inputAttack: 0
+  inputSkill: 0
 --- !u!114 &1737137056817407019
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -99,9 +101,12 @@ MonoBehaviour:
   downKey: 115
   leftKey: 97
   rightKey: 100
-  jumpKey: 32
+  interactionKey: 101
+  skillKey: 102
   moveModifierKey: 304
   attackKey: 323
+  inputSkill: 0
+  inputInteraction: 0
   joystick: {fileID: 0}
 --- !u!61 &813312796560810099
 BoxCollider2D:
@@ -170,7 +175,9 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 7774682286729542263}
-  - {fileID: 2998254477961814825}
+  - {fileID: 3112603570477129076}
+  - {fileID: 1559291018422646799}
+  - {fileID: 3371103314378425092}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -190,7 +197,7 @@ MonoBehaviour:
   m_SynchronizeAngularVelocity: 0
   m_TeleportEnabled: 0
   m_TeleportIfDistanceGreaterThan: 3
---- !u!114 &2998254477961814825
+--- !u!114 &3112603570477129076
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -199,13 +206,42 @@ MonoBehaviour:
   m_GameObject: {fileID: 3032422933500601301}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Script: {fileID: 11500000, guid: f74ef6feec4d44f4bb66aa8d206a2614, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 0
-  m_SynchronizeScale: 0
-  m_UseLocal: 1
+--- !u!114 &1559291018422646799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3032422933500601301}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8efc6b1d64977384eb3405357896c656, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_PositionModel:
+    SynchronizeEnabled: 1
+    TeleportEnabled: 1
+    TeleportIfDistanceGreaterThan: 10
+    InterpolateOption: 2
+    InterpolateMoveTowardsSpeed: 1
+    InterpolateLerpSpeed: 1
+    ExtrapolateOption: 0
+    ExtrapolateSpeed: 1
+    ExtrapolateIncludingRoundTripTime: 1
+    ExtrapolateNumberOfStoredPositions: 1
+  m_RotationModel:
+    SynchronizeEnabled: 0
+    InterpolateOption: 1
+    InterpolateRotateTowardsSpeed: 180
+    InterpolateLerpSpeed: 5
+  m_ScaleModel:
+    SynchronizeEnabled: 0
+    InterpolateOption: 0
+    InterpolateMoveTowardsSpeed: 1
+    InterpolateLerpSpeed: 0
 --- !u!1 &3258000714349860426
 GameObject:
   m_ObjectHideFlags: 0
@@ -4981,7 +5017,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: dc676771c42db284d921d3375afff45b, type: 2}
-  - {fileID: 2100000, guid: dc676771c42db284d921d3375afff45b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5044,7 +5079,7 @@ ParentConstraint:
   m_TranslationAtRest: {x: -0.03200001, y: 0.05799994, z: 0.048}
   m_RotationAtRest: {x: 0, y: 0, z: 0}
   m_TranslationOffsets:
-  - {x: 0.25360012, y: -0.031999826, z: 0.047999974}
+  - {x: 0.2536, y: -0.031999826, z: 0.047999978}
   m_RotationOffsets:
   - {x: 0, y: 0, z: 90}
   m_AffectTranslationX: 1
@@ -5182,6 +5217,59 @@ MonoBehaviour:
   onDieFx:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &3371103314378425092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7056888303344403492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowLayerWeightsInspector: 1
+  ShowParameterInspector: 1
+  m_SynchronizeParameters:
+  - Type: 4
+    SynchronizeType: 1
+    Name: IsGrounded
+  - Type: 1
+    SynchronizeType: 1
+    Name: MovingBlend
+  - Type: 1
+    SynchronizeType: 1
+    Name: SpeedVertical
+  - Type: 4
+    SynchronizeType: 1
+    Name: IsDead
+  - Type: 9
+    SynchronizeType: 1
+    Name: InjuredFront
+  - Type: 9
+    SynchronizeType: 1
+    Name: InjuredBack
+  - Type: 9
+    SynchronizeType: 1
+    Name: Attack
+  - Type: 4
+    SynchronizeType: 1
+    Name: IsJumpPrepare
+  - Type: 1
+    SynchronizeType: 1
+    Name: LoopCycleOffset
+  m_SynchronizeLayers:
+  - SynchronizeType: 1
+    LayerIndex: 0
+  - SynchronizeType: 1
+    LayerIndex: 1
+  - SynchronizeType: 1
+    LayerIndex: 2
+  - SynchronizeType: 1
+    LayerIndex: 3
+  - SynchronizeType: 1
+    LayerIndex: 4
 --- !u!4 &7056888303344441348 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400002, guid: 621d6253f74479d499ce364ca2593400,

@@ -30,7 +30,6 @@ public class LobbyManager : Manager<LobbyManager>
     private GameObject warning;
     #endregion
 
-
     private Dictionary<string, GameObject> myList = new Dictionary<string, GameObject>(); // RoomName / RoomButton Object
     private Dictionary<Player, GameObject> userDict = new Dictionary<Player, GameObject>(); // Player / Player GameObject
     private List<RoomInfo> roomList = new List<RoomInfo>(); // List of rooms
@@ -42,7 +41,6 @@ public class LobbyManager : Manager<LobbyManager>
     protected override void Awake()
     {
         base.Awake();
-        Screen.SetResolution(1920, 1080, false);
 
         if (Popups) Popups.SetActive(false);
         if (LoginCanvas) LoginCanvas.SetActive(false);
@@ -50,13 +48,10 @@ public class LobbyManager : Manager<LobbyManager>
         if (RoomCanvas) RoomCanvas.SetActive(false);
 
         if (State) State.SetActive(true);
-
-        PhotonNetwork.ConnectUsingSettings();
     }
 
     private void Update()
     {
-        print(PhotonNetwork.MasterClient);
         UpateState();
         UpdateJoinCount();
         UpdateUserList();
@@ -91,9 +86,6 @@ public class LobbyManager : Manager<LobbyManager>
     {
         if (State) State.SetActive(false);
         if (LoginCanvas) LoginCanvas.SetActive(true);
-
-        PhotonNetwork.JoinLobby();
-        PhotonNetwork.AutomaticallySyncScene = true;
     }
 
     private void UpateState()
@@ -313,7 +305,11 @@ public class LobbyManager : Manager<LobbyManager>
     // 시작 버튼을 눌렀을 때 호출되는 함수
     public void StartGame()
     {
-        if(PhotonNetwork.IsMasterClient) PhotonNetwork.LoadLevel("GameScene");
+        if (PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.LoadLevel("GameScene");
+            isEnter = false;
+        }
     }
 
     // 방 리스트가 업데이트 되었을 때 호출되는 함수

@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1559291018422646799, guid: d1e376b993fc4594a9674ba3d06e7b8b,
+        type: 3}
+      propertyPath: m_RotationModel.SynchronizeEnabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1737137056817407019, guid: d1e376b993fc4594a9674ba3d06e7b8b,
         type: 3}
       propertyPath: joystick
@@ -20,7 +25,7 @@ PrefabInstance:
     - target: {fileID: 2034664155742054916, guid: d1e376b993fc4594a9674ba3d06e7b8b,
         type: 3}
       propertyPath: m_TranslationOffsets.Array.data[0].x
-      value: 0.25360012
+      value: 0.2536
       objectReference: {fileID: 0}
     - target: {fileID: 2034664155742054916, guid: d1e376b993fc4594a9674ba3d06e7b8b,
         type: 3}
@@ -97,5 +102,32 @@ PrefabInstance:
       propertyPath: sceneViewId
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7780895242894119630, guid: d1e376b993fc4594a9674ba3d06e7b8b,
+        type: 3}
+      propertyPath: ObservedComponents.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7780895242894119630, guid: d1e376b993fc4594a9674ba3d06e7b8b,
+        type: 3}
+      propertyPath: ObservedComponents.Array.data[3]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7780895242894119630, guid: d1e376b993fc4594a9674ba3d06e7b8b,
+        type: 3}
+      propertyPath: ObservedComponents.Array.data[4]
+      value: 
+      objectReference: {fileID: 3221516960231464938}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d1e376b993fc4594a9674ba3d06e7b8b, type: 3}
+--- !u!114 &3221516960231464938 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3371103314378425092, guid: d1e376b993fc4594a9674ba3d06e7b8b,
+    type: 3}
+  m_PrefabInstance: {fileID: 179493082378869998}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

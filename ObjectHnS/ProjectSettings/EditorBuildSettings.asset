@@ -6,15 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/JoinScene.unity
+    path: Assets/Resources/Level/JoinScene.unity
     guid: 848a2a5031975224bb4518b5ad9665a9
   - enabled: 1
-    path: Assets/Scenes/GameScene.unity
+    path: Assets/Resources/Level/GameScene.unity
     guid: 4000994202df2464cbc25a10310224db
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Fugitive.unity
     guid: 2c494b4280260f24097f776156222a00
-  - enabled: 1
-    path: Assets/Resources/Test.unity
-    guid: 363fa09e24fca3841ace66e6e4aa3877
   m_configObjects: {}
