@@ -52,12 +52,12 @@ namespace Cainos.PixelArtMonster_Dungeon
                 if (controller)
                 {
                     controller.inputMoveModifier = inputMoveModifier;
-                    monsterSkill.inputSkill = inputSkill;
+                    if (inputSkill) monsterSkill.inputSkill = inputSkill;
                     controller.inputAttack = inputAttack;
                 }
                 if (controllerFlying)
                 {
-                    monsterSkill.inputSkill = inputSkill;
+                    if(inputSkill) monsterSkill.inputSkill = inputSkill;
                     controllerFlying.inputAttack = inputAttack;
                 }
             }
