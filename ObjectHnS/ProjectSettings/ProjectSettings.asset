@@ -71,8 +71,8 @@ PlayerSettings:
   androidResizableWindow: 0
   androidDefaultWindowWidth: 1920
   androidDefaultWindowHeight: 1080
-  androidMinimumWindowWidth: 400
-  androidMinimumWindowHeight: 300
+  androidMinimumWindowWidth: 1280
+  androidMinimumWindowHeight: 720
   androidFullscreenMode: 1
   defaultIsNativeResolution: 1
   macRetinaSupport: 1
