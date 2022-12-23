@@ -93,6 +93,7 @@ public class LobbyManager : Manager<LobbyManager>
         if (LoginCanvas) LoginCanvas.SetActive(true);
 
         PhotonNetwork.JoinLobby();
+        PhotonNetwork.AutomaticallySyncScene = true;
     }
 
     private void UpateState()
@@ -312,7 +313,7 @@ public class LobbyManager : Manager<LobbyManager>
     // 시작 버튼을 눌렀을 때 호출되는 함수
     public void StartGame()
     {
-
+        if(PhotonNetwork.IsMasterClient) PhotonNetwork.LoadLevel("GameScene");
     }
 
     // 방 리스트가 업데이트 되었을 때 호출되는 함수
