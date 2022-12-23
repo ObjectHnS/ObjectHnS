@@ -46,7 +46,7 @@ namespace Cainos.PixelArtMonster_Dungeon
         private Collider2D[] groundCheckResult = new Collider2D[2];
         private ContactFilter2D contactFilter2D = new ContactFilter2D();
 
-        private void Awake()
+        protected virtual void Awake()
         {
             pm = GetComponent<PixelMonster>();
             collider2d = GetComponent<Collider2D>();

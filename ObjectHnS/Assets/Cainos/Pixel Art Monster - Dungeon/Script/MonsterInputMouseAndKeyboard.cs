@@ -42,10 +42,7 @@ namespace Cainos.PixelArtMonster_Dungeon
             bool pointerOverUI = EventSystem.current && EventSystem.current.IsPointerOverGameObject();
             if (!pointerOverUI)
             {
-                inputInteraction = Input.GetKey(interactionKey);
                 inputMoveModifier = Input.GetKey(moveModifierKey);
-                inputSkill = Input.GetKeyDown(skillKey);
-                inputAttack = Input.GetKeyDown(attackKey);
 
                 if (controller)
                 {

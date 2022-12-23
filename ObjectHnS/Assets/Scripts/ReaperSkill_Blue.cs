@@ -18,12 +18,12 @@ public class ReaperSkill_Blue : MonoBehaviour
 
     public Animator animator;
     ReaperController reaper;
-    MonsterInputMouseAndKeyboard Input;
+    ReaperButtonInput Input;
 
     void Start()
     {
         reaper = GetComponent<ReaperController>();
-        Input = GetComponent<MonsterInputMouseAndKeyboard>();
+        Input = GetComponent<ReaperButtonInput>();
     }
 
     void Update()
@@ -38,13 +38,11 @@ public class ReaperSkill_Blue : MonoBehaviour
 
         if (Input.inputSkill && skillCoolTime <= skillTime)
         {
-            Debug.Log("ÀÎÇ²½ºÅ³");
             Skill();
         }
 
         if(skillTime >= skillRetentionTime && skillRetention)
         {
-            Debug.Log("¤·");
             skillTime = 0;
             reaper.speedMax = 2;
             reaper.acc = 8;

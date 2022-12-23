@@ -42,12 +42,16 @@ GameObject:
   m_Component:
   - component: {fileID: 6373161563216954759}
   - component: {fileID: 2622760109489982590}
-  - component: {fileID: 4590557132310777554}
   - component: {fileID: 2187979405164035086}
   - component: {fileID: 456975279064533474}
   - component: {fileID: 185516264969600276}
   - component: {fileID: 6660423476475883706}
   - component: {fileID: 3217447780477756818}
+  - component: {fileID: 1803068890722479957}
+  - component: {fileID: 489097045544759883}
+  - component: {fileID: 656132416327864332}
+  - component: {fileID: 5857281387314836875}
+  - component: {fileID: 6248596077978733528}
   m_Layer: 0
   m_Name: PF Reaper - Blue
   m_TagString: Tagger
@@ -95,28 +99,6 @@ MonoBehaviour:
   isGrounded: 0
   isDead: 0
   movingBlend: 0
---- !u!114 &4590557132310777554
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7796543005332880763}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ea27e719cb9953468a7396155220ea7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  upKey: 119
-  downKey: 115
-  leftKey: 97
-  rightKey: 100
-  interactionKey: 101
-  skillKey: 102
-  moveModifierKey: 304
-  attackKey: 323
-  inputSkill: 0
-  inputInteraction: 0
 --- !u!50 &2187979405164035086
 Rigidbody2D:
   serializedVersion: 4
@@ -167,7 +149,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ReaperHp: 1500
-  pm: {fileID: 2622760109489982590}
 --- !u!114 &6660423476475883706
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -180,12 +161,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840f7d0687330f342bcee2534c3d1647, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skillRetention: 0
   skillTime: 0
   skillCoolTime: 5
   skillRetentionTime: 5
   bat: {fileID: 0}
   passiveTime: 0
   passiveCoolTime: 5
+  animator: {fileID: 1972283647665168962}
 --- !u!114 &3217447780477756818
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -207,8 +190,104 @@ MonoBehaviour:
   inputMove: {x: 0, y: 0}
   inputAttack: 0
   inputSkill: 0
+  input: {fileID: 1803068890722479957}
   time: 0
   coolTime: 3
+--- !u!114 &1803068890722479957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7796543005332880763}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 683fa7e2b0f70c541bf0ed7d537b546a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputSkill: 0
+  inputAttack: 0
+  inputInteraction: 0
+--- !u!114 &489097045544759883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7796543005332880763}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9885050caa0f6484ca8bd0a804aeee55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upKey: 119
+  downKey: 115
+  leftKey: 97
+  rightKey: 100
+  interactionKey: 101
+  skillKey: 102
+  moveModifierKey: 304
+  attackKey: 0
+  inputSkill: 0
+  inputInteraction: 0
+  joystick: {fileID: 0}
+--- !u!114 &656132416327864332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7796543005332880763}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents:
+  - {fileID: 5857281387314836875}
+  - {fileID: 6248596077978733528}
+  - {fileID: 1867436148997799612}
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &5857281387314836875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7796543005332880763}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
+--- !u!114 &6248596077978733528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7796543005332880763}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e7cb724808c322458aa4d15f5035fa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizeVelocity: 1
+  m_SynchronizeAngularVelocity: 0
+  m_TeleportEnabled: 0
+  m_TeleportIfDistanceGreaterThan: 3
 --- !u!1 &9184928523198497880
 GameObject:
   m_ObjectHideFlags: 0
@@ -5047,7 +5126,7 @@ ParentConstraint:
   m_TranslationAtRest: {x: 0.02, y: 0, z: 0}
   m_RotationAtRest: {x: 0, y: -90, z: 0}
   m_TranslationOffsets:
-  - {x: 0.40609705, y: 0, z: 0.023676293}
+  - {x: 0.40606695, y: 0, z: 0.023676293}
   m_RotationOffsets:
   - {x: 0, y: 0, z: 90}
   m_AffectTranslationX: 0
@@ -5189,3 +5268,61 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1867436148997799612
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1972283647674651008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowLayerWeightsInspector: 1
+  ShowParameterInspector: 1
+  m_SynchronizeParameters:
+  - Type: 4
+    SynchronizeType: 0
+    Name: IsGrounded
+  - Type: 1
+    SynchronizeType: 0
+    Name: MovingBlend
+  - Type: 1
+    SynchronizeType: 0
+    Name: SpeedVertical
+  - Type: 4
+    SynchronizeType: 0
+    Name: IsDead
+  - Type: 9
+    SynchronizeType: 0
+    Name: InjuredFront
+  - Type: 9
+    SynchronizeType: 0
+    Name: InjuredBack
+  - Type: 9
+    SynchronizeType: 0
+    Name: Attack
+  - Type: 4
+    SynchronizeType: 0
+    Name: IsJumpPrepare
+  - Type: 1
+    SynchronizeType: 0
+    Name: LoopCycleOffset
+  - Type: 9
+    SynchronizeType: 0
+    Name: canSkill
+  m_SynchronizeLayers:
+  - SynchronizeType: 0
+    LayerIndex: 0
+  - SynchronizeType: 0
+    LayerIndex: 1
+  - SynchronizeType: 0
+    LayerIndex: 2
+  - SynchronizeType: 0
+    LayerIndex: 3
+  - SynchronizeType: 0
+    LayerIndex: 4
+  - SynchronizeType: 0
+    LayerIndex: 5
