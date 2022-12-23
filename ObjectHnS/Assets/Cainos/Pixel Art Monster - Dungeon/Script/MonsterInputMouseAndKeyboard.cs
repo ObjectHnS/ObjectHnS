@@ -22,7 +22,6 @@ namespace Cainos.PixelArtMonster_Dungeon
 
         protected MonsterController controller;
         protected MonsterFlyingController controllerFlying;
-        protected MonsterSkill monsterSkill;
 
 
         private Vector2 inputMove;
@@ -36,7 +35,6 @@ namespace Cainos.PixelArtMonster_Dungeon
         {
             controller = GetComponent<MonsterController>();
             controllerFlying = GetComponent<MonsterFlyingController>();
-            monsterSkill = GetComponent<MonsterSkill>();
         }
 
         public virtual void Update()
@@ -44,20 +42,15 @@ namespace Cainos.PixelArtMonster_Dungeon
             bool pointerOverUI = EventSystem.current && EventSystem.current.IsPointerOverGameObject();
             if (!pointerOverUI)
             {
-                inputInteraction = Input.GetKey(interactionKey);
                 inputMoveModifier = Input.GetKey(moveModifierKey);
-                inputSkill = Input.GetKeyDown(skillKey);
-                inputAttack = Input.GetKeyDown(attackKey);
 
                 if (controller)
                 {
                     controller.inputMoveModifier = inputMoveModifier;
-                    if (inputSkill) monsterSkill.inputSkill = inputSkill;
                     controller.inputAttack = inputAttack;
                 }
                 if (controllerFlying)
                 {
-                    if(inputSkill) monsterSkill.inputSkill = inputSkill;
                     controllerFlying.inputAttack = inputAttack;
                 }
             }

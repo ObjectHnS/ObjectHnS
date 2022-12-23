@@ -8,13 +8,14 @@ public class Reaper : MonoBehaviour
     public int ReaperHp = 1500;
     private bool isDead = false;
 
-    public PixelMonster pm;
+    private PixelMonster pm;
     private CapsuleCollider2D capsulecollider;
     private MonsterInputMouseAndKeyboard inputMouseButton;
     protected ReaperSkill_Blue RsBlue;
     protected ReaperSkill_White RsWhite;
     void Awake()
     {
+        pm = GetComponent<PixelMonster>();
         capsulecollider = GetComponent<CapsuleCollider2D>();
         inputMouseButton = GetComponent<MonsterInputMouseAndKeyboard>();
         RsBlue = GetComponent<ReaperSkill_Blue>();
@@ -24,18 +25,6 @@ public class Reaper : MonoBehaviour
 
     void Update()
     {
-        if (inputMouseButton.inputSkill)
-        {
-            if (RsBlue)
-            {
-                RsBlue.Skill();
-            }
-
-            if (RsWhite)
-            {
-                RsWhite.Skill();
-            }
-        }
 
         if(ReaperHp <= 0 && isDead == false)
         {
