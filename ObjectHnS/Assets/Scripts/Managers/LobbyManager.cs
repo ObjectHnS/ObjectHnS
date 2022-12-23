@@ -23,9 +23,7 @@ public class LobbyManager : Manager<LobbyManager>
     public GameObject roomGrid;
     public GameObject roomButton;
     public GameObject UserCard;
-
-    [Header("etc..")]
-    public PhotonView pv;
+    
     private GameObject roomCreation;
     private GameObject warning;
     #endregion
@@ -37,7 +35,7 @@ public class LobbyManager : Manager<LobbyManager>
 
     private GameObject player;
 
-    #region 포톤
+    #region 시스템
     protected override void Awake()
     {
         base.Awake();
@@ -126,7 +124,6 @@ public class LobbyManager : Manager<LobbyManager>
         if (LoginCanvas)
         {
             PhotonNetwork.LocalPlayer.NickName = LoginCanvas.transform.GetChild(2).GetComponent<InputField>().text;
-            Debug.Log(PhotonNetwork.LocalPlayer.NickName);
 
             LoginCanvas.SetActive(false);
             if (LobbyCanvas) LobbyCanvas.SetActive(true);
@@ -136,11 +133,14 @@ public class LobbyManager : Manager<LobbyManager>
 
     private void showQuit(string msg)
     {
-        Popups.SetActive(true);
-        var obj = Popups.transform.Find("Quit").gameObject;
-        obj.SetActive(true);
-        obj.transform.Find("Title").GetComponent<Text>().text = msg;
-        this.Invoke(() => { Application.Quit(); }, 1.5f);
+        if(Popups)
+        {
+            Popups.SetActive(true);
+            var obj = Popups.transform.Find("Quit").gameObject;
+            obj.SetActive(true);
+            obj.transform.Find("Title").GetComponent<Text>().text = msg;
+            this.Invoke(() => { Application.Quit(); }, 1.5f);
+        }
     }
 
     public override void OnDisconnected(DisconnectCause cause)
@@ -258,8 +258,8 @@ public class LobbyManager : Manager<LobbyManager>
     // 방을 나갔을 때 호출되는 함수
     public override void OnLeftRoom()
     {
-        RoomCanvas.SetActive(false);
-        LobbyCanvas.SetActive(true);
+        if(RoomCanvas) RoomCanvas.SetActive(false);
+        if(LobbyCanvas) LobbyCanvas.SetActive(true);
         isEnter = false;
     }
 

@@ -1,2 +1,3 @@
 ObjectHnS/Library/PackageCache/com.unity.burst@1.6.5/.Runtime/hostmac/lld filter=lfs diff=lfs merge=lfs -text
 ObjectHnS/Library/ArtifactDB filter=lfs diff=lfs merge=lfs -text
+ObjectHnS/Assets/Resources/Fonts/* filter=lfs diff=lfs merge=lfs -text

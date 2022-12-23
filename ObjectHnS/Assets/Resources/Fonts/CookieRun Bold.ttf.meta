@@ -1,23 +1,3 @@
-fileFormatVersion: 2
-guid: 13c2bd61f4bd3fe43abe1f5d78579bb9
-TrueTypeFontImporter:
-  externalObjects: {}
-  serializedVersion: 4
-  fontSize: 16
-  forceTextureCase: -2
-  characterSpacing: 0
-  characterPadding: 1
-  includeFontData: 1
-  fontNames:
-  - CookieRun
-  fallbackFontReferences:
-  - {fileID: 12800000, guid: b1057f97fd7289a47beb1ffe00494e5d, type: 3}
-  - {fileID: 12800000, guid: 00187b09c426edd4fbdd2acc902b79c1, type: 3}
-  customCharacters: 
-  fontRenderingMode: 0
-  ascentCalculationMode: 1
-  useLegacyBoundsCalculation: 0
-  shouldRoundAdvanceValue: 1
-  userData: 
-  assetBundleName: 
-  assetBundleVariant: 
+version https://git-lfs.github.com/spec/v1
+oid sha256:c9347745f899196d1ff4fa27b285e2bb328d2a679d63fd791253c86e28849e1f
+size 615

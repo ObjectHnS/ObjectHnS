@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class GhostState : MonoBehaviourPun, IPunObservable
 {
+    private void Update()
+    {
+    }
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         
