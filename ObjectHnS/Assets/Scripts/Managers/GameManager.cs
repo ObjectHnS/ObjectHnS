@@ -23,8 +23,8 @@ public class GameManager : Manager<GameManager>
     {
         if(UIManager.Instance.IsStarted && !isCreated)
         {
-           if (PhotonNetwork.IsMasterClient) playerProperty["isReaper"] = true;
-           PhotonNetwork.LocalPlayer.SetCustomProperties(playerProperty);
+            if (PhotonNetwork.IsMasterClient) playerProperty["isReaper"] = true;
+            PhotonNetwork.LocalPlayer.SetCustomProperties(playerProperty);
 
             GameObject player = null;
             if ((bool)PhotonNetwork.LocalPlayer.CustomProperties["isReaper"])

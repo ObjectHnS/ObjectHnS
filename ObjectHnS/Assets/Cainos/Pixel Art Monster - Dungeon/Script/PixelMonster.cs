@@ -1,12 +1,25 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 namespace Cainos.PixelArtMonster_Dungeon
 {
-    public class PixelMonster : MonoBehaviour
+    public class PixelMonster : MonoBehaviour, IPunObservable
     {
-
+        public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+        {
+            if(stream.IsWriting)
+            {
+                stream.SendNext(Facing);
+                stream.SendNext(MovingBlend);
+            }
+            else
+            {
+                Facing = (int)stream.ReceiveNext();
+                MovingBlend= (float)stream.ReceiveNext();
+            }
+        }
         //reference to objects inside the character prefab
         #region OBJECTS
         public Animator animator;
