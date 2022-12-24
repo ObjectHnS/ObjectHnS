@@ -5,7 +5,7 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
+  - enabled: 1
     path: Assets/Resources/Level/JoinScene.unity
     guid: 848a2a5031975224bb4518b5ad9665a9
   - enabled: 1

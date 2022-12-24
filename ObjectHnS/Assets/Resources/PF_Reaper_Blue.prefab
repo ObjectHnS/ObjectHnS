@@ -53,7 +53,7 @@ GameObject:
   - component: {fileID: 6248596077978733528}
   - component: {fileID: 8676239235728559698}
   m_Layer: 0
-  m_Name: PF Reaper - Blue
+  m_Name: PF_Reaper_Blue
   m_TagString: Tagger
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

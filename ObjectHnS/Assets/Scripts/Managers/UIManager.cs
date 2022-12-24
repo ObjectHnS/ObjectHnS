@@ -1,12 +1,24 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Text = TMPro.TMP_Text;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
+using Unity.VisualScripting;
 
 public class UIManager : Manager<UIManager>
 {
-    public float TimerSec = 5f;
-    public bool isStartedGame;
+    public bool useCountdown = false;
+    public float countdownTime = 5f;
+
+    private bool isStarted;
+    public bool IsStarted
+    {
+        get
+        {
+            return isStarted;
+        }
+    }
 
     public Text text;
     public GameObject ghostUI;
@@ -16,25 +28,45 @@ public class UIManager : Manager<UIManager>
 
     private void Start()
     {
-        isStartedGame = false;
+        isStarted = false;
+        countdownTime++;
     }
 
     private void Update()
     {
-        RunTimer();
+        Countdown(useCountdown);
+        if(GameManager.Instance.IsPlayerCreated)
+        {
+            Hashtable playerProperties = PhotonNetwork.LocalPlayer.CustomProperties;
+            if ((bool)playerProperties["isReaper"])
+            {
+                reaperUI.SetActive(true);
+            }
+            else
+            {
+                ghostUI.SetActive(true);
+            }
+        }
     }
 
-    void RunTimer()
+    void Countdown(bool isUse)
     {
-        if (curtime <= TimerSec)
+        if (isUse)
         {
-            curtime += Time.deltaTime;
-            text.text = ((int)(TimerSec - curtime)).ToString();
+            if (curtime < countdownTime - 1)
+            {
+                curtime += Time.deltaTime;
+                text.text = ((int)(countdownTime - curtime)).ToString();
+            }
+            else if (!isStarted)
+            {
+                text.gameObject.SetActive(false);
+                isStarted = true;
+            }
         }
-        else if(!isStartedGame)
+        else
         {
-            text.gameObject.SetActive(false);
-            isStartedGame = true;
+            if(!isStarted) isStarted = true;
         }
     }
 }

@@ -30,6 +30,11 @@ public class NetworkManager : Manager<NetworkManager>
         PhotonNetwork.ConnectUsingSettings();
     }
 
+    public override void OnConnectedToMaster()
+    {
+        PhotonNetwork.JoinLobby();
+    }
+
     //public override void OnConnectedToMaster()
     //{
     //    PhotonNetwork.JoinOrCreateRoom("Room", new RoomOptions { MaxPlayers = 4 }, null);

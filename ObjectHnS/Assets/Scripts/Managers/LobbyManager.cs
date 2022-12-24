@@ -56,18 +56,19 @@ public class LobbyManager : Manager<LobbyManager>
         MobileInputSystem();
     }
 
+    private int backcount = 0;
     private void MobileInputSystem()
     {
         if (Input.GetKey(KeyCode.Escape))
         {
-            if (Popups.activeSelf)
+            ++backcount;
+            backcount = backcount % 3;
+            if(RoomCanvas.activeSelf)
             {
-                Popups.SetActive(false);
-            }
-            else if(RoomCanvas.activeSelf)
-            {
+                backcount = 0;
                 RoomCanvas.SetActive(false);
-                foreach(GameObject buttons in myList.Values.ToArray())
+                LobbyCanvas.SetActive(true);
+                foreach (GameObject buttons in myList.Values.ToArray())
                 {
                     buttons.GetComponent<Button>().interactable = false;
                 }
@@ -76,6 +77,22 @@ public class LobbyManager : Manager<LobbyManager>
                 {
                     if(obj) obj.GetComponent<Button>().interactable = true;
                 }
+                GameObject.Find("QuickPlay").GetComponent<Button>().interactable = false;
+                GameObject.Find("CreateRoom").GetComponent<Button>().interactable = false;
+            }
+            else if(LobbyCanvas.activeSelf && backcount == 2)
+            {
+                backcount = 0;
+                showQuit("정말 나가시겠습니까?");
+            }
+            else if (Popups.activeSelf)
+            {
+                backcount = 0;
+                for (int i = 1; i < Popups.transform.childCount; i++)
+                {
+                    Popups.transform.GetChild(i).gameObject.SetActive(false);
+                }
+                Popups.SetActive(false);
             }
         }
     }
@@ -139,7 +156,21 @@ public class LobbyManager : Manager<LobbyManager>
             var obj = Popups.transform.Find("Quit").gameObject;
             obj.SetActive(true);
             obj.transform.Find("Title").GetComponent<Text>().text = msg;
-            this.Invoke(() => { Application.Quit(); }, 1.5f);
+        }
+    }
+
+    public void OnClickQuickOk()
+    {
+        Application.Quit();
+    }
+
+    public void OnClickQuickCancel()
+    {
+        if(Popups)
+        {
+            LobbyCanvas.SetActive(true);
+            Popups.transform.Find("Quit").gameObject.SetActive(false);
+            Popups.SetActive(false);
         }
     }
 
@@ -251,6 +282,11 @@ public class LobbyManager : Manager<LobbyManager>
             userDict.TryGetValue(p, out t);
             Destroy(t);
         }
+
+        LobbyCanvas.SetActive(true);
+        GameObject.Find("QuickPlay").GetComponent<Button>().interactable = true;
+        GameObject.Find("CreateRoom").GetComponent<Button>().interactable = true;
+
         FetchRoomList(); // 방 리스트 새로고침
         if(PhotonNetwork.InRoom) PhotonNetwork.LeaveRoom(); // 방 떠나기
     }
@@ -297,7 +333,11 @@ public class LobbyManager : Manager<LobbyManager>
     // 방에 접속했을 때 호출되는 함수
     public override void OnJoinedRoom()
     {
-        if (RoomCanvas) RoomCanvas.SetActive(true);
+        if (RoomCanvas)
+        {
+            LobbyCanvas.SetActive(false);
+            RoomCanvas.SetActive(true);
+        }
         userDict = new Dictionary<Player, GameObject>();
         isEnter = true;
     }
