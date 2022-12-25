@@ -57,7 +57,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     private int backcount = 0;
     private void MobileInputSystem()
     {
-        if (Input.GetKey(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             ++backcount;
             backcount = backcount % 3;
