@@ -540,6 +540,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reaper: {fileID: 7796543005332880763, guid: 15f51e92239c23e43a6389247c8e5124, type: 3}
   ghost: {fileID: 3032422933500601301, guid: 8b3efcc943964324684e3da7c181e5b0, type: 3}
+  player: {fileID: 0}
 --- !u!4 &413041178
 Transform:
   m_ObjectHideFlags: 0
@@ -861,7 +862,7 @@ MonoBehaviour:
   - {fileID: 902778913}
   - {fileID: 1131204762}
   useCountdown: 1
-  countdownTime: 10
+  countdownTime: 3
   timer: {fileID: 486086307}
   ghostUI: {fileID: 339555324}
   reaperUI: {fileID: 2044024166}
