@@ -9,6 +9,8 @@ using UnityEngine.UI;
 
 public class UIManager : Manager<UIManager>
 {
+    public Button[] reaperButton; 
+
     public bool useCountdown = false;
     public float countdownTime = 5f;
 
@@ -43,6 +45,7 @@ public class UIManager : Manager<UIManager>
         Countdown(useCountdown);
         SetPlayerUI();
         UpdateKeyCount();
+        BindButton();
     }
 
     void Countdown(bool isUse)
@@ -101,6 +104,18 @@ public class UIManager : Manager<UIManager>
                 ghostUI.transform.Find("KeyCount").Find("Image").GetComponent<Image>().sprite = completeKey;
                 isCompleteKey = true;
             }
+        }
+    }
+    private bool isBinded = false;
+    void BindButton()
+    {
+        if(playerKind == "Reaper" && !isBinded && GameManager.Instance.player != null)
+        {
+            reaperButton[0].onClick.AddListener(GameManager.Instance.player.GetComponent<ReaperButtonInput>().Attack);
+            reaperButton[1].onClick.AddListener(GameManager.Instance.player.GetComponent<ReaperButtonInput>().Interaction);
+            reaperButton[2].onClick.AddListener(GameManager.Instance.player.GetComponent<ReaperButtonInput>().Skill);
+
+            isBinded = true;
         }
     }
 }

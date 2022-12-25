@@ -10,6 +10,9 @@ public class GameManager : Manager<GameManager>
     public GameObject reaper;
     public GameObject ghost;
     private bool isCreated = false;
+
+    public GameObject player;
+
     public bool IsPlayerCreated
     {
         get 
@@ -49,7 +52,7 @@ public class GameManager : Manager<GameManager>
                 //PhotonNetwork.Instantiate("PF_BrokenKey", new Vector3(2, 2, 0), Quaternion.identity);
             }
 
-            PhotonNetwork.Instantiate(player.name, Vector3.zero, Quaternion.identity);
+            this.player = PhotonNetwork.Instantiate(player.name, Vector3.zero, Quaternion.identity);
             isCreated = true;
         }
     }
