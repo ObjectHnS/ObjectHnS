@@ -365,10 +365,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   useCountdown: 1
-  countdownTime: 3
-  text: {fileID: 342150518}
+  countdownTime: 0
+  timer: {fileID: 342150518}
   ghostUI: {fileID: 1579021327}
   reaperUI: {fileID: 311345233}
+  completeKey: {fileID: 21300000, guid: 30b7d068860adc44ab56fd99d73888c5, type: 3}
 --- !u!4 &199756761
 Transform:
   m_ObjectHideFlags: 0
@@ -397,7 +398,7 @@ GameObject:
   - component: {fileID: 293142872}
   - component: {fileID: 293142871}
   m_Layer: 5
-  m_Name: BrokenKeyStack
+  m_Name: KeyCount
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -922,7 +923,7 @@ GameObject:
   - component: {fileID: 520754220}
   - component: {fileID: 520754219}
   m_Layer: 5
-  m_Name: Remain
+  m_Name: Count
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -968,7 +969,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 0 / 4
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d0d131d9af28c4c4aa8c55549d05d0e4, type: 2}
   m_sharedMaterial: {fileID: -6259726886268102421, guid: d0d131d9af28c4c4aa8c55549d05d0e4,

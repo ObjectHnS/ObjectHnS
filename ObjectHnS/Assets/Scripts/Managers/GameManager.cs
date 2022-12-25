@@ -17,24 +17,47 @@ public class GameManager : Manager<GameManager>
             return isCreated;
         }
     }
+    private int brokenKeyCount = 0;
+    public int BrokenKeyCount
+    {
+        get 
+        { 
+            return brokenKeyCount; 
+        }
+        set
+        {
+            brokenKeyCount = value;
+        }
+    }
 
     Hashtable playerProperty = new Hashtable { { "isReaper", false } };
-    private void Update()
+    private void SpawnPlayers()
     {
-        if(UIManager.Instance.IsStarted && !isCreated)
+        if (UIManager.Instance.IsStarted && !isCreated)
         {
             if (PhotonNetwork.IsMasterClient) playerProperty["isReaper"] = true;
             PhotonNetwork.LocalPlayer.SetCustomProperties(playerProperty);
 
             GameObject player = null;
-            if ((bool)PhotonNetwork.LocalPlayer.CustomProperties["isReaper"])
+            if ((bool)playerProperty["isReaper"])
             {
                 player = reaper;
             }
-            else player = ghost;
+            else
+            {
+                player = ghost;
+                //PhotonNetwork.Instantiate("PF_BrokenKey", new Vector3(2, 2, 0), Quaternion.identity);
+            }
 
             PhotonNetwork.Instantiate(player.name, Vector3.zero, Quaternion.identity);
             isCreated = true;
         }
+    }
+    private void Start()
+    {
+    }
+    private void Update()
+    {
+        SpawnPlayers();
     }
 }

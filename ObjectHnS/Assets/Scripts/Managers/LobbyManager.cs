@@ -9,7 +9,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LobbyManager : Manager<LobbyManager>
+public class LobbyManager : MonoBehaviourPunCallbacks
 {
     #region Properties
     [Header("Pages")]
@@ -36,10 +36,8 @@ public class LobbyManager : Manager<LobbyManager>
     private GameObject player;
 
     #region ╫ц╫╨еш
-    protected override void Awake()
+    protected void Awake()
     {
-        base.Awake();
-
         if (Popups) Popups.SetActive(false);
         if (LoginCanvas) LoginCanvas.SetActive(false);
         if (LobbyCanvas) LobbyCanvas.SetActive(false);

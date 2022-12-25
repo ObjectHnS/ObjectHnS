@@ -5,8 +5,9 @@ using Photon.Pun;
 
 namespace Cainos.PixelArtMonster_Dungeon
 {
-    public class PixelMonster : MonoBehaviour, IPunObservable
+    public class PixelMonster : MonoBehaviourPun, IPunObservable
     {
+        private float remoteMovingBlend = 0f;
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
         {
             if(stream.IsWriting)
@@ -17,7 +18,7 @@ namespace Cainos.PixelArtMonster_Dungeon
             else
             {
                 Facing = (int)stream.ReceiveNext();
-                MovingBlend= (float)stream.ReceiveNext();
+                remoteMovingBlend = (float)stream.ReceiveNext();
             }
         }
         //reference to objects inside the character prefab
@@ -26,6 +27,14 @@ namespace Cainos.PixelArtMonster_Dungeon
         public new Renderer renderer;
         public GameObject fx;
         #endregion
+
+        private void Update()
+        {
+            if(!photonView.IsMine)
+            {
+                MovingBlend = Mathf.Lerp(MovingBlend, remoteMovingBlend, Time.deltaTime * 60);
+            }
+        }
 
         //reference to relevant prefabs
         #region PREFAB

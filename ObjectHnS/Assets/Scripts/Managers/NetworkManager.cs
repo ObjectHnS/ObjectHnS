@@ -24,7 +24,7 @@ public class NetworkManager : Manager<NetworkManager>
         pv = GetComponent<PhotonView>();
 
         PhotonNetwork.SendRate = 60;
-        PhotonNetwork.SerializationRate = 30;
+        PhotonNetwork.SerializationRate = 60;
         PhotonNetwork.AutomaticallySyncScene = true;
 
         PhotonNetwork.ConnectUsingSettings();
@@ -41,6 +41,6 @@ public class NetworkManager : Manager<NetworkManager>
     //}
     //public override void OnJoinedRoom()
     //{
-    //    PhotonNetwork.Instantiate("PF_Ghost_Blue", Vector3.zero, Quaternion.identity);
+    //    PhotonNetwork.Instantiate("PF_BrokenKey", new Vector3(-3.7f, 1.2f, 0), Quaternion.identity);
     //}
 }
