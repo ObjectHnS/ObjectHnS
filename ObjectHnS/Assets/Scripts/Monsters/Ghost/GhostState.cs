@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class GhostState : MonoBehaviourPun, IPunObservable
 {
-
     private int hp = 150;
     public int Hp
     {
@@ -16,12 +15,12 @@ public class GhostState : MonoBehaviourPun, IPunObservable
         }
     }
 
-    private PhotonView pv;
-
     private void Awake()
     {
-        pv = PhotonView.Get(this);
-        PhotonNetwork.Instantiate(Path.Combine("Prefabs", "PF_BrokenKey"), new Vector3(2, 2, 0), Quaternion.identity);
+        if(photonView.IsMine)
+        {
+            PhotonNetwork.Instantiate(Path.Combine("Prefabs", "PF_BrokenKey"), new Vector3(2, 2, 0), Quaternion.identity);
+        }
     }
     private void Update()
     {
