@@ -12,9 +12,15 @@ public class ExitKey : MonoBehaviourPun
     {
         photonView.OwnershipTransfer = OwnershipOption.Takeover;
     }
-    private void OnTriggerEnter2D(Collider2D collision)
+
+    [PunRPC] void GetBrokenKey()
     {
-        if(collision.tag == "Ghost")
+        GameManager.Instance.BrokenKeyCount++;
+    }
+
+    public void OnTriggerEnter2D(Collider2D collider)
+    {
+        if(collider.tag == "Ghost")
         {
             if (photonView.IsMine)
             {
@@ -22,9 +28,5 @@ public class ExitKey : MonoBehaviourPun
             }
             PhotonNetwork.Destroy(gameObject);
         }
-    }
-    [PunRPC] void GetBrokenKey()
-    {
-        GameManager.Instance.BrokenKeyCount++;
     }
 }

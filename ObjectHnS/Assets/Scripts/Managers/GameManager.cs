@@ -1,6 +1,7 @@
 using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 using Hashtable = ExitGames.Client.Photon.Hashtable;
@@ -49,7 +50,6 @@ public class GameManager : Manager<GameManager>
             else
             {
                 player = ghost;
-                //PhotonNetwork.Instantiate("PF_BrokenKey", new Vector3(2, 2, 0), Quaternion.identity);
             }
 
             this.player = PhotonNetwork.Instantiate(player.name, Vector3.zero, Quaternion.identity);
