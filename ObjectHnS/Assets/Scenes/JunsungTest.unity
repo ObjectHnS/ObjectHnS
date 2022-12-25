@@ -573,6 +573,16 @@ PrefabInstance:
       propertyPath: sceneViewId
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3462405051381698472, guid: 954890155cf741b4d957a9a5c5703bf2,
+        type: 3}
+      propertyPath: m_TranslationOffsets.Array.data[0].x
+      value: 0.40606695
+      objectReference: {fileID: 0}
+    - target: {fileID: 3462405051381698472, guid: 954890155cf741b4d957a9a5c5703bf2,
+        type: 3}
+      propertyPath: m_TranslationOffsets.Array.data[0].z
+      value: 0.023676293
+      objectReference: {fileID: 0}
     - target: {fileID: 4453338332365697852, guid: 954890155cf741b4d957a9a5c5703bf2,
         type: 3}
       propertyPath: input
