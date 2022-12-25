@@ -1,6 +1,7 @@
 using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class GhostState : MonoBehaviourPun, IPunObservable
@@ -15,12 +16,12 @@ public class GhostState : MonoBehaviourPun, IPunObservable
         }
     }
 
-    public CircleCollider2D collider;
     private PhotonView pv;
 
     private void Awake()
     {
         pv = PhotonView.Get(this);
+        PhotonNetwork.Instantiate(Path.Combine("Prefabs", "PF_BrokenKey"), new Vector3(2, 2, 0), Quaternion.identity);
     }
     private void Update()
     {
