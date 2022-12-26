@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
+using UnityEditor.VersionControl;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -35,6 +36,9 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     private GameObject player;
 
+    static AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+    AndroidJavaObject unityActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+
     #region 시스템
     protected void Awake()
     {
@@ -61,7 +65,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         {
             ++backcount;
             backcount = backcount % 3;
-            if(RoomCanvas.activeSelf)
+            if (RoomCanvas.activeSelf)
             {
                 backcount = 0;
                 RoomCanvas.SetActive(false);
@@ -71,17 +75,29 @@ public class LobbyManager : MonoBehaviourPunCallbacks
                     buttons.GetComponent<Button>().interactable = false;
                 }
                 GameObject obj = null;
-                if(myList.TryGetValue(PhotonNetwork.CurrentRoom.Name, out obj))
+                if (myList.TryGetValue(PhotonNetwork.CurrentRoom.Name, out obj))
                 {
-                    if(obj) obj.GetComponent<Button>().interactable = true;
+                    if (obj) obj.GetComponent<Button>().interactable = true;
                 }
                 GameObject.Find("QuickPlay").GetComponent<Button>().interactable = false;
                 GameObject.Find("CreateRoom").GetComponent<Button>().interactable = false;
             }
-            else if(LobbyCanvas.activeSelf && backcount == 2)
+            else if (LobbyCanvas.activeSelf)
             {
                 backcount = 0;
-                showQuit("정말 나가시겠습니까?");
+                if (backcount == 2)
+                {
+                    showQuit("정말 나가시겠습니까?");
+                }
+                else
+                {
+                    AndroidJavaClass toast = new AndroidJavaClass("android.widget.Toast");
+                    unityActivity.Call("runOnUiThread", new AndroidJavaRunnable(() => 
+                    {
+                        AndroidJavaObject toastObject = toast.CallStatic<AndroidJavaObject>("makeText", unityActivity, "\'뒤로\'버튼을 한번 더 누르시면 종료됩니다.", 0);
+                        toastObject.Call("show");
+                    }));
+                }
             }
             else if (Popups.activeSelf)
             {

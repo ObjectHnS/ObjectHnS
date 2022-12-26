@@ -121,8 +121,7 @@ public class UIManager : Manager<UIManager>
         if(playerKind == "Reaper" && !isBinded && GameManager.Instance.player != null)
         {
             reaperButton[0].onClick.AddListener(GameManager.Instance.player.GetComponent<ReaperButtonInput>().Attack);
-            reaperButton[1].onClick.AddListener(GameManager.Instance.player.GetComponent<ReaperButtonInput>().Interaction);
-            reaperButton[2].onClick.AddListener(GameManager.Instance.player.GetComponent<ReaperButtonInput>().Skill);
+            reaperButton[1].onClick.AddListener(GameManager.Instance.player.GetComponent<ReaperButtonInput>().Skill);
 
             isBinded = true;
         }

@@ -1,10 +1,31 @@
 using Photon.Pun;
-using System.Collections;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.IO;
 using UnityEngine;
 
+using Random = System.Random;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
+
+static class ExtensionsClass
+{
+    private static Random rng = new Random();
+
+    public static void Shuffle<T>(this IList<T> list)
+    {
+        int n = list.Count;
+        while (n > 1)
+        {
+            n--;
+            int k = rng.Next(n + 1);
+            T value = list[k];
+            list[k] = list[n];
+            list[n] = value;
+        }
+    }
+}
+
 
 public class GameManager : Manager<GameManager>
 {
@@ -62,26 +83,41 @@ public class GameManager : Manager<GameManager>
             isCreated = true;
         }
     }
-    private void Start()
-    {
-        
-    }
-    private bool isKeyGen = false;
 
-    private void Update()
+    private bool isKeyGen = false;
+    private void GenBrokenKey()
     {
-        SpawnPlayers();
-        if(UIManager.Instance.IsStarted && !isKeyGen)
+        if (UIManager.Instance.IsStarted && !isKeyGen)
         {
+            List<bool> keyList = new List<bool>();
+            for (int i = 0; i < keyNumber; i++)
+            {
+                keyList.Add(true);
+            }
+            for (int i = 0; i < KeyPoints.Length - keyNumber; i++)
+            {
+                keyList.Add(false);
+            }
+            keyList.Shuffle();
+            isKeyGen = true;
             for (int i = 0; i < KeyPoints.Length; i++)
             {
-                if (photonView.IsMine)
+                if (keyList[i] && photonView.IsMine)
                 {
                     PhotonNetwork.Instantiate(Path.Combine("Prefabs", "PF_BrokenKey"), KeyPoints[i].position, Quaternion.identity);
                 }
             }
-            isKeyGen = true;
         }
-        
+
+    }
+    private void Start()
+    {
+
+    }
+
+    private void Update()
+    {
+        SpawnPlayers();
+        GenBrokenKey();
     }
 }
