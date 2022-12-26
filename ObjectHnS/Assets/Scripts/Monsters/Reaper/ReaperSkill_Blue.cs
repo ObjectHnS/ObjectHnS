@@ -13,10 +13,7 @@ public class ReaperSkill_Blue : MonoBehaviourPun
     public float skillTime;
     public float skillCoolTime = 20f;
     public float skillRetentionTime = 5f;
-
-    public GameObject bat;
-    public float passiveTime;
-    public float passiveCoolTime = 5f;
+    public int skillCount = 0;
 
     public Animator animator;
     ReaperController reaper;
@@ -33,14 +30,8 @@ public class ReaperSkill_Blue : MonoBehaviourPun
     void Update()
     {
         skillTime += Time.deltaTime;
-        passiveTime += Time.deltaTime;
 
-        if(passiveCoolTime <= passiveTime)
-        {
-            Passive();
-        }
-
-        if (Input.inputSkill && skillCoolTime <= skillTime)
+        if (Input.inputSkill && skillCoolTime <= skillTime && skillCount > 0)
         {
             Skill();
         }
@@ -55,20 +46,9 @@ public class ReaperSkill_Blue : MonoBehaviourPun
             skillRetention = false;
         }
     }
-    public void Passive()
-    {
-        passiveTime = 0;
-        for(int i = 0; i < PhotonNetwork.CurrentRoom.PlayerCount - 1; i++)
-        {
-            if (photonView.IsMine)
-            {
-                GameObject a = PhotonNetwork.Instantiate(Path.Combine("Prefabs", "PF_Bat"), GetComponent<Reaper>().gameObject.transform.position,Quaternion.identity);
-            }
-        }
-    }
-
     public void Skill()
     {
+        skillCount -= 1;
         animator.SetTrigger("canSkill");
         skillTime = 0;
         reaper.speedMax = 10;
