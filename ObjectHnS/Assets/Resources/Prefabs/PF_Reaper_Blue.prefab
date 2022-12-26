@@ -5269,34 +5269,34 @@ MonoBehaviour:
   ShowParameterInspector: 1
   m_SynchronizeParameters:
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: IsGrounded
   - Type: 1
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: MovingBlend
   - Type: 1
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: SpeedVertical
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: IsDead
   - Type: 9
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: InjuredFront
   - Type: 9
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: InjuredBack
   - Type: 9
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: Attack
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: IsJumpPrepare
   - Type: 1
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: LoopCycleOffset
   - Type: 9
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: canSkill
   m_SynchronizeLayers:
   - SynchronizeType: 0
