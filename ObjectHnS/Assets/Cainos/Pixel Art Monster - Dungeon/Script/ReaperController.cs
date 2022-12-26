@@ -11,6 +11,8 @@ public class ReaperController : MonsterFlyingController
 {
     public ReaperButtonInput input;
 
+    private PhotonView pv;
+
     public float time;
     public float coolTime = 3f;
 
@@ -18,6 +20,7 @@ public class ReaperController : MonsterFlyingController
     {
         base.Awake();
         input = GetComponent<ReaperButtonInput>();
+        pv = GetComponent<PhotonView>();
     }
     protected override void Update()
     {
@@ -29,8 +32,12 @@ public class ReaperController : MonsterFlyingController
         inputAttack = input.inputAttack;
         if (time >= coolTime && inputAttack)
         {
-            GameObject a = PhotonNetwork.Instantiate(Path.Combine("Prefabs", "HitBox_Reaper"), GetComponent<Reaper>().gameObject.transform.position, Quaternion.identity);
             this.pm.Attack();
+            if (pv.IsMine)
+            {
+                GameObject a = PhotonNetwork.Instantiate(Path.Combine("Prefabs", "HitBox_Reaper"), GetComponent<Reaper>().gameObject.transform.position, Quaternion.identity);
+                a.transform.parent = gameObject.transform;
+            }
             time = 0;
         }
     }
