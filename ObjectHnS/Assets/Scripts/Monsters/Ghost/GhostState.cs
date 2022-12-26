@@ -1,10 +1,11 @@
 using Photon.Pun;
+using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public class GhostState : MonoBehaviourPun, IPunObservable
+public class GhostState : MonoBehaviourPun, IPunObservable, IPunOwnershipCallbacks
 {
     [SerializeField]
     private int hp = 150;
@@ -18,12 +19,10 @@ public class GhostState : MonoBehaviourPun, IPunObservable
 
     private void Awake()
     {
+        PhotonNetwork.AddCallbackTarget(this);
         photonView.OwnershipTransfer = OwnershipOption.Request;
     }
-    private void Update()
-    {
-        
-    }
+
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if(stream.IsWriting)
@@ -36,16 +35,38 @@ public class GhostState : MonoBehaviourPun, IPunObservable
         }
     }
 
-    [PunRPC]
-    private void Damaged(int value)
+    public void Damaged(int value)
     {
-        if(hp > value)
+        if(photonView.IsMine)
         {
             hp -= value;
+            if(hp <= 0)
+            {
+                PhotonNetwork.Destroy(gameObject);
+            }
         }
-        else
+    }
+
+    public void OnOwnershipRequest(PhotonView targetView, Player requestingPlayer)
+    {
+        if(targetView != photonView)
         {
-            PhotonNetwork.Destroy(gameObject);
+            return;
         }
+
+        photonView.TransferOwnership(requestingPlayer);
+    }
+
+    public void OnOwnershipTransfered(PhotonView targetView, Player previousOwner)
+    {
+        if(targetView != photonView)
+        {
+            return;
+        }
+    }
+
+    public void OnOwnershipTransferFailed(PhotonView targetView, Player senderOfFailedRequest)
+    {
+        throw new System.NotImplementedException();
     }
 }
