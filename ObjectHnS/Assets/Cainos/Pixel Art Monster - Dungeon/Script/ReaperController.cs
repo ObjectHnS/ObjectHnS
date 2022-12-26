@@ -35,11 +35,16 @@ public class ReaperController : MonsterFlyingController
             this.pm.Attack();
             if (pv.IsMine)
             {
-                Vector3 cur = transform.position;
-                GameObject a = PhotonNetwork.Instantiate(Path.Combine("Prefabs", "HitBox_Reaper"), new Vector3(GetComponent<PixelMonster>().Facing + cur.x, cur.y + 1f), Quaternion.identity);
-                a.transform.parent = gameObject.transform;
+                Invoke("MakeHitBox", 0.65f);
             }
             time = 0;
         }
+    }
+
+    private void MakeHitBox()
+    {
+        Vector3 cur = transform.position;
+        GameObject a = PhotonNetwork.Instantiate(Path.Combine("Prefabs", "HitBox_Reaper"), new Vector3(GetComponent<PixelMonster>().Facing + cur.x, cur.y + 1f), Quaternion.identity);
+        a.transform.parent = gameObject.transform;
     }
 }

@@ -18,16 +18,24 @@ public class HitBox_Reaper : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        ReaperSkill_Blue skill = null;
         if (collision.tag == "Ghost")
         {
-            Debug.Log(gameObject.GetComponentInParent<Reaper>());
+            if(skill == null)
+            {
+                skill = gameObject.GetComponentInParent<ReaperSkill_Blue>();
+            }
+            if(skill.skillCount < 4)
+            {
+                skill.skillCount++;
+            }
             collision.GetComponent<GhostState>().photonView.RPC("Damaged", RpcTarget.All, gameObject.GetComponentInParent<Reaper>().reaperAttack);
         }
     }
 
     IEnumerator Timer()
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(0.1f);
         Destroy(gameObject);
     }
 }
