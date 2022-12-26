@@ -44,7 +44,7 @@ public class UIManager : Manager<UIManager>
     {
         Countdown(useCountdown);
         SetPlayerUI();
-        UpdateKeyCount();
+        UpdateCount();
         BindButton();
     }
 
@@ -91,18 +91,27 @@ public class UIManager : Manager<UIManager>
     }
 
     private bool isCompleteKey = false;
-    void UpdateKeyCount()
+    void UpdateCount()
     {
         Text countUI = null;
-        if(isSetUI && playerKind == "Ghost")
+        if(isSetUI)
         {
-            if(countUI == null) countUI = ghostUI.transform.Find("KeyCount").Find("Count").GetComponent<Text>();
-            int count = GameManager.Instance.BrokenKeyCount;
-            countUI.text = count.ToString() + " / 4";
-            if(count == 4 && !isCompleteKey)
+            if(playerKind == "Ghost")
             {
-                ghostUI.transform.Find("KeyCount").Find("Image").GetComponent<Image>().sprite = completeKey;
-                isCompleteKey = true;
+                if (countUI == null) countUI = ghostUI.transform.Find("KeyCount").Find("Count").GetComponent<Text>();
+                int count = GameManager.Instance.BrokenKeyCount;
+                countUI.text = count.ToString() + " / 4";
+                if (count == 4 && !isCompleteKey)
+                {
+                    ghostUI.transform.Find("KeyCount").Find("Image").GetComponent<Image>().sprite = completeKey;
+                    isCompleteKey = true;
+                }
+            }
+            else
+            {
+                if (countUI == null) countUI = reaperUI.transform.Find("SoulStack").Find("Count").GetComponent<Text>();
+                int count = GameManager.Instance.player.GetComponent<ReaperSkill_Blue>().skillCount;
+                countUI.text = count.ToString() + " / 4";
             }
         }
     }
