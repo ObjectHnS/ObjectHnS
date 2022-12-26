@@ -7,7 +7,7 @@ using Photon.Pun;
 using System.IO;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
-public class ReaperSkill_Blue : MonoBehaviour
+public class ReaperSkill_Blue : MonoBehaviourPun
 {
     public bool skillRetention = false;
     public float skillTime;
@@ -58,9 +58,12 @@ public class ReaperSkill_Blue : MonoBehaviour
     public void Passive()
     {
         passiveTime = 0;
-        for(int i = 0; i < PhotonNetwork.CurrentRoom.PlayerCount; i++)
+        for(int i = 0; i < PhotonNetwork.CurrentRoom.PlayerCount - 1; i++)
         {
-            GameObject a = PhotonNetwork.Instantiate(Path.Combine("Prefabs", "PF_Bat"), GetComponent<Reaper>().gameObject.transform.position,Quaternion.identity);
+            if (photonView.IsMine)
+            {
+                GameObject a = PhotonNetwork.Instantiate(Path.Combine("Prefabs", "PF_Bat"), GetComponent<Reaper>().gameObject.transform.position,Quaternion.identity);
+            }
         }
     }
 
