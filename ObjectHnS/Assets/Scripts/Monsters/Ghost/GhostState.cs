@@ -18,7 +18,7 @@ public class GhostState : MonoBehaviourPun, IPunObservable
 
     private void Awake()
     {
-
+        photonView.OwnershipTransfer = OwnershipOption.Request;
     }
     private void Update()
     {
