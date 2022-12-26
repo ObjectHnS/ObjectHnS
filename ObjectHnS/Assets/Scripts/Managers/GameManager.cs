@@ -56,6 +56,9 @@ public class GameManager : Manager<GameManager>
             }
 
             this.player = PhotonNetwork.Instantiate(Path.Combine("Prefabs", player.name), new Vector3(0, 0, -1), Quaternion.identity);
+            GameObject camera = GameObject.Find("Main Camera");
+            camera.transform.parent = this.player.transform;
+
             isCreated = true;
         }
     }

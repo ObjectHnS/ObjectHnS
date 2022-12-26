@@ -68,7 +68,7 @@ Transform:
   m_GameObject: {fileID: 7796543005332880763}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1972283647674420640}
@@ -133,8 +133,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.6}
-  m_Size: {x: 1, y: 3}
+  m_Offset: {x: 0, y: 0.95}
+  m_Size: {x: 1, y: 2.24}
   m_Direction: 0
 --- !u!114 &185516264969600276
 MonoBehaviour:
@@ -166,9 +166,7 @@ MonoBehaviour:
   skillTime: 0
   skillCoolTime: 5
   skillRetentionTime: 5
-  bat: {fileID: 0}
-  passiveTime: 0
-  passiveCoolTime: 5
+  skillCount: 0
   animator: {fileID: 1972283647665168962}
 --- !u!114 &3217447780477756818
 MonoBehaviour:
@@ -5144,7 +5142,7 @@ ParentConstraint:
   m_TranslationAtRest: {x: 0.02, y: 0, z: 0}
   m_RotationAtRest: {x: 0, y: -90, z: 0}
   m_TranslationOffsets:
-  - {x: 0.40609705, y: 0, z: 0.023676293}
+  - {x: 0.24365823, y: 0, z: 0.02367627}
   m_RotationOffsets:
   - {x: 0, y: 0, z: 90}
   m_AffectTranslationX: 0
