@@ -38,10 +38,10 @@ public class GhostState : MonoBehaviourPun, IPunObservable
     [PunRPC]
     public void Damaged(int value)
     {
-        if(photonView.IsMine)
+        if (photonView.IsMine)
         {
             hp -= value;
-            if(hp <= 0)
+            if (hp <= 0)
             {
                 PhotonNetwork.Destroy(gameObject);
             }
