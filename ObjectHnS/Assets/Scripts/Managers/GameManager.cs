@@ -52,7 +52,7 @@ public class GameManager : Manager<GameManager>
                 player = ghost;
             }
 
-            this.player = PhotonNetwork.Instantiate(Path.Combine("Prefabs", player.name), Vector3.zero, Quaternion.identity);
+            this.player = PhotonNetwork.Instantiate(Path.Combine("Prefabs", player.name), new Vector3(0, 0, -1), Quaternion.identity);
             isCreated = true;
         }
     }
