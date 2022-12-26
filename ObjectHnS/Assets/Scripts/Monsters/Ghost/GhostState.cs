@@ -40,6 +40,7 @@ public class GhostState : MonoBehaviourPun, IPunObservable
     {
         if (photonView.IsMine)
         {
+            Debug.Log(hp - value);
             hp -= value;
             if (hp <= 0)
             {
