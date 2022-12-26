@@ -46,7 +46,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96f4d4b6a931f45498c8885dde51bf43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  reaper: {fileID: 0}
 --- !u!61 &5719203794837574820
 BoxCollider2D:
   m_ObjectHideFlags: 0

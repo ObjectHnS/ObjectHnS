@@ -34,6 +34,9 @@ public class GameManager : Manager<GameManager>
         }
     }
 
+    public int keyNumber;
+    public Transform[] KeyPoints;
+
     Hashtable playerProperty = new Hashtable { { "isReaper", false } };
     private void SpawnPlayers()
     {
@@ -58,9 +61,24 @@ public class GameManager : Manager<GameManager>
     }
     private void Start()
     {
+        
     }
+    private bool isKeyGen = false;
+
     private void Update()
     {
         SpawnPlayers();
+        if(UIManager.Instance.IsStarted && !isKeyGen)
+        {
+            for (int i = 0; i < KeyPoints.Length; i++)
+            {
+                if (photonView.IsMine)
+                {
+                    PhotonNetwork.Instantiate(Path.Combine("Prefabs", "PF_BrokenKey"), KeyPoints[i].position, Quaternion.identity);
+                }
+            }
+            isKeyGen = true;
+        }
+        
     }
 }
