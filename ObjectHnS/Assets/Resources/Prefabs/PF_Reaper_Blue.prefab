@@ -148,7 +148,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e381bc7a46f56d41968dfccd329ff20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ReaperHp: 1500
+  reaperHp: 1500
+  reaperAttack: 50
 --- !u!114 &6660423476475883706
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -4,6 +4,8 @@ using UnityEngine;
 using Cainos.PixelArtMonster_Dungeon;
 using Photon.Realtime;
 using Photon.Pun;
+using System.IO;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class ReaperSkill_Blue : MonoBehaviour
 {
@@ -19,11 +21,13 @@ public class ReaperSkill_Blue : MonoBehaviour
     public Animator animator;
     ReaperController reaper;
     ReaperButtonInput Input;
+    Reaper reaperStat;
 
     void Start()
     {
         reaper = GetComponent<ReaperController>();
         Input = GetComponent<ReaperButtonInput>();
+        reaperStat = GetComponent<Reaper>();
     }
 
     void Update()
@@ -43,6 +47,7 @@ public class ReaperSkill_Blue : MonoBehaviour
 
         if(skillTime >= skillRetentionTime && skillRetention)
         {
+            reaperStat.reaperAttack = 50;
             skillTime = 0;
             reaper.speedMax = 2;
             reaper.acc = 8;
@@ -53,9 +58,9 @@ public class ReaperSkill_Blue : MonoBehaviour
     public void Passive()
     {
         passiveTime = 0;
-        for(int i = 0; i < PhotonNetwork.CurrentRoom.PlayerCount - 1; i++)
+        for(int i = 0; i < PhotonNetwork.CurrentRoom.PlayerCount; i++)
         {
-            GameObject a = PhotonNetwork.Instantiate("PF_Bat",GetComponent<Reaper>().gameObject.transform.position,Quaternion.identity);
+            GameObject a = PhotonNetwork.Instantiate(Path.Combine("Prefabs", "PF_Bat"), GetComponent<Reaper>().gameObject.transform.position,Quaternion.identity);
         }
     }
 
@@ -66,6 +71,7 @@ public class ReaperSkill_Blue : MonoBehaviour
         reaper.speedMax = 10;
         reaper.acc = 10;
         reaper.brakeAcc = 10;
+        reaperStat.reaperAttack = 75;
         skillRetention = true;
     }
 }
