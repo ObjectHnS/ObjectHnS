@@ -7,7 +7,7 @@ using UnityEngine;
 public class GhostState : MonoBehaviourPun, IPunObservable
 {
 
-    private int hp = 150;
+    public int hp = 150;
     public int Hp
     {
         get 

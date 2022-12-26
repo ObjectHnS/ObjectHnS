@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5719203794837574818}
   - component: {fileID: 5719203794837574821}
   - component: {fileID: 5719203794837574820}
+  - component: {fileID: 3250022234440250970}
   m_Layer: 0
   m_Name: HitBox_Reaper
   m_TagString: Untagged
@@ -45,6 +46,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96f4d4b6a931f45498c8885dde51bf43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ghost: {fileID: 0}
+  reaper: {fileID: 0}
 --- !u!61 &5719203794837574820
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -71,3 +74,25 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2, y: 4}
   m_EdgeRadius: 0
+--- !u!114 &3250022234440250970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5719203794837574823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
