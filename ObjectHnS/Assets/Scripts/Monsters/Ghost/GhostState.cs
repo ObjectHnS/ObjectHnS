@@ -1,3 +1,4 @@
+using Cainos.PixelArtMonster_Dungeon;
 using Photon.Pun;
 using Photon.Realtime;
 using System.Collections;
@@ -40,6 +41,7 @@ public class GhostState : MonoBehaviourPun, IPunObservable
     {
         if (photonView.IsMine)
         {
+            GetComponent<PixelMonster>().InjuredBack();
             hp -= value;
             if (hp <= 0)
             {
