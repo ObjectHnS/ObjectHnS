@@ -345,7 +345,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            PhotonNetwork.LoadLevel("Reaper");
+            //PhotonNetwork.LoadLevel("Reaper");
+            PhotonNetwork.LoadLevel("GameScene");
             isEnter = false;
         }
     }
