@@ -204,6 +204,12 @@ MonoBehaviour:
   ghostUI: {fileID: 1527337057}
   reaperUI: {fileID: 1717968699}
   completeKey: {fileID: 21300000, guid: 30b7d068860adc44ab56fd99d73888c5, type: 3}
+  reaperEnd: {fileID: 0}
+  reaperVictory: {fileID: 0}
+  reaperDefeat: {fileID: 0}
+  ghostEnd: {fileID: 0}
+  ghostVictory: {fileID: 0}
+  ghostDefeat: {fileID: 0}
 --- !u!4 &199756761
 Transform:
   m_ObjectHideFlags: 0
@@ -642,9 +648,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6a0b9b982549864ab2a9e308833ccfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isExit: 0
+  OverCount: 0
   reaper: {fileID: 7796543005332880763, guid: 15f51e92239c23e43a6389247c8e5124, type: 3}
   ghost: {fileID: 3032422933500601301, guid: 8b3efcc943964324684e3da7c181e5b0, type: 3}
-  player: {fileID: 0}
+  potal: {fileID: 0}
   keyNumber: 4
   KeyPoints:
   - {fileID: 373010624}
@@ -855,6 +863,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3204315560627179812, guid: 6fb8d802e94bcdf43aae2504dea64f1b,
+        type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5593567820299712580, guid: 6fb8d802e94bcdf43aae2504dea64f1b,
         type: 3}
       propertyPath: m_Name

@@ -45,6 +45,7 @@ public class GhostState : MonoBehaviourPun, IPunObservable
             hp -= value;
             if (hp <= 0)
             {
+                GameManager.Instance.OverCount++;
                 GetComponent<PixelMonster>().OnDieFx();
                 this.Invoke(() => { PhotonNetwork.Destroy(gameObject); }, 1.8f);
             }
