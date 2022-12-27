@@ -6,34 +6,34 @@ EditorUserSettings:
   serializedVersion: 4
   m_ConfigSettings:
     RecentlyUsedSceneGuid-0:
-      value: 5152005f51575d09555e5e7440250d44464e4f2c7b7f7061787f4f61b0e16468
-      flags: 0
-    RecentlyUsedSceneGuid-1:
-      value: 5152005f51575d09555e5e7440250d44464e4f2c7b7f7061787f4f61b0e16468
-      flags: 0
-    RecentlyUsedSceneGuid-2:
-      value: 570650505202590e0f0b0d20147009441515487b2d7a2468797a1e32e1e2356e
-      flags: 0
-    RecentlyUsedSceneGuid-3:
       value: 5b5004570607515d5c0c5975137b0c44434e1c737d7a27317c7f1965bbb86d3e
       flags: 0
-    RecentlyUsedSceneGuid-4:
+    RecentlyUsedSceneGuid-1:
       value: 515250075c0c595e5f5a5e71122159444e4e4a2f7a7d7f602f284d66b4b76661
       flags: 0
-    RecentlyUsedSceneGuid-5:
+    RecentlyUsedSceneGuid-2:
       value: 510656555d530c090f0a5d7714255e44454f402e7c2d77657a2d4e6ab5b33061
       flags: 0
-    RecentlyUsedSceneGuid-6:
+    RecentlyUsedSceneGuid-3:
       value: 0201525101020d0a5e5f0e7a47260a444f161a7c7f7a2435787b1e6be0e4616a
       flags: 0
+    RecentlyUsedSceneGuid-4:
+      value: 570104565c0c5d095d5c08244277094415151b78792977607e784d61b0b4303a
+      flags: 0
+    RecentlyUsedSceneGuid-5:
+      value: 000506055c030f0b540b0d7b15740f444615417c7c7c71622e2d4c66bbb23669
+      flags: 0
+    RecentlyUsedSceneGuid-6:
+      value: 560707575c030b035d565e7416730d44474f4d287e2d77352f704564e0b3676a
+      flags: 0
     RecentlyUsedSceneGuid-7:
-      value: 00550c530103590e0f0c0d7514255b4412151c2e7a2e27367b714e66b7b16568
+      value: 54545157030259580c0c5e2111255944404f4e2f7f7c746574711961e6e5666e
       flags: 0
     RecentlyUsedSceneGuid-8:
-      value: 5b050c0757545c0b5e5f557545710d4414154c7f7d7024652c2d4465b4b53561
+      value: 5a0251025306505e5f0d0e2014735944454e4e782f7e7460757a1831b0e4653e
       flags: 0
     RecentlyUsedSceneGuid-9:
-      value: 570104565c0c5d095d5c08244277094415151b78792977607e784d61b0b4303a
+      value: 5b050c0757545c0b5e5f557545710d4414154c7f7d7024652c2d4465b4b53561
       flags: 0
     UnityRemoteCompression:
       value: 337f73

@@ -6,6 +6,7 @@ using Text = TMPro.TMP_Text;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using Unity.VisualScripting;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class UIManager : Manager<UIManager>
 {
@@ -43,10 +44,10 @@ public class UIManager : Manager<UIManager>
     private bool isSetUI = false;
     private void Update()
     {
-        Countdown(useCountdown);
-        SetPlayerUI();
-        UpdateCount();
-        BindButton();
+            Countdown(useCountdown);
+            SetPlayerUI();
+            UpdateCount();
+            BindButton();
     }
 
     void Countdown(bool isUse)

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 using Random = System.Random;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
@@ -29,6 +30,9 @@ static class ExtensionsClass
 
 public class GameManager : Manager<GameManager>
 {
+    public bool isExit = false;
+    public int OverCount = 0;
+
     public GameObject reaper;
     public GameObject ghost;
     private bool isCreated = false;
@@ -49,7 +53,7 @@ public class GameManager : Manager<GameManager>
 
     public bool IsPlayerCreated
     {
-        get 
+        get
         {
             return isCreated;
         }
@@ -59,9 +63,9 @@ public class GameManager : Manager<GameManager>
     private int brokenKeyCount = 0;
     public int BrokenKeyCount
     {
-        get 
-        { 
-            return brokenKeyCount; 
+        get
+        {
+            return brokenKeyCount;
         }
         set
         {
@@ -128,14 +132,48 @@ public class GameManager : Manager<GameManager>
     private bool isPotalCreated = false;
     private void Update()
     {
+        EndGame();
         SpawnPlayers();
         GenBrokenKey();
-        if(BrokenKeyCount == 4 && !isPotalCreated)
+        if (BrokenKeyCount == 4 && !isPotalCreated)
         {
             if (photonView.IsMine)
             {
                 PhotonNetwork.Instantiate(Path.Combine("Prefabs", potal.name), potal.transform.position, Quaternion.identity);
                 isPotalCreated = true;
+            }
+        }
+    }
+
+    private void EndGame()
+    {
+        if (OverCount == PhotonNetwork.CurrentRoom.PlayerCount - 1 && SceneManager.GetActiveScene().name == "GameScene")
+        {
+            if (PhotonNetwork.LocalPlayer.CustomProperties["isReaper"] != null)
+            {
+                if ((bool)PhotonNetwork.LocalPlayer.CustomProperties["isReaper"])
+                {
+                    if (isExit)
+                    {
+                        SceneManager.LoadScene("ReaperDScene");
+                    }
+                    else
+                    {
+                        SceneManager.LoadScene("ReaperVScene");
+                    }
+                }
+
+                else
+                {
+                    if (isExit)
+                    {
+                        SceneManager.LoadScene("GhostVScene");
+                    }
+                    else
+                    {
+                        SceneManager.LoadScene("GhostDScene");
+                    }
+                }
             }
         }
     }
