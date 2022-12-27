@@ -487,6 +487,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 886890380628903763, guid: c5660d086002ee549b6a3121cf34ed3a,
+        type: 3}
+      propertyPath: m_FlipX
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3426027911077959680, guid: c5660d086002ee549b6a3121cf34ed3a,
         type: 3}
       propertyPath: m_Name
@@ -676,7 +681,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reaper: {fileID: 7796543005332880763, guid: 15f51e92239c23e43a6389247c8e5124, type: 3}
   ghost: {fileID: 3032422933500601301, guid: 8b3efcc943964324684e3da7c181e5b0, type: 3}
-  potal: {fileID: 0}
+  potal: {fileID: 707655992324479604, guid: 2e656a1d92476ed4f8bfe11fc5afe903, type: 3}
+  brokenKeyCount: 0
   keyNumber: 4
   KeyPoints:
   - {fileID: 373010624}

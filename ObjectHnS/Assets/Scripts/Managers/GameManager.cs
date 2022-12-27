@@ -54,6 +54,8 @@ public class GameManager : Manager<GameManager>
             return isCreated;
         }
     }
+
+    [SerializeField]
     private int brokenKeyCount = 0;
     public int BrokenKeyCount
     {
@@ -132,7 +134,7 @@ public class GameManager : Manager<GameManager>
         {
             if (photonView.IsMine)
             {
-                PhotonNetwork.Instantiate(Path.Combine(), potal.transform.position, Quaternion.identity);
+                PhotonNetwork.Instantiate(Path.Combine("Prefabs", potal.name), potal.transform.position, Quaternion.identity);
                 isPotalCreated = true;
             }
         }

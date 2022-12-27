@@ -19,7 +19,8 @@ public class GhostState : MonoBehaviourPun, IPunObservable
     }
 
     float uptime = 5;
-    float useTime = 0;
+    float transformTime = 0;
+    float heistTime = 0;
     [SerializeField] Sprite[] transObj;
 
     private void Awake()
@@ -78,10 +79,10 @@ public class GhostState : MonoBehaviourPun, IPunObservable
     [PunRPC]
     public void TransformRPC(int item)
     {
-        if ((uptime - useTime >= 25) || (useTime == 0))
+        if ((uptime - transformTime >= 25) || (transformTime == 0))
         {
             StartCoroutine(co_Transform(item));
-            useTime = uptime;
+            transformTime = uptime;
         }
     }
 
@@ -93,11 +94,20 @@ public class GhostState : MonoBehaviourPun, IPunObservable
         }
     }
     
+    IEnumerator co_Heist()
+    {
+        yield return null;
+        GetComponent<MonsterFlyingController>().speedMax = 5;
+        yield return new WaitForSeconds(3f);
+        GetComponent<MonsterFlyingController>().speedMax = 3.2f;
+    }
+
     public void Heist()
     {
-        if (photonView.IsMine)
+        if ((uptime - heistTime >= 15) || (heistTime == 0))
         {
-            GetComponent<MonsterFlyingController>().speedMax = 5;
+            StartCoroutine(co_Heist());
+            heistTime = uptime;
         }
     }
 }
