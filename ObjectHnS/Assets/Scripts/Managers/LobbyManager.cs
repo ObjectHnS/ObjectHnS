@@ -6,7 +6,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
-using UnityEditor.VersionControl;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -35,9 +34,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     private bool isEnter = false;
 
     private GameObject player;
-
-    static AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-    AndroidJavaObject unityActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
 
     #region 시스템
     protected void Awake()
@@ -84,13 +80,16 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             }
             else if (LobbyCanvas.activeSelf)
             {
-                backcount = 0;
                 if (backcount == 2)
                 {
+                    backcount = 0;
                     showQuit("정말 나가시겠습니까?");
                 }
                 else
                 {
+                    AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+                    AndroidJavaObject unityActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+
                     AndroidJavaClass toast = new AndroidJavaClass("android.widget.Toast");
                     unityActivity.Call("runOnUiThread", new AndroidJavaRunnable(() => 
                     {

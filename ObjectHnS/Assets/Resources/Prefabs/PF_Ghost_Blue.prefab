@@ -76,11 +76,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ed340bb3193efd489b55aae8eabd823, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speedMax: 1.7
+  speedMax: 2.2
   acc: 4
-  brakeAcc: 4
+  brakeAcc: 6
   groundCheckSize: {x: 0.74, y: 0.1}
-  movingBlendTransitionSpeed: 2
+  movingBlendTransitionSpeed: 5
   deadGravityScale: 1
   inputMove: {x: 0, y: 0}
   inputAttack: 0

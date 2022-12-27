@@ -33,7 +33,19 @@ public class GameManager : Manager<GameManager>
     public GameObject ghost;
     private bool isCreated = false;
 
-    public GameObject player;
+    private GameObject player;
+    public GameObject Player
+    {
+        get
+        {
+            return player;
+        }
+        set
+        {
+            player = value;
+        }
+    }
+    public GameObject potal;
 
     public bool IsPlayerCreated
     {
@@ -110,14 +122,19 @@ public class GameManager : Manager<GameManager>
         }
 
     }
-    private void Start()
-    {
 
-    }
-
+    private bool isPotalCreated = false;
     private void Update()
     {
         SpawnPlayers();
         GenBrokenKey();
+        if(BrokenKeyCount == 4 && !isPotalCreated)
+        {
+            if (photonView.IsMine)
+            {
+                PhotonNetwork.Instantiate(Path.Combine(), potal.transform.position, Quaternion.identity);
+                isPotalCreated = true;
+            }
+        }
     }
 }

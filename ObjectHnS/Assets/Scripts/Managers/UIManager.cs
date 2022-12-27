@@ -110,7 +110,7 @@ public class UIManager : Manager<UIManager>
             else
             {
                 if (countUI == null) countUI = reaperUI.transform.Find("SoulStack").Find("Count").GetComponent<Text>();
-                int count = GameManager.Instance.player.GetComponent<ReaperSkill_Blue>().skillCount;
+                int count = GameManager.Instance.Player.GetComponent<ReaperSkill_Blue>().skillCount;
                 countUI.text = count.ToString() + " / 4";
             }
         }
@@ -118,10 +118,10 @@ public class UIManager : Manager<UIManager>
     private bool isBinded = false;
     void BindButton()
     {
-        if(playerKind == "Reaper" && !isBinded && GameManager.Instance.player != null)
+        if(playerKind == "Reaper" && !isBinded && GameManager.Instance.Player != null)
         {
-            reaperButton[0].onClick.AddListener(GameManager.Instance.player.GetComponent<ReaperButtonInput>().Attack);
-            reaperButton[1].onClick.AddListener(GameManager.Instance.player.GetComponent<ReaperButtonInput>().Skill);
+            reaperButton[0].onClick.AddListener(GameManager.Instance.Player.GetComponent<ReaperButtonInput>().Attack);
+            reaperButton[1].onClick.AddListener(GameManager.Instance.Player.GetComponent<ReaperButtonInput>().Skill);
 
             isBinded = true;
         }
