@@ -5,13 +5,12 @@ using System.Linq;
 using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
-using Random = System.Random;
+using Random = UnityEngine.Random;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 static class ExtensionsClass
 {
-    private static Random rng = new Random();
+    private static System.Random rng = new System.Random();
 
     public static void Shuffle<T>(this IList<T> list)
     {
@@ -88,14 +87,16 @@ public class GameManager : Manager<GameManager>
             if ((bool)playerProperty["isReaper"])
             {
                 player = reaper;
+                this.player = PhotonNetwork.Instantiate(Path.Combine("Prefabs", player.name), new Vector3(-24.5f + Random.Range(-3f, 3f), 3.5f + Random.Range(-3f, 3f), -1), Quaternion.identity);
             }
             else
             {
                 player = ghost;
+                this.player = PhotonNetwork.Instantiate(Path.Combine("Prefabs", player.name), new Vector3(0, 0, -1), Quaternion.identity);
             }
 
-            this.player = PhotonNetwork.Instantiate(Path.Combine("Prefabs", player.name), new Vector3(0, 0, -1), Quaternion.identity);
             GameObject camera = GameObject.Find("Main Camera");
+            camera.transform.position = new Vector3(this.player.transform.position.x, this.player.transform.position.y, -10);
             camera.transform.parent = this.player.transform;
 
             isCreated = true;
@@ -132,7 +133,7 @@ public class GameManager : Manager<GameManager>
     private bool isPotalCreated = false;
     private void Update()
     {
-        EndGame();
+        //EndGame();
         SpawnPlayers();
         GenBrokenKey();
         if (BrokenKeyCount == 4 && !isPotalCreated)
@@ -145,36 +146,36 @@ public class GameManager : Manager<GameManager>
         }
     }
 
-    private void EndGame()
-    {
-        if (OverCount == PhotonNetwork.CurrentRoom.PlayerCount - 1 && SceneManager.GetActiveScene().name == "GameScene")
-        {
-            if (PhotonNetwork.LocalPlayer.CustomProperties["isReaper"] != null)
-            {
-                if ((bool)PhotonNetwork.LocalPlayer.CustomProperties["isReaper"])
-                {
-                    if (isExit)
-                    {
-                        SceneManager.LoadScene("ReaperDScene");
-                    }
-                    else
-                    {
-                        SceneManager.LoadScene("ReaperVScene");
-                    }
-                }
+    //private void EndGame()
+    //{
+    //    if (OverCount == PhotonNetwork.CurrentRoom.PlayerCount - 1 && SceneManager.GetActiveScene().name == "GameScene")
+    //    {
+    //        if (PhotonNetwork.LocalPlayer.CustomProperties["isReaper"] != null)
+    //        {
+    //            if ((bool)PhotonNetwork.LocalPlayer.CustomProperties["isReaper"])
+    //            {
+    //                if (isExit)
+    //                {
+    //                    SceneManager.LoadScene("ReaperDScene");
+    //                }
+    //                else
+    //                {
+    //                    SceneManager.LoadScene("ReaperVScene");
+    //                }
+    //            }
 
-                else
-                {
-                    if (isExit)
-                    {
-                        SceneManager.LoadScene("GhostVScene");
-                    }
-                    else
-                    {
-                        SceneManager.LoadScene("GhostDScene");
-                    }
-                }
-            }
-        }
-    }
+    //            else
+    //            {
+    //                if (isExit)
+    //                {
+    //                    SceneManager.LoadScene("GhostVScene");
+    //                }
+    //                else
+    //                {
+    //                    SceneManager.LoadScene("GhostDScene");
+    //                }
+    //            }
+    //        }
+    //    }
+    //}
 }

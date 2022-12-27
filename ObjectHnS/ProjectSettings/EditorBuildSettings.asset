@@ -14,4 +14,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Resources/Level/ReaperVScene.unity
     guid: 93ed639e2cbbd0f43962c62083eb2d1f
+  - enabled: 1
+    path: Assets/Resources/Level/ReaperDScene.unity
+    guid: 7ee1f70cab2caff4686e342598d2de26
+  - enabled: 1
+    path: Assets/Resources/Level/GhostVScene.unity
+    guid: 563196b80826f024185b2e1eb987b332
+  - enabled: 1
+    path: Assets/Resources/Level/GhostDScene.unity
+    guid: c42c96f09ea9e7040b960472cd1592b1
   m_configObjects: {}
