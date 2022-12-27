@@ -58,9 +58,15 @@ public class GameManager : Manager<GameManager>
     }
     private void Start()
     {
+
     }
     private void Update()
     {
         SpawnPlayers();
+    }
+
+    private void EndGame()
+    {
+
     }
 }

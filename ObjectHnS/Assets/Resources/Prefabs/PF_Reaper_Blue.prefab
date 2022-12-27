@@ -166,9 +166,7 @@ MonoBehaviour:
   skillTime: 0
   skillCoolTime: 5
   skillRetentionTime: 5
-  bat: {fileID: 0}
-  passiveTime: 0
-  passiveCoolTime: 5
+  skillCount: 0
   animator: {fileID: 1972283647665168962}
 --- !u!114 &3217447780477756818
 MonoBehaviour:
