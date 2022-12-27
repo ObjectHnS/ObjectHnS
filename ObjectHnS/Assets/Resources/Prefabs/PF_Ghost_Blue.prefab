@@ -76,11 +76,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ed340bb3193efd489b55aae8eabd823, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speedMax: 1.7
+  speedMax: 2.2
   acc: 4
-  brakeAcc: 4
+  brakeAcc: 6
   groundCheckSize: {x: 0.74, y: 0.1}
-  movingBlendTransitionSpeed: 2
+  movingBlendTransitionSpeed: 5
   deadGravityScale: 1
   inputMove: {x: 0, y: 0}
   inputAttack: 0
@@ -119,6 +119,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f74ef6feec4d44f4bb66aa8d206a2614, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hp: 150
 --- !u!61 &813312796560810099
 BoxCollider2D:
   m_ObjectHideFlags: 0

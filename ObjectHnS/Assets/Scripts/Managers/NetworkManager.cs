@@ -24,7 +24,7 @@ public class NetworkManager : Manager<NetworkManager>
         pv = GetComponent<PhotonView>();
 
         PhotonNetwork.SendRate = 60;
-        PhotonNetwork.SerializationRate = 60;
+        PhotonNetwork.SerializationRate = 30;
         PhotonNetwork.AutomaticallySyncScene = true;
 
         PhotonNetwork.ConnectUsingSettings();
