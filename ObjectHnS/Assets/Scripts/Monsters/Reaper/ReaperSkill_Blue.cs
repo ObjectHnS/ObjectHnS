@@ -51,9 +51,9 @@ public class ReaperSkill_Blue : MonoBehaviourPun
         skillCount -= 1;
         animator.SetTrigger("canSkill");
         skillTime = 0;
-        reaper.speedMax = 10;
-        reaper.acc = 10;
-        reaper.brakeAcc = 10;
+        reaper.speedMax = 4f;
+        reaper.acc = 5;
+        reaper.brakeAcc = 6;
         reaperStat.reaperAttack = 75;
         skillRetention = true;
     }

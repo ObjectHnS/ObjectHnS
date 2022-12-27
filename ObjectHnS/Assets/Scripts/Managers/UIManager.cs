@@ -10,6 +10,7 @@ using UnityEngine.UI;
 public class UIManager : Manager<UIManager>
 {
     public Button[] reaperButton; 
+    public Button[] ghostButton; 
 
     public bool useCountdown = false;
     public float countdownTime = 5f;
@@ -118,12 +119,22 @@ public class UIManager : Manager<UIManager>
     private bool isBinded = false;
     void BindButton()
     {
-        if(playerKind == "Reaper" && !isBinded && GameManager.Instance.Player != null)
+        if (GameManager.Instance.Player != null && !isBinded)
         {
-            reaperButton[0].onClick.AddListener(GameManager.Instance.Player.GetComponent<ReaperButtonInput>().Attack);
-            reaperButton[1].onClick.AddListener(GameManager.Instance.Player.GetComponent<ReaperButtonInput>().Skill);
+            if (playerKind == "Reaper")
+            {
+                reaperButton[0].onClick.AddListener(GameManager.Instance.Player.GetComponent<ReaperButtonInput>().Attack);
+                reaperButton[1].onClick.AddListener(GameManager.Instance.Player.GetComponent<ReaperButtonInput>().Skill);
 
-            isBinded = true;
+                isBinded = true;
+            }
+            else
+            {
+                ghostButton[0].onClick.AddListener(GameManager.Instance.Player.GetComponent<GhostState>().Transformation);
+                ghostButton[1].onClick.AddListener(GameManager.Instance.Player.GetComponent<GhostState>().Heist);
+
+                isBinded = true;
+            }
         }
     }
 }
