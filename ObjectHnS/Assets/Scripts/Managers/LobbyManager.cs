@@ -8,6 +8,7 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using HashTable = ExitGames.Client.Photon.Hashtable;
 
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
@@ -322,7 +323,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             ShowWarningPopupMessage("방 이름이 비어있습니다!");
             return;
         }
-        PhotonNetwork.CreateRoom(roomName.text, new RoomOptions { MaxPlayers = 8 });
+
+        RoomOptions roomOptions = new RoomOptions();
+        roomOptions.MaxPlayers = 4;
+        roomOptions.CustomRoomProperties = new HashTable { { "isReaper", false }, { "isWin", false } };
+        PhotonNetwork.CreateRoom(roomName.text, roomOptions);
 
         HidePopups();
 

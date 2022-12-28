@@ -75,7 +75,7 @@ public class GameManager : Manager<GameManager>
     public int keyNumber;
     public Transform[] KeyPoints;
 
-    Hashtable playerProperty = new Hashtable { { "isReaper", false } };
+    Hashtable playerProperty = new Hashtable { { "isReaper", false }, { "isWin", false } };
     private void SpawnPlayers()
     {
         if (UIManager.Instance.IsStarted && !isCreated)
@@ -84,7 +84,7 @@ public class GameManager : Manager<GameManager>
             PhotonNetwork.LocalPlayer.SetCustomProperties(playerProperty);
 
             GameObject player = null;
-            if ((bool)playerProperty["isReaper"])
+            if ((bool)PhotonNetwork.LocalPlayer.CustomProperties["isReaper"])
             {
                 player = reaper;
                 this.player = PhotonNetwork.Instantiate(Path.Combine("Prefabs", player.name), new Vector3(-69, -0.1f, -1), Quaternion.identity);

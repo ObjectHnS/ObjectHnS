@@ -18,10 +18,10 @@ public class Portal : MonoBehaviourPun
         {
             foreach (var player in PhotonNetwork.CurrentRoom.Players.Values.ToArray())
             {
-                player.CustomProperties.Add("isWin", true);
+                player.CustomProperties["isWin"] = true;
             }
             PhotonNetwork.MasterClient.CustomProperties["isWin"] = false;
-            photonView.RPC("NoticeGameEnd", RpcTarget.MasterClient);
+            if(photonView.IsMine) photonView.RPC("NoticeGameEnd", RpcTarget.MasterClient);
         }
     }
 }

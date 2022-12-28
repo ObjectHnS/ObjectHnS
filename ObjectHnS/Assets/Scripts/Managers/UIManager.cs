@@ -71,18 +71,13 @@ public class UIManager : Manager<UIManager>
         {
             if (endingCanvas == null)
             {
-                Debug.Log("======================================================================");
                 endingCanvas = GameObject.Find("Canvas");
                 if (photonView.IsMine)
                 {
                     Transform ghost = endingCanvas.transform.Find("Ghost");
                     Transform reaper = endingCanvas.transform.Find("Reaper");
                     var prop = PhotonNetwork.LocalPlayer.CustomProperties;
-                    while (prop != null)
-                    {
-                        prop = PhotonNetwork.LocalPlayer.CustomProperties;
-                    }
-                    if ((bool)PhotonNetwork.LocalPlayer.CustomProperties["isWin"])
+                    if ((bool)prop["isWin"])
                     {
                         if (playerKind == "Ghost")
                         {
