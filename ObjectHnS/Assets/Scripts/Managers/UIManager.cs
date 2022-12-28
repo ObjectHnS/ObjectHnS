@@ -25,7 +25,21 @@ public class UIManager : Manager<UIManager>
         }
     }
 
+    private GameObject endingCanvas;
+    public GameObject EndingCanvas
+    {
+        get
+        {
+            return endingCanvas;
+        }
+        set
+        {
+            endingCanvas = value;
+        }
+    }
+
     public Text timer;
+    public Text notice;
     public GameObject ghostUI;
     public GameObject reaperUI;
     public Sprite completeKey;
@@ -42,12 +56,61 @@ public class UIManager : Manager<UIManager>
     }
 
     private bool isSetUI = false;
+    private bool isShowEnding = false;
     private void Update()
     {
+        var sceneName = SceneManager.GetActiveScene().name;
+        if (sceneName == "GameScene")
+        {
             Countdown(useCountdown);
             SetPlayerUI();
             UpdateCount();
             BindButton();
+        }
+        else
+        {
+            if (endingCanvas == null)
+            {
+                Debug.Log("======================================================================");
+                endingCanvas = GameObject.Find("Canvas");
+                if (photonView.IsMine)
+                {
+                    Transform ghost = endingCanvas.transform.Find("Ghost");
+                    Transform reaper = endingCanvas.transform.Find("Reaper");
+                    var prop = PhotonNetwork.LocalPlayer.CustomProperties;
+                    while (prop != null)
+                    {
+                        prop = PhotonNetwork.LocalPlayer.CustomProperties;
+                    }
+                    if ((bool)PhotonNetwork.LocalPlayer.CustomProperties["isWin"])
+                    {
+                        if (playerKind == "Ghost")
+                        {
+                            ghost.gameObject.SetActive(true);
+                            ghost.Find("Win").gameObject.SetActive(true);
+                        }
+                        else
+                        {
+                            reaper.gameObject.SetActive(true);
+                            reaper.Find("Win").gameObject.SetActive(true);
+                        }
+                    }
+                    else
+                    {
+                        if (playerKind == "Ghost")
+                        {
+                            ghost.gameObject.SetActive(true);
+                            ghost.Find("Lose").gameObject.SetActive(true);
+                        }
+                        else
+                        {
+                            reaper.gameObject.SetActive(true);
+                            reaper.Find("Lose").gameObject.SetActive(true);
+                        }
+                    }
+                }
+            }
+        }
     }
 
     void Countdown(bool isUse)
@@ -93,6 +156,13 @@ public class UIManager : Manager<UIManager>
     }
 
     private bool isCompleteKey = false;
+
+    [PunRPC]
+    void ShowNotice()
+    {
+        AndroidAPI.ToastMessage("포탈이 생성되었습니다! 포탈을 통해 도망칠 수 있습니다!");
+    }
+
     void UpdateCount()
     {
         Text countUI = null;
@@ -106,6 +176,7 @@ public class UIManager : Manager<UIManager>
                 if (count == 4 && !isCompleteKey)
                 {
                     ghostUI.transform.Find("KeyCount").Find("Image").GetComponent<Image>().sprite = completeKey;
+                    photonView.RPC("ShowNotice", RpcTarget.All);
                     isCompleteKey = true;
                 }
             }
@@ -126,16 +197,13 @@ public class UIManager : Manager<UIManager>
             {
                 reaperButton[0].onClick.AddListener(GameManager.Instance.Player.GetComponent<ReaperButtonInput>().Attack);
                 reaperButton[1].onClick.AddListener(GameManager.Instance.Player.GetComponent<ReaperButtonInput>().Skill);
-
-                isBinded = true;
             }
             else
             {
                 ghostButton[0].onClick.AddListener(GameManager.Instance.Player.GetComponent<GhostState>().Transformation);
                 ghostButton[1].onClick.AddListener(GameManager.Instance.Player.GetComponent<GhostState>().Heist);
-
-                isBinded = true;
             }
+            isBinded = true;
         }
     }
 }

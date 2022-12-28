@@ -87,12 +87,13 @@ public class GameManager : Manager<GameManager>
             if ((bool)playerProperty["isReaper"])
             {
                 player = reaper;
-                this.player = PhotonNetwork.Instantiate(Path.Combine("Prefabs", player.name), new Vector3(-24.5f + Random.Range(-3f, 3f), 3.5f + Random.Range(-3f, 3f), -1), Quaternion.identity);
+                this.player = PhotonNetwork.Instantiate(Path.Combine("Prefabs", player.name), new Vector3(-69, -0.1f, -1), Quaternion.identity);
+
             }
             else
             {
                 player = ghost;
-                this.player = PhotonNetwork.Instantiate(Path.Combine("Prefabs", player.name), new Vector3(0, 0, -1), Quaternion.identity);
+                this.player = PhotonNetwork.Instantiate(Path.Combine("Prefabs", player.name), new Vector3(-24.5f + Random.Range(-3f, 3f), 3.5f + Random.Range(-3f, 3f), -1), Quaternion.identity);
             }
 
             GameObject camera = GameObject.Find("Main Camera");

@@ -42,6 +42,8 @@ MonoBehaviour:
   - GetBrokenKey
   - Damaged
   - TransformRPC
+  - ShowNotice
+  - NoticeGameEnd
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

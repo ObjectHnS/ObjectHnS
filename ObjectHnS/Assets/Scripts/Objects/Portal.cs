@@ -1,25 +1,27 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
-public class Portal : MonoBehaviour
+public class Portal : MonoBehaviourPun
 {
-    Reaper reaper;
-    GhostState ghost;
-
-
-    void Start()
+    [PunRPC]
+    void NoticeGameEnd()
     {
-        reaper = GetComponent<Reaper>();
-        ghost = GetComponent<GhostState>();
+        PhotonNetwork.LoadLevel("Ending");
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Ghost")
+        if(collision.CompareTag("Ghost"))
         {
-            GameManager.Instance.isExit = true;
-            GameManager.Instance.OverCount++;
+            foreach (var player in PhotonNetwork.CurrentRoom.Players.Values.ToArray())
+            {
+                player.CustomProperties.Add("isWin", true);
+            }
+            PhotonNetwork.MasterClient.CustomProperties["isWin"] = false;
+            photonView.RPC("NoticeGameEnd", RpcTarget.MasterClient);
         }
     }
 }

@@ -80,22 +80,14 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             }
             else if (LobbyCanvas.activeSelf)
             {
+                backcount++;
                 if (backcount == 2)
                 {
-                    backcount = 0;
-                    showQuit("정말 나가시겠습니까?");
+                    Application.Quit();
                 }
                 else
                 {
-                    AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-                    AndroidJavaObject unityActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
-
-                    AndroidJavaClass toast = new AndroidJavaClass("android.widget.Toast");
-                    unityActivity.Call("runOnUiThread", new AndroidJavaRunnable(() => 
-                    {
-                        AndroidJavaObject toastObject = toast.CallStatic<AndroidJavaObject>("makeText", unityActivity, "\'뒤로\'버튼을 한번 더 누르시면 종료됩니다.", 0);
-                        toastObject.Call("show");
-                    }));
+                    AndroidAPI.ToastMessage("\'뒤로\'버튼을 다시 누르시면 종료됩니다.");
                 }
             }
             else if (Popups.activeSelf)
