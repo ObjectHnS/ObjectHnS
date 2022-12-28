@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
+using Unity.VisualScripting;
 
 static class ExtensionsClass
 {
@@ -27,7 +28,7 @@ static class ExtensionsClass
 }
 
 
-public class GameManager : Manager<GameManager>
+public class GameManager : Manager<GameManager>, IPunObservable
 {
     public bool isExit = false;
     public int OverCount = 0;
@@ -145,38 +146,24 @@ public class GameManager : Manager<GameManager>
                 isPotalCreated = true;
             }
         }
+        if(OverCount == PhotonNetwork.CurrentRoom.PlayerCount - 1)
+        {
+            if (photonView.IsMine)
+            {
+                photonView.RPC("NoticeGameEnd", RpcTarget.MasterClient);
+            }
+        }
     }
 
-    //private void EndGame()
-    //{
-    //    if (OverCount == PhotonNetwork.CurrentRoom.PlayerCount - 1 && SceneManager.GetActiveScene().name == "GameScene")
-    //    {
-    //        if (PhotonNetwork.LocalPlayer.CustomProperties["isReaper"] != null)
-    //        {
-    //            if ((bool)PhotonNetwork.LocalPlayer.CustomProperties["isReaper"])
-    //            {
-    //                if (isExit)
-    //                {
-    //                    SceneManager.LoadScene("ReaperDScene");
-    //                }
-    //                else
-    //                {
-    //                    SceneManager.LoadScene("ReaperVScene");
-    //                }
-    //            }
-
-    //            else
-    //            {
-    //                if (isExit)
-    //                {
-    //                    SceneManager.LoadScene("GhostVScene");
-    //                }
-    //                else
-    //                {
-    //                    SceneManager.LoadScene("GhostDScene");
-    //                }
-    //            }
-    //        }
-    //    }
-    //}
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if(stream.IsWriting)
+        {
+            stream.SendNext(OverCount);
+        }
+        else
+        {
+            OverCount = stream.ReceiveNext().ConvertTo<int>();
+        }
+    }
 }

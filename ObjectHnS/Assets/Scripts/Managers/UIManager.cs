@@ -7,11 +7,13 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 using Unity.VisualScripting;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEditor;
+using System;
 
 public class UIManager : Manager<UIManager>
 {
-    public Button[] reaperButton; 
-    public Button[] ghostButton; 
+    public Button[] reaperButton;
+    public Button[] ghostButton;
 
     public bool useCountdown = false;
     public float countdownTime = 5f;
@@ -71,42 +73,35 @@ public class UIManager : Manager<UIManager>
         {
             if (endingCanvas == null)
             {
-                Debug.Log("======================================================================");
                 endingCanvas = GameObject.Find("Canvas");
-                if (photonView.IsMine)
+                Transform ghost = endingCanvas.transform.Find("Ghost");
+                Transform reaper = endingCanvas.transform.Find("Reaper");
+                var prop = PhotonNetwork.LocalPlayer.CustomProperties;
+                if (prop["isWin"].ConvertTo<bool>())
                 {
-                    Transform ghost = endingCanvas.transform.Find("Ghost");
-                    Transform reaper = endingCanvas.transform.Find("Reaper");
-                    var prop = PhotonNetwork.LocalPlayer.CustomProperties;
-                    while (prop != null)
+                    Debug.Log(playerKind);
+                    if (playerKind == "Ghost")
                     {
-                        prop = PhotonNetwork.LocalPlayer.CustomProperties;
-                    }
-                    if ((bool)PhotonNetwork.LocalPlayer.CustomProperties["isWin"])
-                    {
-                        if (playerKind == "Ghost")
-                        {
-                            ghost.gameObject.SetActive(true);
-                            ghost.Find("Win").gameObject.SetActive(true);
-                        }
-                        else
-                        {
-                            reaper.gameObject.SetActive(true);
-                            reaper.Find("Win").gameObject.SetActive(true);
-                        }
+                        ghost.gameObject.SetActive(true);
+                        ghost.Find("Win").gameObject.SetActive(true);
                     }
                     else
                     {
-                        if (playerKind == "Ghost")
-                        {
-                            ghost.gameObject.SetActive(true);
-                            ghost.Find("Lose").gameObject.SetActive(true);
-                        }
-                        else
-                        {
-                            reaper.gameObject.SetActive(true);
-                            reaper.Find("Lose").gameObject.SetActive(true);
-                        }
+                        reaper.gameObject.SetActive(true);
+                        reaper.Find("Win").gameObject.SetActive(true);
+                    }
+                }
+                else
+                {
+                    if (playerKind == "Ghost")
+                    {
+                        ghost.gameObject.SetActive(true);
+                        ghost.Find("Lose").gameObject.SetActive(true);
+                    }
+                    else
+                    {
+                        reaper.gameObject.SetActive(true);
+                        reaper.Find("Lose").gameObject.SetActive(true);
                     }
                 }
             }
@@ -130,7 +125,7 @@ public class UIManager : Manager<UIManager>
         }
         else
         {
-            if(!isStarted) isStarted = true;
+            if (!isStarted) isStarted = true;
         }
     }
 
@@ -138,7 +133,7 @@ public class UIManager : Manager<UIManager>
     {
         if (GameManager.Instance.IsPlayerCreated && !isSetUI)
         {
-            if(PhotonNetwork.LocalPlayer.CustomProperties["isReaper"] != null)
+            if (PhotonNetwork.LocalPlayer.CustomProperties["isReaper"] != null)
             {
                 if ((bool)PhotonNetwork.LocalPlayer.CustomProperties["isReaper"])
                 {
@@ -160,15 +155,16 @@ public class UIManager : Manager<UIManager>
     [PunRPC]
     void ShowNotice()
     {
-        AndroidAPI.ToastMessage("포탈이 생성되었습니다! 포탈을 통해 도망칠 수 있습니다!");
+        if (Application.platform == RuntimePlatform.Android)
+            AndroidAPI.ToastMessage("포탈이 생성되었습니다! 포탈을 통해 도망칠 수 있습니다!");
     }
 
     void UpdateCount()
     {
         Text countUI = null;
-        if(isSetUI)
+        if (isSetUI)
         {
-            if(playerKind == "Ghost")
+            if (playerKind == "Ghost")
             {
                 if (countUI == null) countUI = ghostUI.transform.Find("KeyCount").Find("Count").GetComponent<Text>();
                 int count = GameManager.Instance.BrokenKeyCount;
