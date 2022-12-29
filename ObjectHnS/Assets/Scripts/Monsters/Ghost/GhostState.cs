@@ -44,6 +44,12 @@ public class GhostState : MonoBehaviourPun, IPunObservable
     }
 
     [PunRPC]
+    public void AddDeadCount()
+    {
+        GameManager.Instance.OverCount++;
+    }
+
+    [PunRPC]
     public void Damaged(int value)
     {
         if (photonView.IsMine)
@@ -52,7 +58,7 @@ public class GhostState : MonoBehaviourPun, IPunObservable
             hp -= value;
             if (hp <= 0)
             {
-                GameManager.Instance.OverCount++;
+                photonView.RPC("AddDeadCount", RpcTarget.All);
                 GetComponent<PixelMonster>().OnDieFx();
                 this.Invoke(() => { PhotonNetwork.Destroy(gameObject); }, 1.8f);
             }
@@ -100,7 +106,7 @@ public class GhostState : MonoBehaviourPun, IPunObservable
         yield return null;
         GetComponent<MonsterFlyingController>().speedMax = 5;
         yield return new WaitForSeconds(3f);
-        GetComponent<MonsterFlyingController>().speedMax = 3.2f;
+        GetComponent<MonsterFlyingController>().speedMax = 2.25f;
     }
 
     public void Heist()

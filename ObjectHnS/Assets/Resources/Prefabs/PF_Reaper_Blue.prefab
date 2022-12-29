@@ -180,9 +180,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78eccd734b3e1cc4da4cb3d1040a6dfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speedMax: 2
+  speedMax: 1.8
   acc: 8
-  brakeAcc: 8
+  brakeAcc: 10
   groundCheckSize: {x: 0.1, y: 0.1}
   movingBlendTransitionSpeed: 2
   deadGravityScale: 1

@@ -34,16 +34,18 @@ MonoBehaviour:
   RunInBackground: 1
   StartInOfflineMode: 0
   RpcList:
+  - AddDeadCount
   - ClickRpc
+  - Damaged
   - DestroyRpc
   - DestroySpaceship
   - Fire
-  - RespawnSpaceship
   - GetBrokenKey
-  - Damaged
-  - TransformRPC
-  - ShowNotice
+  - LoadEnding
   - NoticeGameEnd
+  - RespawnSpaceship
+  - ShowNotice
+  - TransformRPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

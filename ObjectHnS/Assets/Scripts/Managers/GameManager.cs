@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
+using Unity.VisualScripting;
 
 static class ExtensionsClass
 {
@@ -131,10 +132,16 @@ public class GameManager : Manager<GameManager>
 
     }
 
+    [PunRPC]
+    public void LoadEnding()
+    {
+        PhotonNetwork.LoadLevel("Ending");
+    }
+
     private bool isPotalCreated = false;
+    private bool isCalled = false;
     private void Update()
     {
-        //EndGame();
         SpawnPlayers();
         GenBrokenKey();
         if (BrokenKeyCount == 4 && !isPotalCreated)
@@ -145,38 +152,22 @@ public class GameManager : Manager<GameManager>
                 isPotalCreated = true;
             }
         }
+        if(OverCount == PhotonNetwork.CurrentRoom.PlayerCount - 1 && !isCalled)
+        {
+            Hashtable cp = PhotonNetwork.LocalPlayer.CustomProperties;
+            cp["isWin"] = cp["isReaper"].ConvertTo<bool>() ? true : false;
+            PhotonNetwork.LocalPlayer.SetCustomProperties(cp);
+
+            if (photonView.IsMine)
+            {
+                photonView.RPC("LoadEnding", RpcTarget.MasterClient);
+                isCalled = true;
+            }
+        }
     }
 
-    //private void EndGame()
-    //{
-    //    if (OverCount == PhotonNetwork.CurrentRoom.PlayerCount - 1 && SceneManager.GetActiveScene().name == "GameScene")
-    //    {
-    //        if (PhotonNetwork.LocalPlayer.CustomProperties["isReaper"] != null)
-    //        {
-    //            if ((bool)PhotonNetwork.LocalPlayer.CustomProperties["isReaper"])
-    //            {
-    //                if (isExit)
-    //                {
-    //                    SceneManager.LoadScene("ReaperDScene");
-    //                }
-    //                else
-    //                {
-    //                    SceneManager.LoadScene("ReaperVScene");
-    //                }
-    //            }
-
-    //            else
-    //            {
-    //                if (isExit)
-    //                {
-    //                    SceneManager.LoadScene("GhostVScene");
-    //                }
-    //                else
-    //                {
-    //                    SceneManager.LoadScene("GhostDScene");
-    //                }
-    //            }
-    //        }
-    //    }
-    //}
+    public void Restart()
+    {
+        SceneManager.LoadScene("JoinScene");
+    }
 }

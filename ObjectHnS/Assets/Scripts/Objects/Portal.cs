@@ -7,7 +7,7 @@ using UnityEngine;
 public class Portal : MonoBehaviourPun
 {
     [PunRPC]
-    void NoticeGameEnd()
+    public void NoticeGameEnd()
     {
         PhotonNetwork.LoadLevel("Ending");
     }
@@ -21,7 +21,10 @@ public class Portal : MonoBehaviourPun
                 player.CustomProperties["isWin"] = true;
             }
             PhotonNetwork.MasterClient.CustomProperties["isWin"] = false;
-            if(photonView.IsMine) photonView.RPC("NoticeGameEnd", RpcTarget.MasterClient);
+            if (photonView.IsMine)
+            {
+                photonView.RPC("NoticeGameEnd", RpcTarget.MasterClient);
+            }
         }
     }
 }

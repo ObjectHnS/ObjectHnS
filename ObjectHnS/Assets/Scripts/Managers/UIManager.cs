@@ -7,11 +7,13 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 using Unity.VisualScripting;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEditor;
+using System;
 
 public class UIManager : Manager<UIManager>
 {
-    public Button[] reaperButton; 
-    public Button[] ghostButton; 
+    public Button[] reaperButton;
+    public Button[] ghostButton;
 
     public bool useCountdown = false;
     public float countdownTime = 5f;
@@ -56,7 +58,8 @@ public class UIManager : Manager<UIManager>
     }
 
     private bool isSetUI = false;
-    private bool isShowEnding = false;
+    private Button restartBtn = null;
+
     private void Update()
     {
         var sceneName = SceneManager.GetActiveScene().name;
@@ -69,41 +72,43 @@ public class UIManager : Manager<UIManager>
         }
         else
         {
+            // ï¿½ï¿½ï¿½ï¿½
             if (endingCanvas == null)
             {
                 endingCanvas = GameObject.Find("Canvas");
-                if (photonView.IsMine)
+                Transform ghost = endingCanvas.transform.Find("Ghost");
+                Transform reaper = endingCanvas.transform.Find("Reaper");
+                var prop = PhotonNetwork.LocalPlayer.CustomProperties;
+                if (prop["isWin"].ConvertTo<bool>())
                 {
-                    Transform ghost = endingCanvas.transform.Find("Ghost");
-                    Transform reaper = endingCanvas.transform.Find("Reaper");
-                    var prop = PhotonNetwork.LocalPlayer.CustomProperties;
-                    if ((bool)prop["isWin"])
+                    Debug.Log(playerKind);
+                    if (playerKind == "Ghost")
                     {
-                        if (playerKind == "Ghost")
-                        {
-                            ghost.gameObject.SetActive(true);
-                            ghost.Find("Win").gameObject.SetActive(true);
-                        }
-                        else
-                        {
-                            reaper.gameObject.SetActive(true);
-                            reaper.Find("Win").gameObject.SetActive(true);
-                        }
+                        ghost.Find("Win").gameObject.SetActive(true);
                     }
                     else
                     {
-                        if (playerKind == "Ghost")
-                        {
-                            ghost.gameObject.SetActive(true);
-                            ghost.Find("Lose").gameObject.SetActive(true);
-                        }
-                        else
-                        {
-                            reaper.gameObject.SetActive(true);
-                            reaper.Find("Lose").gameObject.SetActive(true);
-                        }
+                        reaper.Find("Win").gameObject.SetActive(true);
                     }
                 }
+                else
+                {
+                    if (playerKind == "Ghost")
+                    {
+                        ghost.Find("Lose").gameObject.SetActive(true);
+                    }
+                    else
+                    {
+                        reaper.Find("Lose").gameObject.SetActive(true);
+                    }
+                }
+            }
+
+            // ï¿½ï¿½Æ° ï¿½ï¿½ï¿½Îµï¿½
+            if(!restartBtn)
+            {
+                restartBtn = GameObject.Find("RestartButton").GetComponent<Button>();
+                restartBtn.onClick.AddListener(GameManager.Instance.Restart);
             }
         }
     }
@@ -125,7 +130,7 @@ public class UIManager : Manager<UIManager>
         }
         else
         {
-            if(!isStarted) isStarted = true;
+            if (!isStarted) isStarted = true;
         }
     }
 
@@ -133,7 +138,7 @@ public class UIManager : Manager<UIManager>
     {
         if (GameManager.Instance.IsPlayerCreated && !isSetUI)
         {
-            if(PhotonNetwork.LocalPlayer.CustomProperties["isReaper"] != null)
+            if (PhotonNetwork.LocalPlayer.CustomProperties["isReaper"] != null)
             {
                 if ((bool)PhotonNetwork.LocalPlayer.CustomProperties["isReaper"])
                 {
@@ -155,15 +160,16 @@ public class UIManager : Manager<UIManager>
     [PunRPC]
     void ShowNotice()
     {
-        AndroidAPI.ToastMessage("Æ÷Å»ÀÌ »ý¼ºµÇ¾ú½À´Ï´Ù! Æ÷Å»À» ÅëÇØ µµ¸ÁÄ¥ ¼ö ÀÖ½À´Ï´Ù!");
+        if (Application.platform == RuntimePlatform.Android)
+            AndroidAPI.ToastMessage("ï¿½ï¿½Å»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½! ï¿½ï¿½Å»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ä¥ ï¿½ï¿½ ï¿½Ö½ï¿½ï¿½Ï´ï¿½!");
     }
 
     void UpdateCount()
     {
         Text countUI = null;
-        if(isSetUI)
+        if (isSetUI)
         {
-            if(playerKind == "Ghost")
+            if (playerKind == "Ghost")
             {
                 if (countUI == null) countUI = ghostUI.transform.Find("KeyCount").Find("Count").GetComponent<Text>();
                 int count = GameManager.Instance.BrokenKeyCount;

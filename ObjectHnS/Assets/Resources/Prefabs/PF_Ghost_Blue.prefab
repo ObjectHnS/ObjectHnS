@@ -77,7 +77,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ed340bb3193efd489b55aae8eabd823, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speedMax: 3.2
+  speedMax: 2.25
   acc: 4
   brakeAcc: 8
   groundCheckSize: {x: 0.74, y: 0.1}
