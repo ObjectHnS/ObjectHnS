@@ -48,7 +48,6 @@ public class UIManager : Manager<UIManager>
 
     private float curtime = 0f;
 
-    private Hashtable customProperties;
     private string playerKind = "";
 
     private void Start()
@@ -75,6 +74,9 @@ public class UIManager : Manager<UIManager>
             // ����
             if (endingCanvas == null)
             {
+                Destroy(GameObject.Find("NetworkManager"));
+                Destroy(GameObject.Find("GameManager"));
+
                 endingCanvas = GameObject.Find("Canvas");
                 Transform ghost = endingCanvas.transform.Find("Ghost");
                 Transform reaper = endingCanvas.transform.Find("Reaper");
