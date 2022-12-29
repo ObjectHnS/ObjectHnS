@@ -48,6 +48,12 @@ public class ReaperSkill_Blue : MonoBehaviourPun
     }
     public void Skill()
     {
+        if (photonView.IsMine)
+        {
+            Vector3 cur = transform.position;
+            GameObject a = PhotonNetwork.Instantiate(Path.Combine("Prefabs", "ReaperSkill"), new Vector3(cur.x, cur.y, -5), Quaternion.identity);
+            a.transform.parent = gameObject.transform;
+        }
         skillCount -= 1;
         animator.SetTrigger("canSkill");
         skillTime = 0;

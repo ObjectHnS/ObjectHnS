@@ -107,6 +107,12 @@ public class GhostState : MonoBehaviourPun, IPunObservable
     {
         if ((uptime - heistTime >= 15) || (heistTime == 0))
         {
+            if (photonView.IsMine)
+            {
+                Vector3 cur = transform.position;
+                GameObject a = PhotonNetwork.Instantiate(Path.Combine("Prefabs", "GhostSkill"), new Vector3(cur.x, cur.y, -5), Quaternion.identity);
+                a.transform.parent = gameObject.transform;
+            }
             StartCoroutine(co_Heist());
             heistTime = uptime;
         }
