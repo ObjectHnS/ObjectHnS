@@ -273,6 +273,14 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         {
             var obj = CreateRoomButton(room.Name);
             obj.GetComponent<RoomButton>().Roominfo = room;
+            if(room.PlayerCount == 8)
+            {
+                obj.GetComponent<Button>().interactable = false;
+            }
+            else
+            {
+                obj.GetComponent<Button>().interactable = true;
+            }
             myList.Add(room.Name, obj);
         }
     }
@@ -352,7 +360,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            //PhotonNetwork.LoadLevel("Reaper");
             PhotonNetwork.LoadLevel("GameScene");
             isEnter = false;
         }

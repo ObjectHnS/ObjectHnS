@@ -56,6 +56,11 @@ public class GhostState : MonoBehaviourPun, IPunObservable
         {
             GetComponent<PixelMonster>().InjuredBack();
             hp -= value;
+            if(hp <= 0)
+            {
+                photonView.RPC("AddDeadCount", RpcTarget.All);
+                this.Invoke(() => { PhotonNetwork.Destroy(gameObject); }, 0.5f);
+            }
         }
     }
 
@@ -70,14 +75,7 @@ public class GhostState : MonoBehaviourPun, IPunObservable
         {
             isDead = true;
             GetComponentInChildren<Animator>().SetBool("IsDead", isDead);
-        }
-        if (isDead)
-        {
-            if (photonView.IsMine)
-            {
-                photonView.RPC("AddDeadCount", RpcTarget.All);
-                this.Invoke(() => { PhotonNetwork.Destroy(gameObject); }, 0.5f);
-            }
+            GetComponent<MonsterInputJoystick>().enabled = false;
         }
     }
 

@@ -142,6 +142,7 @@ public class GameManager : Manager<GameManager>
     private bool isCalled = false;
     private void Update()
     {
+        Debug.Log(OverCount);
         SpawnPlayers();
         GenBrokenKey();
         if (BrokenKeyCount == 4 && !isPotalCreated)
