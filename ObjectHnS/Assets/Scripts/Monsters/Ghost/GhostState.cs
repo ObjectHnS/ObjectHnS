@@ -106,7 +106,7 @@ public class GhostState : MonoBehaviourPun, IPunObservable
         yield return null;
         GetComponent<MonsterFlyingController>().speedMax = 5;
         yield return new WaitForSeconds(3f);
-        GetComponent<MonsterFlyingController>().speedMax = 3.2f;
+        GetComponent<MonsterFlyingController>().speedMax = 2.25f;
     }
 
     public void Heist()
