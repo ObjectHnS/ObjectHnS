@@ -7,22 +7,10 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
-public class NetworkManager : Manager<NetworkManager>
+public class NetworkManager : MonoBehaviourPunCallbacks
 {
-    private PhotonView pv;
-    public PhotonView phtonView
+    private void Awake()
     {
-        get
-        {
-            return pv;
-        }
-    }
-    protected override void Awake()
-    {
-        base.Awake();
-
-        pv = GetComponent<PhotonView>();
-
         PhotonNetwork.SendRate = 60;
         PhotonNetwork.SerializationRate = 30;
         PhotonNetwork.AutomaticallySyncScene = true;

@@ -37,7 +37,7 @@ public class ReaperButtonInput : MonoBehaviour
         inputAttack = true;
         yield return new WaitForEndOfFrame();
         inputAttack = false;
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(1.5f);
     }
 
     IEnumerator InteractionCorutine()

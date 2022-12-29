@@ -89,13 +89,11 @@ public class GameManager : Manager<GameManager>
             {
                 player = reaper;
                 this.player = PhotonNetwork.Instantiate(Path.Combine("Prefabs", player.name), new Vector3(-69, -0.1f, -1), Quaternion.identity);
-                this.player.name = PhotonNetwork.LocalPlayer.NickName;
             }
             else
             {
                 player = ghost;
                 this.player = PhotonNetwork.Instantiate(Path.Combine("Prefabs", player.name), new Vector3(-24.5f + Random.Range(-3f, 3f), 3.5f + Random.Range(-3f, 3f), -1), Quaternion.identity);
-                this.player.name = PhotonNetwork.LocalPlayer.NickName;
             }
 
             GameObject camera = GameObject.Find("Main Camera");
@@ -139,6 +137,15 @@ public class GameManager : Manager<GameManager>
         PhotonNetwork.LoadLevel("Ending");
     }
 
+    private void Start()
+    {
+        var obj = FindObjectsOfType<GameManager>();
+        if(obj.Length > 1)
+        {
+            Destroy(gameObject);
+        }
+    }
+
     private bool isPotalCreated = false;
     private bool isCalled = false;
     private void Update()
@@ -154,7 +161,7 @@ public class GameManager : Manager<GameManager>
                 isPotalCreated = true;
             }
         }
-        if(OverCount == PhotonNetwork.CurrentRoom.PlayerCount - 1 && !isCalled)
+        if (OverCount == PhotonNetwork.CurrentRoom.PlayerCount - 1 && !isCalled)
         {
             Hashtable cp = PhotonNetwork.LocalPlayer.CustomProperties;
             cp["isWin"] = cp["isReaper"].ConvertTo<bool>() ? true : false;
@@ -166,10 +173,5 @@ public class GameManager : Manager<GameManager>
                 isCalled = true;
             }
         }
-    }
-
-    public void Restart()
-    {
-        SceneManager.LoadScene("JoinScene");
     }
 }

@@ -29,8 +29,6 @@ public class GhostState : MonoBehaviourPun, IPunObservable
         photonView.OwnershipTransfer = OwnershipOption.Fixed;
     }
 
-    private int randomObj;
-
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)

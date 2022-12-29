@@ -10,7 +10,7 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 public class ReaperSkill_Blue : MonoBehaviourPun
 {
     public bool skillRetention = false;
-    public float skillTime;
+    public float skillTime = 0;
     public float skillCoolTime = 20f;
     public float skillRetentionTime = 5f;
     public int skillCount = 0;

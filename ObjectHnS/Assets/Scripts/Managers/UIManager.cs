@@ -9,6 +9,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEditor;
 using System;
+using System.Threading;
 
 public class UIManager : Manager<UIManager>
 {
@@ -54,6 +55,12 @@ public class UIManager : Manager<UIManager>
     {
         isStarted = false;
         countdownTime++;
+
+        var obj = FindObjectsOfType<GameManager>();
+        if (obj.Length > 1)
+        {
+            Destroy(gameObject);
+        }
     }
 
     private bool isSetUI = false;
@@ -69,14 +76,11 @@ public class UIManager : Manager<UIManager>
             UpdateCount();
             BindButton();
         }
-        else
+        else if(sceneName == "Ending")
         {
             // ����
             if (endingCanvas == null)
             {
-                Destroy(GameObject.Find("NetworkManager"));
-                Destroy(GameObject.Find("GameManager"));
-
                 endingCanvas = GameObject.Find("Canvas");
                 Transform ghost = endingCanvas.transform.Find("Ghost");
                 Transform reaper = endingCanvas.transform.Find("Reaper");
@@ -110,7 +114,7 @@ public class UIManager : Manager<UIManager>
             if(!restartBtn)
             {
                 restartBtn = GameObject.Find("RestartButton").GetComponent<Button>();
-                restartBtn.onClick.AddListener(GameManager.Instance.Restart);
+                restartBtn.onClick.AddListener(() => { SceneManager.LoadScene("JoinScene"); });
             }
         }
     }
@@ -163,7 +167,7 @@ public class UIManager : Manager<UIManager>
     void ShowNotice()
     {
         if (Application.platform == RuntimePlatform.Android)
-            AndroidAPI.ToastMessage("��Ż�� �����Ǿ����ϴ�! ��Ż�� ���� ����ĥ �� �ֽ��ϴ�!");
+            AndroidAPI.ToastMessage("\'뒤로\'버튼을 한번 더 누르시면 종료합니다.");
     }
 
     void UpdateCount()

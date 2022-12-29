@@ -37,7 +37,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     private GameObject player;
 
     #region ╫ц╫╨еш
-    protected void Awake()
+    private void Awake()
     {
         if (Popups) Popups.SetActive(false);
         if (LoginCanvas) LoginCanvas.SetActive(false);
