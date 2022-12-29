@@ -28,7 +28,7 @@ static class ExtensionsClass
 }
 
 
-public class GameManager : Manager<GameManager>, IPunObservable
+public class GameManager : Manager<GameManager>
 {
     public bool isExit = false;
     public int OverCount = 0;
@@ -132,10 +132,16 @@ public class GameManager : Manager<GameManager>, IPunObservable
 
     }
 
+    [PunRPC]
+    public void LoadEnding()
+    {
+        PhotonNetwork.LoadLevel("Ending");
+    }
+
     private bool isPotalCreated = false;
+    private bool isCalled = false;
     private void Update()
     {
-        //EndGame();
         SpawnPlayers();
         GenBrokenKey();
         if (BrokenKeyCount == 4 && !isPotalCreated)
@@ -146,24 +152,22 @@ public class GameManager : Manager<GameManager>, IPunObservable
                 isPotalCreated = true;
             }
         }
-        if(OverCount == PhotonNetwork.CurrentRoom.PlayerCount - 1)
+        if(OverCount == PhotonNetwork.CurrentRoom.PlayerCount - 1 && !isCalled)
         {
+            Hashtable cp = PhotonNetwork.LocalPlayer.CustomProperties;
+            cp["isWin"] = cp["isReaper"].ConvertTo<bool>() ? true : false;
+            PhotonNetwork.LocalPlayer.SetCustomProperties(cp);
+
             if (photonView.IsMine)
             {
-                photonView.RPC("NoticeGameEnd", RpcTarget.MasterClient);
+                photonView.RPC("LoadEnding", RpcTarget.MasterClient);
+                isCalled = true;
             }
         }
     }
 
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    public void Restart()
     {
-        if(stream.IsWriting)
-        {
-            stream.SendNext(OverCount);
-        }
-        else
-        {
-            OverCount = stream.ReceiveNext().ConvertTo<int>();
-        }
+        SceneManager.LoadScene("JoinScene");
     }
 }

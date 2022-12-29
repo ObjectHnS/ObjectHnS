@@ -58,7 +58,8 @@ public class UIManager : Manager<UIManager>
     }
 
     private bool isSetUI = false;
-    private bool isShowEnding = false;
+    private Button restartBtn = null;
+
     private void Update()
     {
         var sceneName = SceneManager.GetActiveScene().name;
@@ -71,6 +72,7 @@ public class UIManager : Manager<UIManager>
         }
         else
         {
+            // 엔딩
             if (endingCanvas == null)
             {
                 endingCanvas = GameObject.Find("Canvas");
@@ -82,12 +84,10 @@ public class UIManager : Manager<UIManager>
                     Debug.Log(playerKind);
                     if (playerKind == "Ghost")
                     {
-                        ghost.gameObject.SetActive(true);
                         ghost.Find("Win").gameObject.SetActive(true);
                     }
                     else
                     {
-                        reaper.gameObject.SetActive(true);
                         reaper.Find("Win").gameObject.SetActive(true);
                     }
                 }
@@ -95,15 +95,20 @@ public class UIManager : Manager<UIManager>
                 {
                     if (playerKind == "Ghost")
                     {
-                        ghost.gameObject.SetActive(true);
                         ghost.Find("Lose").gameObject.SetActive(true);
                     }
                     else
                     {
-                        reaper.gameObject.SetActive(true);
                         reaper.Find("Lose").gameObject.SetActive(true);
                     }
                 }
+            }
+
+            // 버튼 바인드
+            if(!restartBtn)
+            {
+                restartBtn = GameObject.Find("RestartButton").GetComponent<Button>();
+                restartBtn.onClick.AddListener(GameManager.Instance.Restart);
             }
         }
     }
