@@ -150,27 +150,29 @@ public class GameManager : Manager<GameManager>
     private bool isCalled = false;
     private void Update()
     {
-        Debug.Log(OverCount);
         SpawnPlayers();
         GenBrokenKey();
-        if (BrokenKeyCount == 4 && !isPotalCreated)
+        if(SceneManager.GetActiveScene().name == "GameScene")
         {
-            if (photonView.IsMine)
+            if (BrokenKeyCount == 4 && !isPotalCreated)
             {
-                PhotonNetwork.Instantiate(Path.Combine("Prefabs", potal.name), potal.transform.position, Quaternion.identity);
-                isPotalCreated = true;
+                if (photonView.IsMine)
+                {
+                    PhotonNetwork.Instantiate(Path.Combine("Prefabs", potal.name), potal.transform.position, Quaternion.identity);
+                    isPotalCreated = true;
+                }
             }
-        }
-        if (OverCount == PhotonNetwork.CurrentRoom.PlayerCount - 1 && !isCalled)
-        {
-            Hashtable cp = PhotonNetwork.LocalPlayer.CustomProperties;
-            cp["isWin"] = cp["isReaper"].ConvertTo<bool>() ? true : false;
-            PhotonNetwork.LocalPlayer.SetCustomProperties(cp);
-
-            if (photonView.IsMine)
+            if (OverCount == PhotonNetwork.CurrentRoom.PlayerCount - 1 && !isCalled)
             {
-                photonView.RPC("LoadEnding", RpcTarget.MasterClient);
-                isCalled = true;
+                Hashtable cp = PhotonNetwork.LocalPlayer.CustomProperties;
+                cp["isWin"] = cp["isReaper"].ConvertTo<bool>() ? true : false;
+                PhotonNetwork.LocalPlayer.SetCustomProperties(cp);
+
+                if (photonView.IsMine)
+                {
+                    photonView.RPC("LoadEnding", RpcTarget.MasterClient);
+                    isCalled = true;
+                }
             }
         }
     }

@@ -114,7 +114,10 @@ public class UIManager : Manager<UIManager>
             if(!restartBtn)
             {
                 restartBtn = GameObject.Find("RestartButton").GetComponent<Button>();
-                restartBtn.onClick.AddListener(() => { SceneManager.LoadScene("JoinScene"); });
+                restartBtn.onClick.AddListener(() => {
+                    PhotonNetwork.LeaveRoom();
+                    PhotonNetwork.LoadLevel("JoinScene");
+                });
             }
         }
     }
