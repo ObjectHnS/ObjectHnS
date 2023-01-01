@@ -45,6 +45,12 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         if (RoomCanvas) RoomCanvas.SetActive(false);
 
         if (State) State.SetActive(true);
+
+        if (!PhotonNetwork.IsConnected) PhotonNetwork.ConnectUsingSettings();
+
+        PhotonNetwork.SendRate = 60;
+        PhotonNetwork.SerializationRate = 30;
+        PhotonNetwork.AutomaticallySyncScene = true;
     }
 
     private void Update()
@@ -105,6 +111,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     public override void OnConnectedToMaster()
     {
+        PhotonNetwork.JoinLobby();
         if (State) State.SetActive(false);
         if (LoginCanvas) LoginCanvas.SetActive(true);
     }
@@ -332,10 +339,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             return;
         }
 
-        RoomOptions roomOptions = new RoomOptions();
-        roomOptions.MaxPlayers = 4;
-        roomOptions.CustomRoomProperties = new HashTable { { "isReaper", false }, { "isWin", false } };
-        PhotonNetwork.CreateRoom(roomName.text, roomOptions);
+        PhotonNetwork.CreateRoom(roomName.text, new RoomOptions { MaxPlayers = 8 });
 
         HidePopups();
 

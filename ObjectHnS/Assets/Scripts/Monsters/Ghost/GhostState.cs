@@ -59,8 +59,11 @@ public class GhostState : MonoBehaviourPun, IPunObservable
                 photonView.RPC("AddDeadCount", RpcTarget.All);
                 this.Invoke(() => 
                 {
-                    transform.Find("Animator").gameObject.SetActive(false);
+                    var ghosts = GameObject.FindGameObjectsWithTag("Ghost");
+                    transform.Find("Camera").parent = ghosts[Random.Range(0, ghosts.Length)].transform;
+
                     UIManager.Instance.ghostUI.SetActive(false);
+                    PhotonNetwork.Destroy(this.gameObject);
                 }, 0.5f);
             }
         }
@@ -90,8 +93,8 @@ public class GhostState : MonoBehaviourPun, IPunObservable
         yield return null;
         transform.Find("Animator").gameObject.SetActive(false);
         transform.Find("Transform").gameObject.SetActive(true);
-        transform.Find("Transform").GetComponent<SpriteRenderer>().sprite
-            = transObj[item];
+        transform.Find("Transform").GetComponent<SpriteRenderer>()
+            .sprite = transObj[item];
         yield return new WaitForSeconds(15);
         transform.Find("Animator").gameObject.SetActive(true);
         transform.Find("Transform").gameObject.SetActive(false);

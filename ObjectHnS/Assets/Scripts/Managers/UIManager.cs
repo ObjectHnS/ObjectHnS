@@ -82,6 +82,12 @@ public class UIManager : Manager<UIManager>
         }
         else if(sceneName == "Ending")
         {
+            if(PhotonNetwork.InRoom) 
+            { 
+                PhotonNetwork.LeaveRoom();
+            }
+            PhotonNetwork.Disconnect();
+
             // ����
             if (endingCanvas == null)
             {
@@ -119,7 +125,6 @@ public class UIManager : Manager<UIManager>
             {
                 restartBtn = GameObject.Find("RestartButton").GetComponent<Button>();
                 restartBtn.onClick.AddListener(() => {
-                    PhotonNetwork.LeaveRoom();
                     PhotonNetwork.LoadLevel("JoinScene");
 
                     Destroy(GameObject.Find("GameManager").gameObject);
