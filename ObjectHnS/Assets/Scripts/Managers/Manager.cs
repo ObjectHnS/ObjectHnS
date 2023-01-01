@@ -1,6 +1,7 @@
 using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Manager<T> : MonoBehaviourPunCallbacks where T : MonoBehaviourPunCallbacks
@@ -27,7 +28,7 @@ public class Manager<T> : MonoBehaviourPunCallbacks where T : MonoBehaviourPunCa
 
     protected virtual void Awake()
     {
-        if(transform.parent != null && transform.root != null)
+        if (transform.parent != null && transform.root != null)
         {
             DontDestroyOnLoad(transform.root.gameObject);
         }

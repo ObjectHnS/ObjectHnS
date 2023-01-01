@@ -28,6 +28,8 @@ public class UIManager : Manager<UIManager>
         }
     }
 
+    private bool isCompleteKey = false;
+
     private GameObject endingCanvas;
     public GameObject EndingCanvas
     {
@@ -47,12 +49,17 @@ public class UIManager : Manager<UIManager>
     public GameObject reaperUI;
     public Sprite completeKey;
 
+    private bool isSetUI = false;
+    private Button restartBtn = null;
+
     private float curtime = 0f;
 
     private string playerKind = "";
 
     private void Start()
     {
+        isSetUI = false;
+        isCompleteKey = false;
         isStarted = false;
         countdownTime++;
 
@@ -62,9 +69,6 @@ public class UIManager : Manager<UIManager>
             Destroy(gameObject);
         }
     }
-
-    private bool isSetUI = false;
-    private Button restartBtn = null;
 
     private void Update()
     {
@@ -110,13 +114,16 @@ public class UIManager : Manager<UIManager>
                 }
             }
 
-            // ��ư ���ε�
+            // 다시시작 버튼
             if(!restartBtn)
             {
                 restartBtn = GameObject.Find("RestartButton").GetComponent<Button>();
                 restartBtn.onClick.AddListener(() => {
                     PhotonNetwork.LeaveRoom();
                     PhotonNetwork.LoadLevel("JoinScene");
+
+                    Destroy(GameObject.Find("GameManager").gameObject);
+                    Destroy(GameObject.Find("UIManager").gameObject);
                 });
             }
         }
@@ -163,8 +170,6 @@ public class UIManager : Manager<UIManager>
             }
         }
     }
-
-    private bool isCompleteKey = false;
 
     [PunRPC]
     void ShowNotice()

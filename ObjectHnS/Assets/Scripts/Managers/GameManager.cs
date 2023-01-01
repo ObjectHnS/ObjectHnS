@@ -96,7 +96,7 @@ public class GameManager : Manager<GameManager>
                 this.player = PhotonNetwork.Instantiate(Path.Combine("Prefabs", player.name), new Vector3(-24.5f + Random.Range(-3f, 3f), 3.5f + Random.Range(-3f, 3f), -1), Quaternion.identity);
             }
 
-            GameObject camera = GameObject.Find("Main Camera");
+            GameObject camera = GameObject.Find("Camera");
             camera.transform.position = new Vector3(this.player.transform.position.x, this.player.transform.position.y, -10);
             camera.transform.parent = this.player.transform;
 
@@ -137,8 +137,27 @@ public class GameManager : Manager<GameManager>
         PhotonNetwork.LoadLevel("Ending");
     }
 
+    protected override void Awake()
+    {
+        base.Awake();
+        var objs = FindObjectsOfType<GameManager>();
+        foreach (var obj in objs)
+        {
+            if(obj.gameObject != this.gameObject)
+            {
+                Destroy(obj.gameObject);
+            }
+        }
+    }
+
     private void Start()
     {
+        isPotalCreated = false;
+        isCalled = false;
+        isPotalCreated = false;
+        isCalled = false;
+        OverCount = 0;
+
         var obj = FindObjectsOfType<GameManager>();
         if(obj.Length > 1)
         {

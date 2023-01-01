@@ -57,7 +57,11 @@ public class GhostState : MonoBehaviourPun, IPunObservable
             if(hp <= 0)
             {
                 photonView.RPC("AddDeadCount", RpcTarget.All);
-                this.Invoke(() => { PhotonNetwork.Destroy(gameObject); }, 0.5f);
+                this.Invoke(() => 
+                {
+                    transform.Find("Animator").gameObject.SetActive(false);
+                    UIManager.Instance.ghostUI.SetActive(false);
+                }, 0.5f);
             }
         }
     }
@@ -72,8 +76,12 @@ public class GhostState : MonoBehaviourPun, IPunObservable
         if (hp <= 0 && isDead == false)
         {
             isDead = true;
+            var ghosts = FindObjectsOfType<GhostState>();
+            transform.Find("Camera").parent = ghosts[0].gameObject.transform.root;
+
             GetComponentInChildren<Animator>().SetBool("IsDead", isDead);
             GetComponent<MonsterInputJoystick>().enabled = false;
+            UIManager.Instance.ghostUI.gameObject.SetActive(false);
         }
     }
 
@@ -110,7 +118,7 @@ public class GhostState : MonoBehaviourPun, IPunObservable
     IEnumerator co_Heist()
     {
         yield return null;
-        GetComponent<MonsterFlyingController>().speedMax = 5;
+        GetComponent<MonsterFlyingController>().speedMax = 4;
         yield return new WaitForSeconds(3f);
         GetComponent<MonsterFlyingController>().speedMax = 2.25f;
     }

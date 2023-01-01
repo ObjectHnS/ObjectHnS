@@ -35,7 +35,7 @@ public class ReaperController : MonsterFlyingController
             this.pm.Attack();
             if (pv.IsMine)
             {
-                Invoke("MakeHitBox", 0.65f);
+                Invoke("MakeHitBox", 0.55f);
             }
             time = 0;
         }
